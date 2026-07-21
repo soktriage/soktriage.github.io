@@ -13,16 +13,17 @@
     "sources": {
       "tankonyv": "Triázs tankönyv 2.0 (MSOTKE, 2016)",
       "jegyzet": "MSTR oktatói jegyzet (2022)",
-      "ctas": "CTAS COT-2008 (kanonikus, döntőbíró)"
+      "ctas": "CTAS COT-2008 (kanonikus, döntőbíró)",
+      "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)"
     },
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 398,
+      "rules": 400,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
-      "inputFields": 78,
+      "inputFields": 79,
       "cases": 75
     }
   },
@@ -12366,6 +12367,54 @@
       "group": "secondary"
     },
     {
+      "id": "esc_dysphagia_nyaladzas_stridor",
+      "name": "Nyelési nehezítettség: nyáladzás + stridor → MSTR 2",
+      "applies_to": "mind",
+      "condition_text": "Nyáladzás és stridor együttes jelenléte nyelési nehezítettségnél felső légúti elzáródás/veszélyeztetettség jele (pl. epiglottitis, teljes elzáródáshoz közeli idegen test) → MSTR 2.",
+      "condition": [
+        {
+          "mezo": "nyelesiNehezitettsegJelleg",
+          "egyenlo": "nyaladzas_stridor"
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "mstr"
+        }
+      ],
+      "notes": "MSOTKE-MSTR munkacsoport hivatalos poszter, 'Felülvizsgált módosítók' tábla: »Nyelésképtelenség / nyelési zavar/ nehezítettség — Nyáladzás és stridor → MSTR 2«.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "nyelesi-nehezitettseg-dysphagia"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_dysphagia_idegen_test",
+      "name": "Nyelési nehezítettség: lehetséges idegen test → MSTR 3",
+      "applies_to": "mind",
+      "condition_text": "Lehetséges nyelőcsövi/légúti idegen test nyelési nehezítettség hátterében → MSTR 3.",
+      "condition": [
+        {
+          "mezo": "nyelesiNehezitettsegJelleg",
+          "egyenlo": "lehetseges_idegen_test"
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "mstr"
+        }
+      ],
+      "notes": "MSOTKE-MSTR munkacsoport hivatalos poszter, 'Felülvizsgált módosítók' tábla: »Nyelésképtelenség / nyelési zavar/ nehezítettség — Lehetséges idegen test → MSTR 3«. Megegyezik a korábbi alapszinttel (baseline_nyelesi_nehezitettseg_dysphagia) — itt explicit szabályként is rögzítve az átláthatóság kedvéért.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "nyelesi-nehezitettseg-dysphagia"
+      ],
+      "group": "secondary"
+    },
+    {
       "id": "esc_allergia_anafilaxia",
       "name": "Aktívan zajló anafilaxia gyanú → MSTR 1",
       "applies_to": "mind",
@@ -18746,6 +18795,30 @@
       "csakPanaszok": [
         "szemkornyeki-duzzanat"
       ]
+    },
+    {
+      "id": "nyelesiNehezitettsegJelleg",
+      "type": "select",
+      "label": "Nyelési nehezítettség kísérő jelei",
+      "group": "secondary",
+      "options": [
+        {
+          "value": "nyaladzas_stridor",
+          "label": "Nyáladzás és stridor (MSTR 2)"
+        },
+        {
+          "value": "lehetseges_idegen_test",
+          "label": "Lehetséges idegen test (MSTR 3)"
+        },
+        {
+          "value": "nincs",
+          "label": "Egyik sem"
+        }
+      ],
+      "csakPanaszok": [
+        "nyelesi-nehezitettseg-dysphagia"
+      ],
+      "pediatricOnly": false
     },
     {
       "id": "allergiaReakcio",

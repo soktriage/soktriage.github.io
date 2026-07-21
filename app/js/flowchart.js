@@ -28,7 +28,7 @@
   function forrasSzoveg(forras) {
     if (!forras || !forras.length) return 'nincs forráshivatkozás';
     return forras.map(function (f) {
-      const nev = f.doc === 'tankonyv' ? 'Tankönyv' : f.doc === 'jegyzet' ? 'Oktatói jegyzet (2022)' : f.doc === 'ctas' ? 'CTAS COT-2008' : f.doc;
+      const nev = f.doc === 'tankonyv' ? 'Tankönyv' : f.doc === 'jegyzet' ? 'Oktatói jegyzet (2022)' : f.doc === 'ctas' ? 'CTAS COT-2008' : f.doc === 'mstr' ? 'MSOTKE-MSTR munkacsoport poszter' : f.doc;
       if (f.page == null) return nev;
       return f.doc === 'ctas' ? (nev + ' DIA ' + f.page) : (nev + ' ' + f.page + '. o.');
     }).join('; ');
