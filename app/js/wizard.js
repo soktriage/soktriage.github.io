@@ -358,6 +358,36 @@
   function staffAktivMent(nev) { try { if (nev) localStorage.setItem(STORE_STAFF_AKTIV, nev); } catch (e) {} }
   function staffAktivTorol() { try { localStorage.removeItem(STORE_STAFF_AKTIV); } catch (e) {} }
 
+  // ---- Pilot/teszt figyelmeztető kapu (első betöltéskor, amíg el nem fogadja) ------
+  // Csak a gombbal zárható (háttérre kattintás szándékosan nem dobja el).
+  var STORE_DISCLAIMER = 'mstr_disclaimer_ack_v2';
+  function disclaimerElfogadva() { try { return localStorage.getItem(STORE_DISCLAIMER) === '1'; } catch (e) { return true; } }
+  function disclaimerKapu() {
+    if (disclaimerElfogadva()) return;
+    var tarto = $('reszlet-tarto');
+    var hatter = el('div', 'reszlet-hatter');
+    var panel = el('div', 'reszlet-panel');
+    panel.appendChild(el('h3', null, 'Fontos tudnivaló a használat előtt'));
+    var body = el('div'); body.style.cssText = 'font-size:13.5px;line-height:1.6;color:var(--text)';
+    body.innerHTML =
+      '<p style="margin-bottom:10px"><b>PILOT / TESZT verzió</b> — a Semmelweis Egyetem Sürgősségi Orvostani ' +
+      'Klinikáján belső kipróbálásra készülő klinikai döntéstámogató eszköz.</p>' +
+      '<p style="margin-bottom:10px"><b>Nem helyettesíti</b> a triázs ápoló szakmai megítélését és a hivatalos ' +
+      'MSTR-protokollt — a végső besorolás és annak szakmai felelőssége minden esetben az ellátó személyzeté.</p>' +
+      '<p style="margin-bottom:10px">A tartalom a <i>Triázs tankönyv 2.0</i> (MSOTKE, 2016), az <i>MSTR oktatói ' +
+      'jegyzet</i> (2022) és a <i>CTAS COT-2008</i> alapján, oktatási/pilot céllal, saját megfogalmazásban és ' +
+      'forráshivatkozással készült — nem e művek hivatalos kiadása vagy másolata, és nem helyettesíti azokat.</p>' +
+      '<p>Kizárólag saját felelősségre, tesztelési célra, meghívott munkatársak számára — nem éles klinikai ' +
+      'döntéshozatalra szánt, nem nyilvános termék.</p>';
+    panel.appendChild(body);
+    var btn = el('button', 'btn btn-full', 'Megértettem, tesztelek tovább'); btn.type = 'button';
+    btn.style.marginTop = '16px';
+    btn.onclick = function () { try { localStorage.setItem(STORE_DISCLAIMER, '1'); } catch (e) {} tarto.innerHTML = ''; };
+    panel.appendChild(btn);
+    hatter.appendChild(panel);
+    tarto.innerHTML = ''; tarto.appendChild(hatter);
+  }
+
   // „Új beteg": ha befejezett → ELŐZMÉNYEKBE archiválja; ha folyamatban → PARKOLJA; majd üres állapot.
   function ujBeteg() {
     if (S.step === 'eredmeny') archival();
@@ -1770,7 +1800,7 @@
 
   // ---- indítás ----------------------------------------------------------------
   function indit() {
-    fejlecGombok(); billentyuk();
+    fejlecGombok(); billentyuk(); disclaimerKapu();
     // Adatvesztés-védelem: ha egy félbehagyott (nem lezárt) triázs volt mentve, visszatöltjük.
     try {
       var mentett = localStorage.getItem(STORE_AKTIV);
