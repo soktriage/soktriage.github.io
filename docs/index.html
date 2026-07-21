@@ -469,7 +469,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 400,
+      "rules": 402,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -13286,6 +13286,74 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         }
       ],
       "notes": "Tankönyv o.25 (MSTR 2 kritérium-lista): »Láz (hőmérséklet > 38°C) + szeptikus küllem és tünetek (legalább 3+ SIRS kritérium)«. CTAS COT-2008 'Adults: Temperature/Sepsis' (DIA 11): SIRS = temp>38/<36, HR>90, RR>20 (vagy PaCO2<32), WBC-eltérés — »Looks septic: has 3 positive SIRS criteria« → MSTR 2, FÜGGETLENÜL a küllemtől. Kollégák pilot-tesztje találta: HR135+RR22+T39.5 esetén a rendszer MSTR 4-et adott (csak a szubjektív 'jó általános állapot' küllem-választás alapján) — objektív kereszt-ellenőrzés hiányzott. WBC nem elérhető triázskor, ezért csak a 3 elérhető kritérium (láz, HR, RR) alapján számolunk — ez pontosan megfelel a forrás 'legalább 3+ SIRS kritérium' megfogalmazásának. KORHATÁR (MSOTKE-MSTR poszter): kor ≥16 év, ld. korábbi jegyzet. HATÓKÖR-JAVÍTÁS (2026-07-21, Ádám észrevétele): a szabály tévesen csak a 'laz' panaszra volt korlátozva (csakPanaszok:['laz']) — a hivatalos poszteren viszont a SIRS-kritérium az ELSŐDLEGES (nem panasz-specifikus) módosítók táblájában szerepel, a nehézlégzés/keringés/GCS mellett — tehát BÁRMELY vezető panasznál érvényesnek kell lennie (pl. hasi fájdalom + objektíven SIRS-pozitív vitálok is MSTR 2-t indokol). A csakPanaszok-korlátozás törölve, most globális elsődleges módosítóként viselkedik, konzisztensen az elsodleges_felnott_15-18 (szubjektív küllem-alapú) testvér-szabályokkal, amik szintén mindig is globálisak voltak.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_objektiv_sirs2_hr",
+      "name": "Láz + tachycardia (2 objektív SIRS-kritérium) → MSTR 3, függetlenül a küllemtől",
+      "applies_to": "mind",
+      "condition_text": "Láz (>38°C) + tachycardia (HR>90) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a nővér 'jó általános állapotúnak' ítéli a beteget.",
+      "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
+        {
+          "mezo": "temp",
+          "min": 38.01
+        },
+        {
+          "mezo": "hr",
+          "min": 90.01
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 35
+        },
+        {
+          "doc": "tankonyv",
+          "page": 36
+        }
+      ],
+      "notes": "Tankönyv o.35–36 négyfokú láz-létra: 1) immunszupprimált→2; 2) szeptikus küllem (3+ SIRS VAGY hemodinamikai instabilitás VAGY közepes nehézlégzés VAGY módosult tudat)→2; 3) súlyos beteg küllem, <3 SIRS→3; 4) JÓ ÁLTALÁNOS ÁLLAPOT: »láz az EGYETLEN pozitív SIRS kritérium«→4. A 4. tétel szó szerint megköveteli, hogy a lázon kívül NE legyen másik pozitív SIRS-kritérium — ha van (pl. tachycardia is), a 'jó általános állapot' → MSTR 4 szabály (elsodleges_felnott_18) többé nem alkalmazható, a beteg legalább MSTR 3. Enélkül a szabály nélkül a rendszer egy objektíven 2 SIRS-kritériumos (láz+tachycardia) beteget is MSTR 4-re sorolt volna, pusztán a szubjektív 'jól néz ki' küllem-választás alapján — ugyanaz a mintázat, mint az esc_laz_objektiv_sirs (3 kritérium → MSTR 2) esetében, eggyel lejjebb a létrán. Forrás-igazolás: a Triázs_gyakorlat_kártyák hivatalos gyakorlófeladat 1. esete (75 éves férfi, láz 38.5°C + HR 98 = 2 SIRS kritérium, 'jól néz ki') explicit CTAS 3-at ad indoklásul, NEM 4-et — ez a szabály biztosítja, hogy ez akkor is teljesüljön, ha a nővér nem választ külön enyhe nehézlégzést (ami ennél az esetnél véletlenül egy másik úton is 3-ra vitte volna az eredményt).",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_objektiv_sirs2_rr",
+      "name": "Láz + tachypnoe (2 objektív SIRS-kritérium) → MSTR 3, függetlenül a küllemtől",
+      "applies_to": "mind",
+      "condition_text": "Láz (>38°C) + tachypnoe (RR>20) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a nővér 'jó általános állapotúnak' ítéli a beteget.",
+      "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
+        {
+          "mezo": "temp",
+          "min": 38.01
+        },
+        {
+          "mezo": "rr",
+          "min": 20.01
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 35
+        },
+        {
+          "doc": "tankonyv",
+          "page": 36
+        }
+      ],
+      "notes": "Ugyanaz a forrás-indoklás és logika, mint az esc_laz_objektiv_sirs2_hr-nél, a másik lehetséges 2. SIRS-kritérium (tachypnoe) esetére — a két szabály együtt fedi le a 'láz + BÁRMELY másik 1 objektív SIRS-kritérium' esetet anélkül, hogy a motor feltétel-szintaxisa VAGY-kapcsolatot tudna kifejezni egyetlen szabályon belül.",
       "conflicts": [],
       "group": "secondary"
     },
