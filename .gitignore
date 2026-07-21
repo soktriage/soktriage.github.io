@@ -1,0 +1,7 @@
+# Nagy oldalképek és forrás-PDF-ek (nem kellenek a repóba; a kód + kb/ elég)
+munka/pages_mstr/
+munka/pages_tk/
+*.pdf
+*.mhtml
+# szerkesztői zaj
+.DS_Store

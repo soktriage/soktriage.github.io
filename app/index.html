@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSTR Triázs Döntéstámogató</title>
+<link rel="stylesheet" href="css/_montserrat.css?v=86">
+<link rel="stylesheet" href="css/style.css?v=86">
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div>
+      <div class="hdr-logo">MSTR Triázs</div>
+      <div class="hdr-sub" id="kb-verzio">Döntéstámogató</div>
+    </div>
+    <div class="hdr-lvchip" id="lv-chip" hidden>
+      <span>Aktuális:</span><span class="lvdot" id="lv-chip-dot">–</span>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span id="prog-step">1. lépés</span><span id="prog-pct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="parkolt-sav" id="parkolt-sav" hidden></div>
+  <div class="crumbs" id="crumbs"></div>
+  <div id="crit-banner"></div>
+  <div id="fo"></div>
+</div>
+
+<div id="reszlet-tarto"></div>
+
+<script src="js/kb.js?v=86"></script>
+<script src="js/engine.js?v=86"></script>
+<script src="js/leletparser.js?v=86"></script>
+<script src="js/flowchart.js?v=86"></script>
+<script src="js/wizard.js?v=86"></script>
+</body>
+</html>
