@@ -712,7 +712,8 @@
       $('azon-msg').innerHTML = (p.id || p.nev) ? ('<span class="ok">Rögzítve: ' + (p.nev || '') + (p.id ? ' · azonosító ' + p.id : '') + '</span>') : '';
     }
 
-    c.appendChild(navSor({ tovabb: function () { staffMent(S.azon.staff); if (S.azon.raw) naplo('Azonosítás', (S.azon.nev || '') + (S.azon.id ? ' · ' + S.azon.id : '') + (S.azon.staff ? ' · ápoló: ' + S.azon.staff : '')); megy('kritikus'); }, tovabbCimke: (S.azon.raw ? 'Tovább →' : 'Kihagyás →') }));
+    var azonKitoltve = !!(S.azon.raw || S.azon.staff);
+    c.appendChild(navSor({ tovabb: function () { staffMent(S.azon.staff); if (azonKitoltve) naplo('Azonosítás', (S.azon.nev || '') + (S.azon.id ? ' · ' + S.azon.id : '') + (S.azon.staff ? ' · ápoló: ' + S.azon.staff : '')); megy('kritikus'); }, tovabbCimke: (azonKitoltve ? 'Tovább →' : 'Kihagyás →') }));
     fo.appendChild(c);
     setTimeout(function () { bc.focus(); }, 50);
   };

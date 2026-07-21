@@ -12000,9 +12000,9 @@
     },
     {
       "id": "kritikus_06",
-      "name": "Étel-elutasítás + érdektelenség + letargia + nincs hangja (kisgyermek) → legalább MSTR 2",
+      "name": "Étel-elutasítás + érdektelenség + letargia + izomtónus-vesztés (kisgyermek) → legalább MSTR 2",
       "applies_to": "gyermek",
-      "condition_text": "Beszélni még nem képes gyermeknél: visszautasítja az ételt, általános érdektelenség, letargia, megmagyarázhatatlan ingerlékenység, nincs hangja (gyenge vagy hiányzó sírás) — MINDEGYIK nagyon aggasztó jel, legalább MSTR 2. vagy magasabb szintre triázsolandó.",
+      "condition_text": "Beszélni még nem képes gyermeknél: visszautasítja az ételt, általános érdektelenség, letargia, megmagyarázhatatlan ingerlékenység, izomtónus elvesztése — MINDEGYIK nagyon aggasztó jel, legalább MSTR 2. vagy magasabb szintre triázsolandó.",
       "condition": [
         {
           "mezo": "kritikusMegjelenes",
@@ -12016,7 +12016,7 @@
           "page": 204
         }
       ],
-      "notes": "Szepszist, anyagcsere-betegséget, mérgezést, bántalmazást jelezhet.",
+      "notes": "Szepszist, anyagcsere-betegséget, mérgezést, bántalmazást jelezhet. TARTALOM-JAVÍTÁS (2026-07-21, Ádám észrevétele): a jegyzet o.204 pontos jelei »visszautasítja az ételt, általános érdektelenség, letargia, megmagyarázhatatlan ingerlékenység, IZOMTÓNUS ELVESZTÉSE« — a korábbi szöveg tévesen »nincs hangja (gyenge vagy hiányzó sírás)«-t írt az izomtónus-vesztés helyett (nem szerepel a forrásban). Az izomtónus egyébként is önálló mezőként (izomtonus) létezik a KB-ban — ez a szabály a jegyzet saját, összevont »elsődleges megtekintés« példáját fedi le, nem helyettesíti az önálló izomtonus-mezőt. ELHELYEZÉS: a forrás explicit »az elsődleges megtekintés során« (jegyzet o.204) keretezi ezeket a jeleket — ez összhangban van a nemzetközi PAT (Pediatric Assessment Triangle) »Megjelenés« sarkával (tónus, interaktivitás, vigasztalhatóság, tekintet, sírás/hang), amit érintés nélkül, pusztán megfigyeléssel lehet felmérni; az étel-visszautasítás inkább rövid megfigyelést/anamnézist igényel, mint egy 3-5 másodperces pillantást, de a forrás ide sorolja.",
       "conflicts": [],
       "group": "immediate"
     },
@@ -17790,7 +17790,7 @@
         },
         {
           "value": "etel_elutasitas_letargia",
-          "label": "Kisgyermek: étel-elutasítás + érdektelenség + letargia + nincs hangja"
+          "label": "Kisgyermek: étel-elutasítás, érdektelenség, letargia/izomtónus-vesztés"
         }
       ],
       "help": "3-5 másodperces első ránézés (look test / PAT) — a vitálisok mérése ELŐTT",
