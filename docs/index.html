@@ -23537,12 +23537,37 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       wrap.appendChild(paramMezoAlt(field.id, field.label + (field.unit ? ' (' + field.unit + ')' : ''), field.help || '', field.min, field.max, field.step || 1, utanCb));
       return wrap;
     }
+    // Padló, ami alatt egy opció már nem súlyosbíthatna — csak ISMERT (nem null) súlyú
+    // opciót rejtünk el vele; bizonytalan (null súlyú) vagy épp kiválasztott opció mindig látszik.
+    var padloOpcioSzures = S.utolso ? S.utolso.szint : null;
+    function opcioMegjelenik(lv, kivalasztott, javasolt) {
+      if (kivalasztott || javasolt) return true;
+      if (padloOpcioSzures == null || lv == null) return true;
+      return lv < padloOpcioSzures;
+    }
     if (field.type === 'checkbox') {
       var box2 = el('div', 'opts opts-bool');
-      [['Igen', true], ['Nem', false]].forEach(function (par) {
-        var kivalasztott = S.beteg[field.id] === par[1];   // igen→true, nem→false (a nem-válasz külön: undefined/null)
-        var b2 = el('button', 'opt' + (kivalasztott ? ' sel' : ''), par[0]); b2.type = 'button';
-        var body2 = el('div', 'opt-body'); body2.appendChild(el('div', 'opt-text', par[0])); b2.textContent = '';
+      // Sorrend + színkód: UGYANAZ a súlyosság-alapú logika, mint a select-típusú opcióknál —
+      // korábban ez [Igen,Nem] sorrendben, színkód nélkül volt hardkódolva, holott a 6 checkbox
+      // mező MINDEGYIKÉNÉL az "Igen" a súlyosabb (level 1-2), a "Nem" pedig nem emel — tehát a
+      // hardkódolt sorrend éppen FORDÍTVA volt a "kevésbé súlyos elöl" elvhez képest.
+      var parok = [['Igen', true], ['Nem', false]].slice().sort(function (x, y) {
+        var lx = opcioSuly(field.id, x[1]), ly = opcioSuly(field.id, y[1]);
+        lx = (lx == null ? 99 : lx); ly = (ly == null ? 99 : ly);
+        return ly - lx;
+      });
+      var megjelenoBox2 = [];
+      parok.forEach(function (par) {
+        var lv2 = opcioSuly(field.id, par[1]);
+        var kivalasztott2 = S.beteg[field.id] === par[1];
+        if (!opcioMegjelenik(lv2, kivalasztott2, false)) return;
+        megjelenoBox2.push({ par: par, lv: lv2, kivalasztott: kivalasztott2 });
+      });
+      if (!megjelenoBox2.length) parok.forEach(function (par) { megjelenoBox2.push({ par: par, lv: opcioSuly(field.id, par[1]), kivalasztott: S.beteg[field.id] === par[1] }); });
+      megjelenoBox2.forEach(function (item) {
+        var par = item.par, lv = item.lv, kivalasztott = item.kivalasztott;
+        var b2 = el('button', 'opt' + (lv ? ' opt-lv' + lv : '') + (kivalasztott ? ' sel' : '')); b2.type = 'button';
+        var body2 = el('div', 'opt-body'); body2.appendChild(el('div', 'opt-text', par[0]));
         b2.appendChild(body2); b2.appendChild(el('span', 'opt-arrow', kivalasztott ? '✓' : '›'));
         b2.onclick = function () { S.beteg[field.id] = par[1]; S.keziMezo[field.id] = true; ertekel(); naplo(field.label, par[1] ? 'igen' : 'nem'); if (utanCb) utanCb(); else render(); };
         box2.appendChild(b2);
@@ -23566,7 +23591,17 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       lx = (lx == null ? 99 : lx); ly = (ly == null ? 99 : ly);
       return ly - lx;   // magasabb MSTR-szám (enyhébb / nincs) előrébb → 5,4,3,2,1
     });
-    rendezett.forEach(function (op) {
+    // Dinamikus opció-szűrés: a paraméterek alapján már megállapított padlónál KEVÉSBÉ súlyos
+    // (vagy azzal egyenlő) opciókat elrejtjük — csak azok maradnak, amik TÉNYLEGESEN súlyosbíthatnák
+    // a besorolást, plusz a jelenleg kiválasztott/javasolt opció (hogy a választás sose tűnjön el).
+    var megjelenoOpciok = rendezett.filter(function (op) {
+      var lv0 = opcioSuly(field.id, op.value);
+      var kiv0 = S.beteg[field.id] === op.value;
+      var jav0 = jav && jav.value === op.value && S.beteg[field.id] == null;
+      return opcioMegjelenik(lv0, kiv0, jav0);
+    });
+    if (!megjelenoOpciok.length) megjelenoOpciok = rendezett; // biztonsági háló: sose maradjon üres lista
+    megjelenoOpciok.forEach(function (op) {
       var lv = opcioSuly(field.id, op.value);   // kontextus-független súlyosság → állandó színcsík
       var kivalasztott = S.beteg[field.id] === op.value;
       var javasolt = jav && jav.value === op.value && S.beteg[field.id] == null;
