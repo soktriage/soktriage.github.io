@@ -352,6 +352,22 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .tetra-choice{border:1.5px solid var(--border);background:#fff;color:var(--text);border-radius:9px;padding:9px 15px;font-family:inherit;font-size:13.5px;cursor:pointer;min-height:40px}
 .tetra-choice:hover{border-color:var(--accent)}
 .tetra-choice.sel{border-color:var(--accent);background:var(--accent-bg);font-weight:700}
+
+/* RACE-skála (stroke) — tételes, pontértékkel jelölt választás */
+.race-blokk{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:#fcfdff}
+.race-instr{font-size:11.5px;color:var(--muted);margin-bottom:7px;line-height:1.4}
+.race-opts{display:flex;flex-direction:column;gap:6px}
+.race-opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1.5px solid var(--border);background:#fff;border-radius:9px;padding:8px 12px;font-family:inherit;font-size:12.5px;line-height:1.3;cursor:pointer;min-height:40px;color:var(--text);transition:all .12s}
+.race-opt:hover{border-color:var(--accent);background:var(--hover-bg)}
+.race-opt .race-val{flex:none;width:22px;height:22px;border-radius:6px;background:var(--bg);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.race-opt.sel{border-color:var(--accent);background:var(--accent-bg);font-weight:650}
+.race-opt.sel .race-val{background:var(--accent);color:#fff}
+.race-total{margin-top:4px;padding:12px;border-radius:10px;text-align:center;border:2px solid var(--border);background:var(--bg)}
+.race-total-num{font-size:26px;font-weight:900;line-height:1}
+.race-total-desc{font-size:12px;font-weight:650;color:var(--muted);margin-top:3px;line-height:1.4}
+.race-total.magas{border-color:var(--l1s);background:var(--l1b)}
+.race-total.magas .race-total-num{color:var(--l1)}
+.race-total.magas .race-total-desc{color:var(--l1t)}
 .tetra-toggle{border:1.5px solid var(--border);background:#fff;color:var(--muted);border-radius:20px;padding:9px 15px;font-family:inherit;font-size:13px;cursor:pointer;min-height:40px;transition:all .12s}
 .tetra-toggle:hover{border-color:var(--accent)}
 .tetra-toggle.on{border-color:#B7950B;background:#FEF9E7;color:#7D6608;font-weight:700}

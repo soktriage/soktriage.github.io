@@ -718,6 +718,79 @@
   };
   function elLabel(txt) { var l = el('label', null, txt); l.style.cssText = 'font-size:12px;font-weight:650;color:var(--muted);display:block;margin-bottom:4px'; return l; }
 
+  // ---- RACE-skála (stroke, LVO-szűrés) — AHA Mission: Lifeline Stroke kártya alapján ----
+  // Forrás: Pérez de la Ossa N, Carrera D, Gorchs M, et al. "Design and validation of a
+  // prehospital stroke scale to predict large arterial occlusion." Stroke 2014;45(1):87-91.
+  // (AHA "RACE — A Stroke Assessment Tool for EMS" kártya, © 2019 American Heart Association.)
+  var RACE_TETELEK = [
+    { kulcs: 'raceArc', cim: 'Arcbénulás', instr: 'Kérje meg a beteget, mutassa meg a fogait.', opciok: [
+      [0, 'Tünetmentes (szimmetrikus mozgás)'], [1, 'Enyhe (kissé aszimmetrikus)'], [2, 'Közepes–súlyos (teljesen aszimmetrikus)'] ] },
+    { kulcs: 'raceKar', cim: 'Kar motoros funkciója', instr: 'A kart emelje 90°-ra (ülve) vagy 45°-ra (fekve).', opciok: [
+      [0, 'Normál–enyhe (10 másodpercnél tovább tartja)'], [1, 'Közepes (10 másodpercnél rövidebb ideig tartja)'], [2, 'Súlyos (gravitáció ellenében sem emeli)'] ] },
+    { kulcs: 'raceLab', cim: 'Láb motoros funkciója', instr: 'A lábat emelje 30°-ra (fekve).', opciok: [
+      [0, 'Normál–enyhe (5 másodpercnél tovább tartja)'], [1, 'Közepes (5 másodpercnél rövidebb ideig tartja)'], [2, 'Súlyos (gravitáció ellenében sem emeli)'] ] },
+    { kulcs: 'raceTekintet', cim: 'Fej- és tekintetdeviáció', instr: 'Figyelje a szemmozgást és a fej elfordulását.', opciok: [
+      [0, 'Nincs (mindkét irányba lehetséges a szemmozgás, nincs fejfordulás)'], [1, 'Van (a szem és a fej egy irányba deviál)'] ] },
+  ];
+  var RACE_AFAZIA = { kulcs: 'raceAfazia', cim: 'Afázia (jobb oldali gyengeségnél)', instr: 'Kérjen két utasítást: „csukja be a szemét” — „szorítson öklöt”.', opciok: [
+    [0, 'Normál (mindkét feladatot helyesen végzi)'], [1, 'Közepes (egy feladatot végez el helyesen)'], [2, 'Súlyos (egyiket sem végzi el)'] ] };
+  var RACE_AGNOZIA = { kulcs: 'raceAgnozia', cim: 'Agnózia (bal oldali gyengeségnél)', instr: 'Kérdezze: „Kié ez a kar?” (a paretikus kart mutatva — aszomatognózia); „Meg tudja mozgatni a karját?” (anozognózia).', opciok: [
+    [0, 'Normál (nincs aszomatognózia és nincs anozognózia)'], [1, 'Közepes (aszomatognózia VAGY anozognózia)'], [2, 'Súlyos (mindkettő fennáll)'] ] };
+
+  function raceTetelDoboz(T, tetel, renderCb) {
+    var w = el('div', 'race-blokk');
+    w.appendChild(elLabel(tetel.cim));
+    w.appendChild(el('div', 'race-instr', tetel.instr));
+    var opts = el('div', 'race-opts');
+    tetel.opciok.forEach(function (o) {
+      var val = o[0], szoveg = o[1];
+      var b = el('button', 'race-opt' + (T[tetel.kulcs] === val ? ' sel' : '')); b.type = 'button';
+      b.innerHTML = '<span class="race-val">' + val + '</span><span>' + szoveg + '</span>';
+      b.onclick = function () { T[tetel.kulcs] = val; renderCb(); };
+      opts.appendChild(b);
+    });
+    w.appendChild(opts);
+    return w;
+  }
+  function raceOsszeg(T) {
+    var alap = ['raceArc', 'raceKar', 'raceLab', 'raceTekintet'];
+    if (alap.some(function (k) { return T[k] == null; })) return null;
+    var afaziaAgnozia = T.raceOldal === 'jobb' ? T.raceAfazia : (T.raceOldal === 'bal' ? T.raceAgnozia : null);
+    if (afaziaAgnozia == null) return null;
+    return T.raceArc + T.raceKar + T.raceLab + T.raceTekintet + afaziaAgnozia;
+  }
+  function raceReszletek(T, renderCb) {
+    var wrap = el('div');
+    wrap.appendChild(elLabel('RACE-skála (Rapid Arterial oCclusion Evaluation) — LVO-szűrés'));
+    RACE_TETELEK.forEach(function (t) { wrap.appendChild(raceTetelDoboz(T, t, renderCb)); });
+    // oldal-választó dönti el, hogy afázia vagy agnózia tesztet mutatunk
+    var oldalW = el('div', 'race-blokk');
+    oldalW.appendChild(elLabel('Melyik oldalon gyengébb a beteg?'));
+    var oldalRow = el('div'); oldalRow.style.cssText = 'display:flex;gap:8px';
+    [['jobb', 'Jobb oldali gyengeség → afázia-teszt'], ['bal', 'Bal oldali gyengeség → agnózia-teszt']].forEach(function (o) {
+      var b = el('button', 'tetra-choice' + (T.raceOldal === o[0] ? ' sel' : ''), o[1]); b.type = 'button'; b.style.flex = '1';
+      b.onclick = function () { T.raceOldal = o[0]; renderCb(); };
+      oldalRow.appendChild(b);
+    });
+    oldalW.appendChild(oldalRow);
+    wrap.appendChild(oldalW);
+    if (T.raceOldal === 'jobb') wrap.appendChild(raceTetelDoboz(T, RACE_AFAZIA, renderCb));
+    else if (T.raceOldal === 'bal') wrap.appendChild(raceTetelDoboz(T, RACE_AGNOZIA, renderCb));
+    var osszeg = raceOsszeg(T);
+    var tot = el('div', 'race-total' + (osszeg != null && osszeg >= 5 ? ' magas' : ''));
+    tot.appendChild(el('div', 'race-total-num', osszeg == null ? '–' : (osszeg + ' / 9')));
+    var desc = osszeg == null ? 'RACE összeg (töltse ki mindegyik tételt, és válasszon oldalt)'
+      : osszeg >= 5 ? 'Magas LVO-valószínűség — megfontolandó direkt szállítás thrombectomiás centrumba (Komprehenzív Stroke Center)'
+      : osszeg > 0 ? 'Stroke-gyanú fennáll, alacsonyabb LVO-valószínűség'
+      : 'RACE 0 — tünetmentes vizsgálat ezen a skálán';
+    tot.appendChild(el('div', 'race-total-desc', desc));
+    wrap.appendChild(tot);
+    var forr = el('div', 'reszlet-forras'); forr.style.marginTop = '8px';
+    forr.innerHTML = ikonSvg('book') + '<span>AHA Mission: Lifeline Stroke — RACE Scale; Pérez de la Ossa N, et al., Stroke 2014;45(1):87-91. ≥5 pont → magas LVO-valószínűség.</span>';
+    wrap.appendChild(forr);
+    return wrap;
+  }
+
   // Gyermek korcsoport-visszajelzés: a determinisztikus sávok (láz-küszöb + vitál-sáv) láthatóvá tétele.
   function korcsoportInfo() {
     var kh = S.beteg.eletkorHonap != null ? S.beteg.eletkorHonap : (S.beteg.eletkorEv != null ? S.beteg.eletkorEv * 12 : null);
@@ -1714,8 +1787,9 @@
       var gs = el('div', 'param-grid');
       gs.appendChild(tInput('stTunetkezdet', 'Tünetkezdet / „last seen well" (óó:pp)'));
       gs.appendChild(tInput('stFeltalalas', 'Feltalálás ideje (óó:pp)'));
-      gs.appendChild(tInput('stRace', 'RACE score (≥5 = magas LVO-rizikó)'));
       sc.appendChild(gs);
+      var raceSp = el('div'); raceSp.style.height = '10px'; sc.appendChild(raceSp);
+      sc.appendChild(raceReszletek(T, function () { render(); }));
       var pmr = tChoice('stPremorbid', 'Premorbid állapot', ['Önellátó', 'Fennjáró', 'Fekvő']); sc.appendChild(pmr);
       var ant = tChoice('stAntikoag', 'Antikoaguláns?', ['Nem', 'Igen']); sc.appendChild(ant);
       if (T.stAntikoag === 'Igen') sc.appendChild(tInput('stAntikoagMit', 'Mit és utoljára mikor?'));
@@ -1763,7 +1837,9 @@
     if (jel.length) L.push('Jelölők: ' + jel.join(', '));
     if (T.jStroke) {
       L.push('— KRITIKUS STROKE ADATOK —');
-      add('Tünetkezdet / last seen well', T.stTunetkezdet); add('Feltalálás ideje', T.stFeltalalas); add('RACE score', T.stRace);
+      add('Tünetkezdet / last seen well', T.stTunetkezdet); add('Feltalálás ideje', T.stFeltalalas);
+      var raceOssz = raceOsszeg(T);
+      if (raceOssz != null) add('RACE score', raceOssz + '/9' + (raceOssz >= 5 ? ' (magas LVO-valószínűség)' : ''));
       add('Premorbid', T.stPremorbid); add('Antikoaguláns', T.stAntikoag); add('  (mit/mikor)', T.stAntikoagMit);
       add('Észlelő elérhetősége', T.stEszlelo);
       var ert = [];
