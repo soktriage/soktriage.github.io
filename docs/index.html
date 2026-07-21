@@ -23130,13 +23130,23 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   RENDER.modosito = function (fo) {
     var p = (KB.complaints || []).filter(function (x) { return x.id === S.beteg.vezetoPanaszId; })[0];
     var c = kartya('Lépés 8', 'Panasz-specifikus módosítók', 'A vezető panaszhoz tartozó kérdések.');
-    c.appendChild(nincsModositoGomb('Nincs releváns panasz-specifikus módosító', function () { megy(kovetkezo('modosito', 1)); }));
+    // Ha a panasznak NINCS alapszintje (pl. csecsemő-apnoe: a súlyosság 1/2/3 közt csak a
+    // módosítóból derül ki), a módosító megadása KÖTELEZŐ — enélkül a rendszer "nincs
+    // javaslat" zsákutcába futna. Ilyenkor a gyors-kihagyás gomb nem jelenik meg, a Tovább védett.
+    var kotelezo = !(S.utolso && S.utolso.szint != null);
+    if (!kotelezo) {
+      c.appendChild(nincsModositoGomb('Nincs releváns panasz-specifikus módosító', function () { megy(kovetkezo('modosito', 1)); }));
+    }
     relevansMezok(lathatoModositok()).forEach(function (f) {
       c.appendChild(el('div', 'card-eye', f.label));
       c.appendChild(opcioKartyak(f, function () { render(); }));
       var sp = el('div'); sp.style.height = '14px'; c.appendChild(sp);
     });
-    c.appendChild(navSor({ tovabb: function () { megy(kovetkezo('modosito', 1)); } }));
+    c.appendChild(navSor({
+      tovabb: function () { megy(kovetkezo('modosito', 1)); },
+      validate: function () { return !!(S.utolso && S.utolso.szint != null); },
+      hint: 'Ehhez a panaszhoz kötelező megadni egy választ — enélkül nem adható triázs-szint.'
+    }));
     fo.appendChild(c);
   };
   // Gyors-affordancia: „nincs releváns módosító" → egy koppintás továbblép (baseline érvényes; nem tippel).
