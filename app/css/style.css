@@ -128,8 +128,9 @@ textarea.lelet:focus{outline:none;border-color:var(--accent)}
 .btn-ghost{background:none;border:1.5px solid var(--border);color:var(--muted)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
 .btn-full{width:100%;margin-top:14px}
-.nav-row{display:flex;gap:10px;align-items:center;margin-top:16px}
+.nav-row{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap;row-gap:10px}
 .nav-row .spacer{flex:1}
+@media(max-width:480px){ .nav-row .spacer{flex-basis:100%;height:0} }
 .skip-hint{font-size:12px;color:var(--muted)}
 
 /* Eredmény */
@@ -206,13 +207,21 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .opt.javasolt{border-color:var(--accent);border-style:dashed;background:var(--accent-bg)}
 .opt.javasolt .opt-text{color:var(--accent)}
 
-/* Busy-ED: sticky navigáció + tapintható méret + fejléc új-beteg gomb */
-.nav-row{position:sticky;bottom:0;background:linear-gradient(to top,var(--card) 70%,rgba(255,255,255,0));padding:12px 0 4px;margin-top:18px;z-index:5}
+/* Busy-ED: sticky navigáció (csak széles/görgetésmentes nézeten — keskeny képernyőn a
+   lebegő sáv eltakarná a tartalom alját, pl. a Betegút-gombot) + tapintható méret + fejléc új-beteg gomb */
+.nav-row{margin-top:18px}
+@media(min-width:1000px){
+  .nav-row{position:sticky;bottom:0;background:linear-gradient(to top,var(--card) 70%,rgba(255,255,255,0));padding:12px 0 4px;z-index:5}
+}
 .hdr #uj-beteg-hdr{margin-left:auto}
-.hdr{gap:12px}
+.hdr{gap:12px;flex-wrap:wrap;row-gap:8px}
 @media(max-width:520px){ .opt{padding:15px} .btn{padding:14px 18px} }
 .hdr{justify-content:flex-start}
 .hdr>div:first-child{flex:1}
+@media(max-width:480px){
+  .hdr #uj-beteg-hdr{margin-left:0}
+  .hdr>div:first-child{flex:0 0 100%}
+}
 
 /* ABCDE klinikai blokkok az elsődleges-modosító lépésen */
 .klin-blokk{border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;padding:12px 12px 4px;margin-bottom:14px;background:#fcfdff}
@@ -349,11 +358,16 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .tetra-toggle.on::before{content:'✓ '}
 
 /* Betegút / diszpozíció */
-.betegut-krit{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fcfdff}
+.betegut-krit{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:12px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fcfdff}
 .betegut-krit-txt{font-size:13px;line-height:1.35;flex:1}
 .betegut-auto{font-size:11px;color:var(--accent2);font-weight:700}
-.betegut-valasz{display:flex;gap:6px;flex:none}
-.bk-btn{border:1.5px solid var(--border);background:#fff;color:var(--muted);border-radius:8px;padding:8px 14px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:38px}
+.betegut-valasz{display:flex;gap:8px;flex:none}
+.betegut-valasz .bk-btn{flex:1}
+.bk-btn{border:1.5px solid var(--border);background:#fff;color:var(--muted);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;min-height:44px}
+@media(min-width:640px){
+  .betegut-krit{flex-direction:row;align-items:center;justify-content:space-between}
+  .betegut-valasz .bk-btn{flex:none}
+}
 .bk-btn.sel-igen{border-color:var(--l4);background:var(--l4b);color:var(--l4t)}
 .bk-btn.sel-nem{border-color:var(--l1);background:var(--l1b);color:var(--l1t)}
 .betegut-eredmeny{margin-top:12px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;border:2px solid var(--border)}
