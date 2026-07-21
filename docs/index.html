@@ -13250,9 +13250,9 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     },
     {
       "id": "esc_laz_objektiv_sirs",
-      "name": "Láz: ≥3 objektív SIRS-kritérium → MSTR 2 (küllemtől függetlenül)",
+      "name": "≥3 objektív SIRS-kritérium → MSTR 2 (bármely panasznál, küllemtől függetlenül)",
       "applies_to": "mind",
-      "condition_text": "Láz (>38°C) + tachycardia (HR>90) + tachypnoe (RR>20) — a bevitt vitálparaméterekből objektíven számított 3 pozitív SIRS-kritérium önmagában MSTR 2-t indokol, FÜGGETLENÜL a beteg szubjektív megjelenésétől (a fiatal, kompenzált beteg is 'jól nézhet ki').",
+      "condition_text": "Láz (>38°C) + tachycardia (HR>90) + tachypnoe (RR>20) — a bevitt vitálparaméterekből objektíven számított 3 pozitív SIRS-kritérium önmagában MSTR 2-t indokol, FÜGGETLENÜL a beteg szubjektív megjelenésétől (a fiatal, kompenzált beteg is 'jól nézhet ki') ÉS FÜGGETLENÜL a vezető panasztól — a poszter az »Elsődleges módosító és meghatározó tényezők« (vitális paraméterek) közt sorolja fel, a nehézlégzés/keringés/GCS mellett, NEM panasz-specifikus (másodlagos) módosítóként.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -13285,11 +13285,8 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
           "doc": "mstr"
         }
       ],
-      "notes": "Tankönyv o.25 (MSTR 2 kritérium-lista): »Láz (hőmérséklet > 38°C) + szeptikus küllem és tünetek (legalább 3+ SIRS kritérium)«. CTAS COT-2008 'Adults: Temperature/Sepsis' (DIA 11): SIRS = temp>38/<36, HR>90, RR>20 (vagy PaCO2<32), WBC-eltérés — »Looks septic: has 3 positive SIRS criteria« → MSTR 2, FÜGGETLENÜL a küllemtől. Kollégák pilot-tesztje találta: HR135+RR22+T39.5 esetén a rendszer MSTR 4-et adott (csak a szubjektív 'jó általános állapot' küllem-választás alapján) — objektív kereszt-ellenőrzés hiányzott. WBC nem elérhető triázskor, ezért csak a 3 elérhető kritérium (láz, HR, RR) alapján számolunk — ez pontosan megfelel a forrás 'legalább 3+ SIRS kritérium' megfogalmazásának. KORHATÁR (2026-07-21, MSOTKE-MSTR hivatalos poszter alapján, Ádám kifejezett utasítására \"ahol ellentmondás van, a poszter az irányadó\"): a poszter a láz/SIRS táblát explicit \"kor ≥16 év\"-től érvényesnek jelzi (nem a rendszer általános 18 éves gyermek/felnőtt határától) — enélkül a HR/RR felnőtt-küszöbök (>90/>20) kisgyermeknél tévesen tüzelnének, mert ott ez az életkorhoz képest NORMÁL érték lehet (a gyermek saját, kor-sávos HR/RR-tábláink külön kezelik ezt 18 éves korig).",
+      "notes": "Tankönyv o.25 (MSTR 2 kritérium-lista): »Láz (hőmérséklet > 38°C) + szeptikus küllem és tünetek (legalább 3+ SIRS kritérium)«. CTAS COT-2008 'Adults: Temperature/Sepsis' (DIA 11): SIRS = temp>38/<36, HR>90, RR>20 (vagy PaCO2<32), WBC-eltérés — »Looks septic: has 3 positive SIRS criteria« → MSTR 2, FÜGGETLENÜL a küllemtől. Kollégák pilot-tesztje találta: HR135+RR22+T39.5 esetén a rendszer MSTR 4-et adott (csak a szubjektív 'jó általános állapot' küllem-választás alapján) — objektív kereszt-ellenőrzés hiányzott. WBC nem elérhető triázskor, ezért csak a 3 elérhető kritérium (láz, HR, RR) alapján számolunk — ez pontosan megfelel a forrás 'legalább 3+ SIRS kritérium' megfogalmazásának. KORHATÁR (MSOTKE-MSTR poszter): kor ≥16 év, ld. korábbi jegyzet. HATÓKÖR-JAVÍTÁS (2026-07-21, Ádám észrevétele): a szabály tévesen csak a 'laz' panaszra volt korlátozva (csakPanaszok:['laz']) — a hivatalos poszteren viszont a SIRS-kritérium az ELSŐDLEGES (nem panasz-specifikus) módosítók táblájában szerepel, a nehézlégzés/keringés/GCS mellett — tehát BÁRMELY vezető panasznál érvényesnek kell lennie (pl. hasi fájdalom + objektíven SIRS-pozitív vitálok is MSTR 2-t indokol). A csakPanaszok-korlátozás törölve, most globális elsődleges módosítóként viselkedik, konzisztensen az elsodleges_felnott_15-18 (szubjektív küllem-alapú) testvér-szabályokkal, amik szintén mindig is globálisak voltak.",
       "conflicts": [],
-      "csakPanaszok": [
-        "laz"
-      ],
       "group": "secondary"
     },
     {
