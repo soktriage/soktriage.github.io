@@ -60,6 +60,44 @@
     return { ok: true, hasznalt: hasznalt };
   }
 
+  // Objektív felnőtt vitál-riasztási pontszám (tankönyv o.86, MEWS pontozótáblázat sávjai) —
+  // CSAK a nyers számokból (RR/HR/SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
+  // NÉLKÜL (nincs tiszta AVPU-mezőnk; a GCS-alapú becslés félrevezető lenne) — ez a hiány KIZÁRÓLAG
+  // alulszámlálhat, sosem túlszámlálhat, tehát az eredmény biztonságosan konzervatív alsó becslés.
+  // Csak FELNŐTTNÉL alkalmazandó (a gyermek élettani normálértékek teljesen mások — ld. vitalBands).
+  function vitalSav(ertek, savok) {
+    for (var i = 0; i < savok.length; i++) {
+      var s = savok[i];
+      if (s.min != null && ertek < s.min) continue;
+      if (s.max != null && ertek > s.max) continue;
+      return s.pont;
+    }
+    return 0;
+  }
+  function objektivVitalPontszam(beteg) {
+    var pont = 0;
+    if (beteg.rr != null) pont += vitalSav(beteg.rr, [
+      { max: 8, pont: 2 }, { min: 9, max: 14, pont: 0 }, { min: 15, max: 20, pont: 1 },
+      { min: 21, max: 29, pont: 2 }, { min: 30, pont: 3 },
+    ]);
+    if (beteg.hr != null) pont += vitalSav(beteg.hr, [
+      { max: 39, pont: 2 }, { min: 40, max: 50, pont: 1 }, { min: 51, max: 100, pont: 0 },
+      { min: 101, max: 110, pont: 1 }, { min: 111, max: 130, pont: 2 }, { min: 131, pont: 3 },
+    ]);
+    // Szisztolés vérnyomás SZÁNDÉKOSAN NEM tagja az összegnek: a magas RR-nek (hipertónia) saját,
+    // pontosabb, tünet-alapú forrás-szabálya van (hipertoniaTunet: van→2, nincs→3 — ld.
+    // masodlagos_20/panasz-szabályok), ami KIFEJEZETTEN megengedi, hogy önmagában magas RR
+    // (>220/>130), kísérő tünet NÉLKÜL, csak MSTR 3 legyen — ha a szisztolés RR is beleszámítana
+    // ebbe az összegbe, ez a szabály ütközne azzal (eset_08 regresszió: 222/130 Hgmm tünetmentes
+    // hipertóniás beteg tévesen MSTR 2-t kapott volna MSTR 3 helyett). Az alacsony vérnyomást
+    // (sokk) a keringesiAllapot klinikai-ítélet mező és/vagy a tachycardia-komponens már lefedi.
+    if (beteg.temp != null) pont += vitalSav(beteg.temp, [
+      { max: 34.9, pont: 2 }, { min: 35, max: 36, pont: 1 }, { min: 36.01, max: 38, pont: 0 },
+      { min: 38.01, max: 38.6, pont: 1 }, { min: 38.61, pont: 2 },
+    ]);
+    return pont;
+  }
+
   // Gyermek HR/RR sáv → szint a kb.vitalBands "kiertekeles" logikája szerint:
   //  <b1→1, b1..b2-1→2, b2..b3-1→3, b3..b4→normál(null), b4+1..b5→3, b5+1..b6→2, >b6→1
   function savSzint(ertek, row) {
@@ -78,6 +116,7 @@
       gcs: gcsOsszeg(beteg),
       eletkorHonap: eletkorHonapban(beteg),
       gyermek: gyermekE(beteg, kb),
+      objektivVitalPontszam: objektivVitalPontszam(beteg),
     };
 
     function rogzit(lepes, szabaly, statusz, hasznalt, javasoltSzint, megjegyzes, hianyzoMezok) {

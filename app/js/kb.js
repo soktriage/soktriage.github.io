@@ -19,7 +19,7 @@
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 402,
+      "rules": 403,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -12904,6 +12904,36 @@
         }
       ],
       "notes": "Ugyanaz a forrás-indoklás és logika, mint az esc_laz_objektiv_sirs2_hr-nél, a másik lehetséges 2. SIRS-kritérium (tachypnoe) esetére — a két szabály együtt fedi le a 'láz + BÁRMELY másik 1 objektív SIRS-kritérium' esetet anélkül, hogy a motor feltétel-szintaxisa VAGY-kapcsolatot tudna kifejezni egyetlen szabályon belül.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_objektiv_vital_pontszam",
+      "name": "Objektív vitál-riasztási pontszám ≥4 → legalább MSTR 2 (bármely panasznál, küllemtől és panasztól függetlenül)",
+      "applies_to": "felnott",
+      "condition_text": "A légzésszám, pulzusszám és testhőmérséklet — a tankönyv 86. oldalán található MEWS-pontozótáblázat sávjai szerint összesített — objektív pontszáma önmagában eléri a forrás szerinti »azonnali riasztás« küszöböt (≥4 pont), FÜGGETLENÜL a vezető panasztól és a nővér szubjektív küllem-megítélésétől. Ekkor a beteg legalább MSTR 2 (kritikus) — a tankönyv saját minőségi elve szerint (o.48: »a kritikus állapotú beteg … MSTR 2. vagy magasabb kategóriát kap«).",
+      "condition": [
+        {
+          "mezo": "objektivVitalPontszam",
+          "min": 4
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        },
+        {
+          "doc": "tankonyv",
+          "page": 48
+        },
+        {
+          "doc": "tankonyv",
+          "page": 85
+        }
+      ],
+      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a nővér külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/hőmérséklet sávjaiból összegez — SEM a szisztolés vérnyomás, SEM a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (utóbbi mert nincs tiszta AVPU-mezőnk; ez a két hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A vérnyomás kihagyása build közben derült ki: az eredeti (RR+HR+SBP+Temp) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_20/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna — ütközve azzal a szándékos forrás-elvvel, hogy önmagában a magas vérnyomás, tünet nélkül, csak MSTR 3. A vérnyomás ezért kimaradt az összegből (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
       "conflicts": [],
       "group": "secondary"
     },
