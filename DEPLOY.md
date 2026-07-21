@@ -55,11 +55,21 @@ Másold a fájlt (vagy a teljes `app/` mappát) a szerver webgyökerébe:
 4. `python3 munka/build_singlefile.py` → új `dist/mstr_triage.html`
 5. feltöltés a szerverre / commit GitHubra
 
-## Élő teszt-verzió: GitHub Pages (kornel92/soktriage)
+## Élő teszt-verzió: GitHub Pages (soktriage/soktriage.github.io)
 
-A `https://kornel92.github.io/soktriage/` cím a `docs/index.html`-t szolgálja ki
-(ez a GitHub Pages két elfogadott forrás-mappájának egyike — a repó gyökere marad
+A `https://soktriage.github.io/` cím a `docs/index.html`-t szolgálja ki (ez a
+GitHub Pages két elfogadott forrás-mappájának egyike — a repó gyökere marad
 tiszta). A `docs/index.html` MINDIG a `dist/mstr_triage.html` egy másolata.
+
+A repó a `soktriage` GitHub-szervezet alatt él (nem Ádám személyes fiókja alatt),
+ezért a cím személytelenített — a `soktriage.github.io` speciális repónév-egyezés
+miatt GitHub automatikusan Jekyll-feldolgozást indított rá, ami a `<title>` végére
+" | soktriage" toldalékot illesztett; ezt egy üres `docs/.nojekyll` fájl tiltja le
+(kötelező jelenlét — ha törlődne, a cím-toldalék visszatér).
+
+Korábbi, most már NEM használt cím (Ádám személyes fiókja alatt, meghagyva
+referenciaként, de nem frissül tovább): `https://kornel92.github.io/soktriage/`
+(git remote név: `kornel92-regi`).
 
 **Patch + redeploy (a legtöbb változtatás után ennyi kell):**
 ```bash
@@ -82,5 +92,5 @@ kerül fel — tiszta kód + a mi saját, oldalhivatkozásokkal ellátott tudás
 
 **Saját domain bekötése később** (pl. `soktriage.<sajátdomain>.hu`): a domain
 szolgáltatójánál egy CNAME-rekordot kell felvenni a domain-re mutatva
-`kornel92.github.io`-ra, majd a repó Settings → Pages → Custom domain mezőbe be
+`soktriage.github.io`-ra, majd a repó Settings → Pages → Custom domain mezőbe be
 kell írni ugyanezt a domaint. Percek kérdése, bármikor megtehető.

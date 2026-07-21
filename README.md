@@ -9,7 +9,7 @@ Transzparens, **forráshivatkozott** triázs-besorolás a Magyar Sürgősségi T
 Rendszer (MSTR) szabályai szerint, sürgősségi osztályos munkafolyamatra optimalizálva.
 
 **Élő teszt-verzió (böngészőben, telepítés nélkül):**
-👉 https://kornel92.github.io/soktriage/
+👉 https://soktriage.github.io/
 
 Ez egy **statikus, offline-képes** app — nincs backend, nincs adatbázis, nincs
 szerverhívás. Minden a böngészőben fut; a beírt betegadat nem hagyja el a gépet.
