@@ -18,11 +18,11 @@
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 391,
+      "rules": 398,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
-      "inputFields": 76,
+      "inputFields": 78,
       "cases": 75
     }
   },
@@ -6391,6 +6391,12 @@
       ],
       "notes": "Hipoglikémia küszöb 3 mmol/l. Az elsődleges módosítók (megváltozott tudat, görcs) alapján a beteg gyakran már eleve ≥ ilyen szinten van.",
       "conflicts": [],
+      "csakPanaszok": [
+        "modosult-tudatallapot",
+        "zavartsag",
+        "hyperglycemia",
+        "hypoglycemia"
+      ],
       "group": "secondary"
     },
     {
@@ -6425,6 +6431,12 @@
       ],
       "notes": "",
       "conflicts": [],
+      "csakPanaszok": [
+        "modosult-tudatallapot",
+        "zavartsag",
+        "hyperglycemia",
+        "hypoglycemia"
+      ],
       "group": "secondary"
     },
     {
@@ -6459,6 +6471,12 @@
       ],
       "notes": "Hiperglikémia küszöb 18 mmol/l.",
       "conflicts": [],
+      "csakPanaszok": [
+        "modosult-tudatallapot",
+        "zavartsag",
+        "hyperglycemia",
+        "hypoglycemia"
+      ],
       "group": "secondary"
     },
     {
@@ -6493,6 +6511,12 @@
       ],
       "notes": "",
       "conflicts": [],
+      "csakPanaszok": [
+        "modosult-tudatallapot",
+        "zavartsag",
+        "hyperglycemia",
+        "hypoglycemia"
+      ],
       "group": "secondary"
     },
     {
@@ -6679,6 +6703,9 @@
       ],
       "notes": "A forrás a feltételt VAGY-kapcsolatban adja (SBP > 220 VAGY DBP > 130); a VAGY nem fejezhető ki egyetlen condition-tömbben, ezért a szisztolés és diasztolés ág külön szabály. Tankönyv első sora nyomtatási hibával 'RR syst 220' (> jel nélkül) szerepel; a jegyzet szerint > 220. | Tünetlista (CTAS COT-2008 DIA 39): légszomj, mellkasi fájdalom, ZAVARTSÁG, HIRTELEN fejfájás, hányinger/hányás.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6717,6 +6744,9 @@
       ],
       "notes": "A szisztolés ág: masodlagos_12. | Tünetlista (CTAS COT-2008 DIA 39): légszomj, mellkasi fájdalom, ZAVARTSÁG, HIRTELEN fejfájás, hányinger/hányás.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6755,6 +6785,9 @@
       ],
       "notes": "A diasztolés ág: masodlagos_15.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6793,6 +6826,9 @@
       ],
       "notes": "",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6832,6 +6868,9 @@
       ],
       "notes": "A diasztolés ág: masodlagos_17. | Tünetlista (CTAS COT-2008 DIA 39): légszomj, mellkasi fájdalom, ZAVARTSÁG, HIRTELEN fejfájás, hányinger/hányás.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6871,6 +6910,9 @@
       ],
       "notes": "Tünetlista (CTAS COT-2008 DIA 39): légszomj, mellkasi fájdalom, ZAVARTSÁG, HIRTELEN fejfájás, hányinger/hányás.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6910,6 +6952,9 @@
       ],
       "notes": "A forrás 'MSTR 4 & 5' szintet ad; a biztonságosabb (magasabb) 4-es szintet vettük fő értéknek, a végső 4/5 klinikai megítéléstől függ. A diasztolés ág: masodlagos_19.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6949,6 +6994,9 @@
       ],
       "notes": "A forrás 'MSTR 4 & 5' szintet ad; a biztonságosabb 4-es szintet vettük fő értéknek.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "group": "secondary"
     },
     {
@@ -6975,6 +7023,9 @@
       ],
       "notes": "",
       "conflicts": [],
+      "csakPanaszok": [
+        "hypothermia"
+      ],
       "group": "secondary"
     },
     {
@@ -7002,6 +7053,9 @@
       ],
       "notes": "",
       "conflicts": [],
+      "csakPanaszok": [
+        "hypothermia"
+      ],
       "group": "secondary"
     },
     {
@@ -7028,6 +7082,9 @@
       ],
       "notes": "Feltétel: nincs fagyás és normál vitális paraméterek.",
       "conflicts": [],
+      "csakPanaszok": [
+        "hypothermia"
+      ],
       "group": "secondary"
     },
     {
@@ -8411,6 +8468,10 @@
       ],
       "notes": "A fekete bőrterület megfigyelhetősége esetén MINIMUM MSTR 2 (feltriázsolás lehetséges). Ha a terület nem látható, a triázs nagy rizikót hordoz.",
       "conflicts": [],
+      "csakPanaszok": [
+        "vegbel-vegbel-kornyeki-fajdalom",
+        "herefajdalom-vagy-duzzanat"
+      ],
       "group": "secondary"
     },
     {
@@ -9805,8 +9866,13 @@
       "id": "baseline_szedules",
       "name": "Szédülés → MSTR 3 alapszint",
       "applies_to": "mind",
-      "condition_text": "A(z) »Szédülés« vezető panasz forrás szerinti kiinduló (legenyhébb, módosító nélküli) besorolása MSTR 3. Súlyosbító elsődleges vagy panasz-specifikus módosító a minimum-elv miatt feljebb (kisebb szám) viheti; ez alá nem eshet.",
-      "condition": [],
+      "condition_text": "A(z) »Szédülés« vezető panasz forrás szerinti kiinduló (legenyhébb, módosító nélküli) besorolása MSTR 3. Súlyosbító elsődleges vagy panasz-specifikus módosító a minimum-elv miatt feljebb (kisebb szám) viheti; ez alá nem eshet. KIVÉTEL: krónikus szédülésnél (jegyzet o.288) a forrás MSTR 4-et ad — ez a feltétel-tömb ezért NEM tüzel 'kronikus' válasz esetén, hogy a deesc_szedules_kronikus szabály (2026-07-21, kollégák pilot-tesztje alapján) helyesen érvényesülhessen a min-logika ellenére.",
+      "condition": [
+        {
+          "mezo": "szedulesTipus",
+          "nemEgyenlo": "kronikus"
+        }
+      ],
       "level": 3,
       "source": [
         {
@@ -12529,6 +12595,194 @@
       "conflicts": [],
       "csakPanaszok": [
         "fejserules"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_szedules_nem_pozicionalis",
+      "name": "Szédülés: nem pozícionális (lehetséges CVA) → MSTR 2",
+      "applies_to": "mind",
+      "condition_text": "Nem pozícionális szédülés (nem a testhelyzet-változtatásra jelentkező), ± egyéb neurológiai tünet, hátterében poszterior keringési területi CVA (stroke) állhat → MSTR 2.",
+      "condition": [
+        {
+          "mezo": "szedulesTipus",
+          "egyenlo": "nem_pozicionalis"
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 288
+        }
+      ],
+      "notes": "Jegyzet o.288: »Szédülés (centrális, lehetséges CVA vagy perifériás) — MSTR 2 - 'nem pozícionális +/- egyéb neurológiai tünetek'«. Ádám kollégái pilot-tesztjében találták: a szédülésnek eddig NULLA panasz-specifikus módosítója volt (mindig MSTR 3), holott a saját forrásunk explicit módosító-létrát ad.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "szedules"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_szedules_pozicionalis",
+      "name": "Szédülés: pozícionális, egyéb tünet nélkül → MSTR 3",
+      "applies_to": "mind",
+      "condition_text": "Pozícionális szédülés (testhelyzet-változtatásra jelentkező), egyéb neurológiai tünet nélkül → MSTR 3.",
+      "condition": [
+        {
+          "mezo": "szedulesTipus",
+          "egyenlo": "pozicionalis"
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 288
+        }
+      ],
+      "notes": "Jegyzet o.288: »MSTR 3 - 'pozícionális egyéb neurológiai tünetek nélkül'«. Megegyezik a korábbi alapszinttel (baseline_szedules) — itt explicit szabályként is rögzítve az átláthatóság kedvéért.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "szedules"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "deesc_szedules_kronikus",
+      "name": "Szédülés: krónikus állapot → MSTR 4",
+      "applies_to": "mind",
+      "condition_text": "Krónikus / visszatérő szédülés → MSTR 4.",
+      "condition": [
+        {
+          "mezo": "szedulesTipus",
+          "egyenlo": "kronikus"
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 288
+        }
+      ],
+      "notes": "Jegyzet o.288: »MSTR 4 – ha krónikus állapot«.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "szedules"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_fejfajas_hirtelen_legrosszabb",
+      "name": "Fejfájás: hirtelen, „eddigi legrosszabb” → MSTR 2",
+      "applies_to": "mind",
+      "condition_text": "Hirtelen kialakuló, a beteg által „eddigi legrosszabb”-ként jellemzett fejfájás (SAH-gyanú) → MSTR 2.",
+      "condition": [
+        {
+          "mezo": "fejfajasJelleg",
+          "egyenlo": "hirtelen_legrosszabb"
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 25
+        },
+        {
+          "doc": "ctas"
+        }
+      ],
+      "notes": "Tankönyv o.25 (MSTR 2 kritérium-lista): »Súlyos fejfájás (erős, hirtelen fellépő, 'még sohasem fájt így a fejem' jellegű)«. CTAS COT-2008 Headache (DIA 109): »2 | sudden, severe, worst ever«. Kollégák pilot-tesztje találta: a fejfájásnak eddig NULLA panasz-specifikus módosítója volt (mindig MSTR 5).",
+      "conflicts": [],
+      "csakPanaszok": [
+        "fejfajas"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_fejfajas_latasi_zavar",
+      "name": "Fejfájás: látásélesség-zavar ± szemfájdalom → MSTR 2",
+      "applies_to": "mind",
+      "condition_text": "Fejfájást kísérő látásélesség-zavar ± szemfájdalom (pl. akut glaukóma, temporális arteritis gyanúja) → MSTR 2.",
+      "condition": [
+        {
+          "mezo": "fejfajasJelleg",
+          "egyenlo": "latasi_zavar_szemfajdalom"
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "ctas"
+        }
+      ],
+      "notes": "CTAS COT-2008 Headache (DIA 109): »2 | visual acuity disturbance +/- eye pain«.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "fejfajas"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "deesc_fejfajas_kronikus",
+      "name": "Fejfájás: krónikus / visszatérő → MSTR 5",
+      "applies_to": "mind",
+      "condition_text": "Krónikus vagy visszatérő fejfájás → MSTR 5.",
+      "condition": [
+        {
+          "mezo": "fejfajasJelleg",
+          "egyenlo": "kronikus_visszaterodo"
+        }
+      ],
+      "level": 5,
+      "source": [
+        {
+          "doc": "ctas"
+        }
+      ],
+      "notes": "CTAS COT-2008 Headache (DIA 109): »5 | Chronic or recurring headache«. Megegyezik a korábbi alapszinttel (baseline_fejfajas).",
+      "conflicts": [],
+      "csakPanaszok": [
+        "fejfajas"
+      ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_objektiv_sirs",
+      "name": "Láz: ≥3 objektív SIRS-kritérium → MSTR 2 (küllemtől függetlenül)",
+      "applies_to": "mind",
+      "condition_text": "Láz (>38°C) + tachycardia (HR>90) + tachypnoe (RR>20) — a bevitt vitálparaméterekből objektíven számított 3 pozitív SIRS-kritérium önmagában MSTR 2-t indokol, FÜGGETLENÜL a beteg szubjektív megjelenésétől (a fiatal, kompenzált beteg is 'jól nézhet ki').",
+      "condition": [
+        {
+          "mezo": "temp",
+          "min": 38.01
+        },
+        {
+          "mezo": "hr",
+          "min": 90.01
+        },
+        {
+          "mezo": "rr",
+          "min": 20.01
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 25
+        },
+        {
+          "doc": "ctas",
+          "page": 11
+        }
+      ],
+      "notes": "Tankönyv o.25 (MSTR 2 kritérium-lista): »Láz (hőmérséklet > 38°C) + szeptikus küllem és tünetek (legalább 3+ SIRS kritérium)«. CTAS COT-2008 'Adults: Temperature/Sepsis' (DIA 11): SIRS = temp>38/<36, HR>90, RR>20 (vagy PaCO2<32), WBC-eltérés — »Looks septic: has 3 positive SIRS criteria« → MSTR 2, FÜGGETLENÜL a küllemtől. Kollégák pilot-tesztje találta: HR135+RR22+T39.5 esetén a rendszer MSTR 4-et adott (csak a szubjektív 'jó általános állapot' küllem-választás alapján) — objektív kereszt-ellenőrzés hiányzott. WBC nem elérhető triázskor, ezért csak a 3 elérhető kritérium (láz, HR, RR) alapján számolunk — ez pontosan megfelel a forrás 'legalább 3+ SIRS kritérium' megfogalmazásának.",
+      "conflicts": [],
+      "csakPanaszok": [
+        "laz"
       ],
       "group": "secondary"
     },
@@ -17829,6 +18083,12 @@
       "max": 50,
       "step": 0.1,
       "help": "Másodlagos módosító. Hipoglikémia küszöb <3 mmol/l, hiperglikémia küszöb >18 mmol/l. Csak stabil betegnél mérendő a triázs során.",
+      "csakPanaszok": [
+        "hyperglycemia",
+        "hypoglycemia",
+        "modosult-tudatallapot",
+        "zavartsag"
+      ],
       "pediatricOnly": false
     },
     {
@@ -17847,6 +18107,12 @@
         }
       ],
       "help": "A <3 vagy >18 mmol/l vércukor tünetekkel MSTR 2, tünet nélkül MSTR 3.",
+      "csakPanaszok": [
+        "hyperglycemia",
+        "hypoglycemia",
+        "modosult-tudatallapot",
+        "zavartsag"
+      ],
       "pediatricOnly": false
     },
     {
@@ -17897,6 +18163,9 @@
         }
       ],
       "help": "Hipertenzióhoz társuló tünet: légszomj, mellkasi fájdalom, zavartság, HIRTELEN fejfájás, hányinger/hányás (CTAS COT-2008 DIA 39). Bármelyik jelenléte \"van\".",
+      "csakPanaszok": [
+        "hipertenzio"
+      ],
       "pediatricOnly": false
     },
     {
@@ -17909,6 +18178,9 @@
       "max": 45,
       "step": 0.1,
       "help": "Hideg ártalomnál: <32°C = MSTR 2, 32-35°C = MSTR 3, >35°C fagyás nélkül normál vitálisokkal = MSTR 4. <32°C-nál invazív melegítés.",
+      "csakPanaszok": [
+        "hypothermia"
+      ],
       "pediatricOnly": false
     },
     {
@@ -18300,6 +18572,10 @@
         }
       ],
       "help": "Necrotizáló fasciitis (Fournier-kór) gyanúja; orvosi vizsgálat 15 percen belül.",
+      "csakPanaszok": [
+        "herefajdalom-vagy-duzzanat",
+        "vegbel-vegbel-kornyeki-fajdalom"
+      ],
       "pediatricOnly": false
     },
     {
@@ -18581,6 +18857,54 @@
         "kettoslatas",
         "latasi-zavarok"
       ]
+    },
+    {
+      "id": "szedulesTipus",
+      "type": "select",
+      "label": "Szédülés jellege",
+      "group": "secondary",
+      "options": [
+        {
+          "value": "nem_pozicionalis",
+          "label": "Nem pozícionális (± egyéb neurológiai tünet) — lehetséges CVA (MSTR 2)"
+        },
+        {
+          "value": "pozicionalis",
+          "label": "Pozícionális, egyéb neurológiai tünet nélkül (MSTR 3)"
+        },
+        {
+          "value": "kronikus",
+          "label": "Krónikus / visszatérő állapot (MSTR 4)"
+        }
+      ],
+      "csakPanaszok": [
+        "szedules"
+      ],
+      "pediatricOnly": false
+    },
+    {
+      "id": "fejfajasJelleg",
+      "type": "select",
+      "label": "Fejfájás jellege",
+      "group": "secondary",
+      "options": [
+        {
+          "value": "hirtelen_legrosszabb",
+          "label": "Hirtelen kialakuló, „eddigi legrosszabb” jellegű fejfájás (MSTR 2)"
+        },
+        {
+          "value": "latasi_zavar_szemfajdalom",
+          "label": "Látásélesség-zavar ± szemfájdalom kíséri (MSTR 2)"
+        },
+        {
+          "value": "kronikus_visszaterodo",
+          "label": "Krónikus / visszatérő fejfájás (MSTR 5)"
+        }
+      ],
+      "csakPanaszok": [
+        "fejfajas"
+      ],
+      "pediatricOnly": false
     },
     {
       "id": "gorcsAllapot",

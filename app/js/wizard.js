@@ -1198,6 +1198,12 @@
     return box;
   }
 
+  // Szervi/testüregi eredetű panaszok, ahol a fájdalom CTAS-definíció szerint mindig
+  // centrális ("originates within a body cavity or organ") — a szabad Centrális/Perifériás
+  // választás itt csak szórást okozna (két kolléga eltérő eredménye ugyanarra a panaszra,
+  // 2026-07-21-i pilot-visszajelzés). Előre kitöltve (auto), de felülírható.
+  var PANASZ_CENTRALIS_ALAPERTELMEZETT = ['hasi-fajdalom', 'mellkasi-fajdalom-nem-sziv-eredetu'];
+
   RENDER.fajdalom = function (fo) {
     var c = kartya('Lépés 7', 'Fájdalom', 'VAS 0–10; fájdalomnál lokalizáció + jelleg.');
     // VAS
@@ -1210,18 +1216,35 @@
     for (var v = 0; v <= 10; v++) (function (val) {
       var cls = val <= 3 ? 'vn0' : (val <= 7 ? 'vn1' : 'vn2');
       var b = el('button', 'vnum ' + cls + (S.beteg.fajdalomPont === val ? ' sel' : ''), String(val)); b.type = 'button';
-      b.onclick = function () { S.beteg.fajdalomPont = val; ertekel(); naplo('Fájdalom (VAS)', val + '/10'); render(); };
+      b.onclick = function () { S.beteg.fajdalomPont = val; S.keziMezo.fajdalomPont = true; ertekel(); naplo('Fájdalom (VAS)', val + '/10'); render(); };
       nums.appendChild(b);
     })(v);
     c.appendChild(nums);
 
+    var lokKotelezo = false, jelKotelezo = false;
     if (S.beteg.fajdalomPont != null && S.beteg.fajdalomPont > 0) {
+      // szervi/testüregi panasznál a centrális auto-kitöltés (felülírható)
+      if (S.beteg.fajdalomLokalizacio == null && !S.keziMezo.fajdalomLokalizacio &&
+        PANASZ_CENTRALIS_ALAPERTELMEZETT.indexOf(S.beteg.vezetoPanaszId) !== -1) {
+        S.beteg.fajdalomLokalizacio = 'centralis';
+        S.autoMezo.fajdalomLokalizacio = { value: 'centralis', note: 'Szervi/testüregi eredetű panasz — CTAS-definíció szerint centrális.' };
+      }
       var lok = (KB.inputFields || []).filter(function (f) { return f.id === 'fajdalomLokalizacio'; })[0];
       var jel = (KB.inputFields || []).filter(function (f) { return f.id === 'fajdalomJelleg'; })[0];
+      lokKotelezo = !!lok; jelKotelezo = !!jel;
       if (lok) { var sp1 = el('div'); sp1.style.height = '14px'; c.appendChild(sp1); c.appendChild(el('div', 'card-eye', 'Fájdalom helye')); c.appendChild(opcioKartyak(lok, function () { render(); })); }
       if (jel) { var sp2 = el('div'); sp2.style.height = '14px'; c.appendChild(sp2); c.appendChild(el('div', 'card-eye', 'Fájdalom jellege')); c.appendChild(opcioKartyak(jel, function () { render(); })); }
     }
-    c.appendChild(navSor({ tovabb: function () { megy(kovetkezo('fajdalom', 1)); } }));
+    c.appendChild(navSor({
+      tovabb: function () { megy(kovetkezo('fajdalom', 1)); },
+      validate: function () {
+        if (S.beteg.fajdalomPont == null) return false;
+        if (lokKotelezo && S.beteg.fajdalomLokalizacio == null) return false;
+        if (jelKotelezo && S.beteg.fajdalomJelleg == null) return false;
+        return true;
+      },
+      hint: 'A fájdalom pontszáma (és 0-nál nagyobb pontszám esetén a helye + jellege) kötelező — enélkül a besorolás alultriázsolhat.'
+    }));
     fo.appendChild(c);
   };
 
