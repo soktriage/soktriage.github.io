@@ -469,7 +469,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 410,
+      "rules": 420,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -15342,6 +15342,237 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         }
       ],
       "notes": "Referencia-only (level:null), NEM korlátozó padló — a gyermek_08-nál talált hiba (level:4 helyett level:null a helyes, ld. ott a javítás jegyzetét) mintájára rögtön helyesen implementálva, hogy ne korlátozzon egy egyébként MSTR5 besorolású, jó szaturációjú beteget MSTR4-re.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_rr_felnott_sulyos",
+      "name": "Légzésszám ≥30/perc (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Légzésszám ≥30/perc önmagában, más paraméterektől és a vezető panasztól függetlenül legalább MSTR 3-at indokol (MEWS legsúlyosabb légzésszám-sáv).",
+      "condition": [
+        {
+          "mezo": "rr",
+          "min": 30
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "Ádám 2026-07-21 (2. kérés): 'már egy vérnyomás is minimum determinisztikus legyen... ugyanígy légzés, sat, gcs, temp' — az addig meglévő esc_objektiv_vital_pontszam (78-79. egység) ÖSSZEGZETT (több paraméter együttes) küszöb volt, ami miatt EGYETLEN, önmagában súlyosan kóros érték (pl. csak HR140, csak RR32, csak SBP80) NEM emelt, ha a többi mező üres/normál maradt — motoron reprodukálva és megerősítve Ádám jelzése alapján. Ez a szabály (és a testvérei lentebb) az összegzés MELLETT, attól függetlenül, EGYETLEN paraméter önmagában is padlót ad — pontosan a gyermek-oldali vitalBands mintáját követve (ahol pl. band_rr/band_hr is önállóan, összegzés nélkül határoz meg szintet). Forrás: tankönyv o.86 MEWS-tábla RR-sávjai (ugyanaz a tábla, amit az esc_objektiv_vital_pontszam is használ) — a 3-pontos (legsúlyosabb) sáv önmagában MSTR3 padlót ad; MSTR2-t csak NEM ad (annak GCS/keringés/légzési-munka klinikai megerősítés vagy a kombinált padló kell hozzá) — ez a konzervatívabb, de még mindig biztonságos irány (felül-triázsolás elve, folyamat_32), amíg más jel nem erősíti meg a súlyosabb szintet.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_rr_felnott_kozepes_magas",
+      "name": "Légzésszám 21-29/perc (felnőtt) → önmagában legalább MSTR 4",
+      "applies_to": "felnott",
+      "condition_text": "Légzésszám 21-29/perc (enyhe-közepes tachypnoe) önmagában legalább MSTR 4-et indokol.",
+      "condition": [
+        {
+          "mezo": "rr",
+          "min": 21,
+          "max": 29
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos RR-sáv. Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért. Ez a sáv gyakori, enyhe eltérés (pl. fájdalom/szorongás is okozhatja) — ezért csak MSTR4 padló, nem MSTR3, hogy ne triázsoljon túl agresszíven önmagában; kombinálva más tényezővel (fájdalom, láz stb.) a meglévő szabályok/az esc_objektiv_vital_pontszam már úgyis feljebb viheti.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_rr_felnott_bradypnoe",
+      "name": "Légzésszám <9/perc (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Légzésszám <9/perc (súlyos bradypnoe) önmagában legalább MSTR 3-at indokol.",
+      "condition": [
+        {
+          "mezo": "rr",
+          "max": 8
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos RR-sáv (a tábla szerint <9/perc csak 2, nem 3 pontos — a legsúlyosabb 3-pontos sáv kizárólag a >30/perc). Ld. esc_rr_felnott_sulyos jegyzete.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_hr_felnott_sulyos",
+      "name": "Pulzus ≥131/perc (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Pulzus ≥131/perc önmagában, más paraméterektől függetlenül legalább MSTR 3-at indokol (MEWS legsúlyosabb pulzus-sáv).",
+      "condition": [
+        {
+          "mezo": "hr",
+          "min": 131
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért — ugyanaz a minta, pulzusra. MEWS 3-pontos pulzus-sáv.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_hr_felnott_kozepes_magas",
+      "name": "Pulzus 111-130/perc (felnőtt) → önmagában legalább MSTR 4",
+      "applies_to": "felnott",
+      "condition_text": "Pulzus 111-130/perc önmagában legalább MSTR 4-et indokol.",
+      "condition": [
+        {
+          "mezo": "hr",
+          "min": 111,
+          "max": 130
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos pulzus-sáv. Csak MSTR4 padló (nem 3), mert gyakori, enyhe eltérés (fájdalom/szorongás/láz is okozhatja) — kombinációban a meglévő szabályok/esc_objektiv_vital_pontszam feljebb viheti.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_hr_felnott_bradycardia",
+      "name": "Pulzus <40/perc (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Pulzus <40/perc (súlyos bradycardia) önmagában legalább MSTR 3-at indokol.",
+      "condition": [
+        {
+          "mezo": "hr",
+          "max": 39
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos pulzus-sáv (alacsony vég). Ld. esc_hr_felnott_sulyos jegyzete.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_sbp_felnott_sulyos",
+      "name": "Szisztolés vérnyomás ≤70 Hgmm (felnőtt) → önmagában legalább MSTR 2",
+      "applies_to": "felnott",
+      "condition_text": "Szisztolés vérnyomás ≤70 Hgmm önmagában, más paraméterektől függetlenül legalább MSTR 2-t (sokk-gyanú) indokol.",
+      "condition": [
+        {
+          "mezo": "sys",
+          "max": 70
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        },
+        {
+          "doc": "tankonyv",
+          "page": 33
+        }
+      ],
+      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a nővér explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_sbp_felnott_kozepes",
+      "name": "Szisztolés vérnyomás 71-80 Hgmm (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Szisztolés vérnyomás 71-80 Hgmm önmagában legalább MSTR 3-at (potenciálisan instabil) indokol.",
+      "condition": [
+        {
+          "mezo": "sys",
+          "min": 71,
+          "max": 80
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        },
+        {
+          "doc": "tankonyv",
+          "page": 33
+        }
+      ],
+      "notes": "MEWS 2-pontos SBP-sáv. Ez a szabály pontosan lefedi Ádám másik konkrét példáját (sys=80 önmagában) — előtte MSTR5-ön maradt, most MSTR3 a padló. Ld. esc_sbp_felnott_sulyos jegyzete.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_temp_felnott_hipotermia",
+      "name": "Testhőmérséklet ≤34,9°C (felnőtt) → önmagában legalább MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "Testhőmérséklet ≤34,9°C (hipotermia) önmagában legalább MSTR 3-at indokol.",
+      "condition": [
+        {
+          "mezo": "temp",
+          "max": 34.9
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv — a hőmérsékletnél a MEWS-tábla sosem ad 3 pontot egyetlen sávnál sem, ezért itt a padló max. MSTR3, nem MSTR2 (a máshol dokumentált SIRS-kombó szabályok, esc_laz_objektiv_sirs*, tovább emelhetik, ha láz+tachycardia/tachypnoe is fennáll).",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_temp_felnott_magas_onallo",
+      "name": "Testhőmérséklet ≥38,61°C (felnőtt) → önmagában legalább MSTR 3, a küllem-választástól függetlenül",
+      "applies_to": "felnott",
+      "condition_text": "Testhőmérséklet ≥38,61°C önmagában legalább MSTR 3-at indokol, akkor is, ha a nővér még nem választott küllem-kategóriát, vagy 'jó általános állapot'-ot választott.",
+      "condition": [
+        {
+          "mezo": "temp",
+          "min": 38.61
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 86
+        }
+      ],
+      "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv. Ádám kérése: 'temp (ha az modosít önmagából de lehet hogy az csak sirs)' — a temp itt ÖNMAGÁBAN is ad egy MSTR3 padlót (nem csak a SIRS-kombón, HR/RR-rel együtt keresztül, ld. esc_laz_objektiv_sirs2_hr/rr), függetlenül attól, hogy a nővér a lazKullem mezőt kitöltötte-e (ha nem, a küllem-alapú elsodleges_felnott_15-18 szabályok »nincs_adat« miatt nem tüzelnek — enélkül a szabály nélkül egy önmagában magas láz-érték, küllem-választás nélkül, egyáltalán NEM adott volna semmilyen hőmérséklet-alapú padlót). Nem emeli MSTR2-re, mert ahhoz vagy 3 SIRS-kritérium (esc_laz_objektiv_sirs), vagy explicit szeptikus/immunszupprimált küllem-választás kell.",
       "conflicts": [],
       "group": "secondary"
     }
