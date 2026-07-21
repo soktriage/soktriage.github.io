@@ -469,11 +469,11 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 403,
+      "rules": 410,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
-      "inputFields": 79,
+      "inputFields": 80,
       "cases": 75
     }
   },
@@ -5673,16 +5673,16 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     },
     {
       "id": "gyermek_08",
-      "name": "Nincs légzési elégtelenség (gyermek) -> MSTR 4-5",
+      "name": "Nincs légzési elégtelenség (gyermek) -> egyéb tényezők döntenek",
       "applies_to": "gyermek",
-      "condition_text": "Normál légzésszám és O2-szaturáció > 94%, nincs fokozott légzési munka.",
+      "condition_text": "Normál légzésszám és O2-szaturáció > 94%, nincs fokozott légzési munka — ez önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más (panasz-specifikus vagy egyéb elsődleges) tényezők határozzák meg.",
       "condition": [
         {
           "mezo": "spo2",
           "min": 95
         }
       ],
-      "level": 4,
+      "level": null,
       "source": [
         {
           "doc": "tankonyv",
@@ -5693,7 +5693,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
           "page": 217
         }
       ],
-      "notes": "SpO2 > 94% és normál légzés esetén a besorolás 4-5 (egyéb kórtörténet dönt).",
+      "notes": "JAVÍTVA (2026-07-21, Ádám univerzális vitál-padló kérésére végzett audit során talált hiba): a szabály korábban tévesen level:4-et adott — ez azt jelentette, hogy MINDEN normál O2-szaturációjú gyermek automatikusan MSTR4-re lett volna korlátozva, akkor is, ha a panasza egyébként MSTR5 (pl. kötéscsere, képalkotó-eredmény-hozatal) — ellentétben a máshol következetesen alkalmazott mintával (pl. elsodleges_felnott_05/10/13: a 'normál' tartomány level:null, csak referencia, nem korlátoz). Motoron igazolva: gyermek + kötéscsere + SpO2 98% a javítás ELŐTT tévesen MSTR4-et adott, MSTR5 helyett. A tényleges légzési-elégtelenség sávok (gyermek_05/06/07, SpO2<95%) változatlanul hard escalate-ként működnek — csak a 'normál' felső sáv vált referencia-only-vá.",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -12323,6 +12323,72 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "group": "consciousness"
     },
     {
+      "id": "kohoges_csecsemo_gyanus_szamarkohoges",
+      "name": "Csecsemő, erősödő köhögés + elsápadás (gyanús szamárköhögés) → MSTR 4",
+      "applies_to": "gyermek",
+      "condition_text": "Csecsemőnél kb. 1 hete tartó, erősödő köhögés, ami közben elsápadást okoz — a paraméterek (légzésszám/SpO2/pulzus/hőmérséklet) lehetnek teljesen normálisak, mégis MSTR 4: elkülönítés szükséges, mert szamárköhögés (pertussis) állhat a háttérben.",
+      "condition": [
+        {
+          "mezo": "kohogesJelleg",
+          "egyenlo": "erosodo_kohoges_csecsemonel_elsapadassal"
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 275
+        }
+      ],
+      "notes": "Jegyzet o.275 munkapélda (is_normative:false, de a hivatalos eset_44 tesztesetünk pontosan ez a szcenárió, forrás-azonosított vitálokkal). Ez a szabály a valódi, panasz-specifikus mechanizmus — korábban a teszteset véletlenül a gyermek_08 hibás (level:4) globális SpO2-padlóján futott át helyesen, ami a hiba javítása után lelepleződött (2026-07-21, univerzális vitál-padló audit). Az eset_44 caseInputAdditions mostantól explicit beállítja ezt a mezőt.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "kohoges_elsapadas_keringesi_instabilitas",
+      "name": "Köhögés közbeni elsápadás, keringési instabilitás jeleként értékelve → MSTR 2",
+      "applies_to": "gyermek",
+      "condition_text": "Ha a köhögés közbeni elsápadást a triázs ápoló keringési instabilitás jeleként értékeli (nem csak reflexes elsápadásként) → MSTR 2.",
+      "condition": [
+        {
+          "mezo": "kohogesJelleg",
+          "egyenlo": "elsapadas_keringesi_instabilitaskent"
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 275
+        }
+      ],
+      "notes": "Jegyzet o.275: »Ha az elsápadást keringési instabilitás jeleként értékeli, akkor MSTR 2.«",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "kohoges_cyanotikus",
+      "name": "Cyanotikus köhögés közben → MSTR 1",
+      "applies_to": "gyermek",
+      "condition_text": "Ha a gyermek köhögés közben cyanotikussá válik → tovább súlyosbítandó (MSTR 1, összhangban a súlyos légzési elégtelenség/cyanosis egyéb forrás-kritériumaival, ld. gyermek_02/kritikus_03).",
+      "condition": [
+        {
+          "mezo": "kohogesJelleg",
+          "egyenlo": "cyanotikus_kohoges_alatt"
+        }
+      ],
+      "level": 1,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 275
+        }
+      ],
+      "notes": "Jegyzet o.275: »Ha a köhögés alatt cyanotikus, akkor feljebb kell triázsolni« — a forrás nem ad pontos számot, csak azt, hogy MSTR2-nél súlyosabb; MSTR1-re állítva, mert a cyanosis másutt (kritikus_03: cianotikus/márványozott gyermek, gyermek_05: SpO2<90%) következetesen MSTR1 kritérium.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
       "id": "kritikus_01",
       "name": "Nyilvánvaló vitális disztressz / periarreszt állapot → MSTR 1",
       "applies_to": "mind",
@@ -13383,7 +13449,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
           "page": 85
         }
       ],
-      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a nővér külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/hőmérséklet sávjaiból összegez — SEM a szisztolés vérnyomás, SEM a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (utóbbi mert nincs tiszta AVPU-mezőnk; ez a két hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A vérnyomás kihagyása build közben derült ki: az eredeti (RR+HR+SBP+Temp) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_20/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna — ütközve azzal a szándékos forrás-elvvel, hogy önmagában a magas vérnyomás, tünet nélkül, csak MSTR 3. A vérnyomás ezért kimaradt az összegből (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
+      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a nővér külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/szisztolés-vérnyomás(csak ALACSONY sávok)/hőmérséklet sávjaiból összegez — a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (nincs tiszta AVPU-mezőnk; ez a hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A MAGAS vérnyomás-sávokat (>200) szándékosan kihagytuk: build közben derült ki, hogy az eredeti (teljes SBP-tartományt tartalmazó) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_12-19/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna. Az ALACSONY vérnyomás-sávoknak (≤100 Hgmm, hipotenzió/sokk-gyanú) nincs ilyen ütköző szabályuk, ezért azok BENNE maradtak az összegben (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -15155,6 +15221,128 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         "nyaki-trauma",
         "sulyos-trauma-tompa"
       ],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_spo2_felnott_sulyos",
+      "name": "Súlyos légzési elégtelenség (felnőtt, O2-szaturáció <90%) → MSTR 1",
+      "applies_to": "felnott",
+      "condition_text": "O2-szaturáció < 90% önmagában súlyos légzési elégtelenséget jelez → MSTR 1, függetlenül a vezető panasztól.",
+      "condition": [
+        {
+          "mezo": "spo2",
+          "max": 89
+        }
+      ],
+      "level": 1,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 80
+        },
+        {
+          "doc": "jegyzet",
+          "page": 109
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
+        }
+      ],
+      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a nővér nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_spo2_felnott_kozepes",
+      "name": "Közepes légzési elégtelenség (felnőtt, O2-szaturáció 90-92%) → MSTR 2",
+      "applies_to": "felnott",
+      "condition_text": "O2-szaturáció 90-92% önmagában közepes légzési elégtelenséget jelez → MSTR 2, függetlenül a vezető panasztól.",
+      "condition": [
+        {
+          "mezo": "spo2",
+          "min": 90,
+          "max": 92
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 80
+        },
+        {
+          "doc": "jegyzet",
+          "page": 109
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
+        }
+      ],
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_06 felnőtt megfelelője.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_spo2_felnott_enyhe",
+      "name": "Enyhe légzési elégtelenség (felnőtt, O2-szaturáció 93-94%) → MSTR 3",
+      "applies_to": "felnott",
+      "condition_text": "O2-szaturáció 93-94% önmagában enyhe légzési elégtelenséget jelez → MSTR 3, függetlenül a vezető panasztól.",
+      "condition": [
+        {
+          "mezo": "spo2",
+          "min": 93,
+          "max": 94
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 80
+        },
+        {
+          "doc": "jegyzet",
+          "page": 109
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
+        }
+      ],
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_07 felnőtt megfelelője.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_spo2_felnott_normal",
+      "name": "Nincs légzési elégtelenség (felnőtt, O2-szaturáció >94%) → egyéb tényezők döntenek",
+      "applies_to": "felnott",
+      "condition_text": "O2-szaturáció > 94% önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más tényezők határozzák meg.",
+      "condition": [
+        {
+          "mezo": "spo2",
+          "min": 95
+        }
+      ],
+      "level": null,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 80
+        },
+        {
+          "doc": "jegyzet",
+          "page": 109
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
+        }
+      ],
+      "notes": "Referencia-only (level:null), NEM korlátozó padló — a gyermek_08-nál talált hiba (level:4 helyett level:null a helyes, ld. ott a javítás jegyzetét) mintájára rögtön helyesen implementálva, hogy ne korlátozzon egy egyébként MSTR5 besorolású, jó szaturációjú beteget MSTR4-re.",
+      "conflicts": [],
       "group": "secondary"
     }
   ],
@@ -19277,6 +19465,30 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       ]
     },
     {
+      "id": "kohogesJelleg",
+      "type": "select",
+      "label": "Köhögés jellege (csecsemő/kisgyermek)",
+      "group": "secondary",
+      "options": [
+        {
+          "value": "erosodo_kohoges_csecsemonel_elsapadassal",
+          "label": "Csecsemőnél kb. 1 hete erősödő köhögés, köhögés közben elsápadás — gyanús szamárköhögés (MSTR 4)"
+        },
+        {
+          "value": "elsapadas_keringesi_instabilitaskent",
+          "label": "Az elsápadás keringési instabilitás jeleként értékelendő (MSTR 2)"
+        },
+        {
+          "value": "cyanotikus_kohoges_alatt",
+          "label": "Köhögés közben cyanotikus (MSTR 1)"
+        }
+      ],
+      "csakPanaszok": [
+        "kohoges-torokszukulet"
+      ],
+      "pediatricOnly": true
+    },
+    {
       "id": "apnoeStatus",
       "type": "select",
       "label": "Apnoe státusza (csecsemő)",
@@ -21189,7 +21401,8 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         "temp": 37,
         "vezetoPanaszId": "kohoges-torokszukulet",
         "gyermekKullem": "nembeteg",
-        "nehezlegzesFok": "nincs"
+        "nehezlegzesFok": "nincs",
+        "kohogesJelleg": "erosodo_kohoges_csecsemonel_elsapadassal"
       },
       "expected_level": 4,
       "rationale": "Paraméterei alapján MSTR 4 (elkülönítés szükséges, szamárköhögés lehet). Ha az elsápadás keringési instabilitás jele → MSTR 2; ha köhögés közben cyanotikus → feljebb.",
@@ -22072,9 +22285,11 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   }
 
   // Objektív felnőtt vitál-riasztási pontszám (tankönyv o.86, MEWS pontozótáblázat sávjai) —
-  // CSAK a nyers számokból (RR/HR/SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
+  // a nyers számokból (RR/HR/alacsony-SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
   // NÉLKÜL (nincs tiszta AVPU-mezőnk; a GCS-alapú becslés félrevezető lenne) — ez a hiány KIZÁRÓLAG
   // alulszámlálhat, sosem túlszámlálhat, tehát az eredmény biztonságosan konzervatív alsó becslés.
+  // A MAGAS SBP-sávok (>200) szándékosan kimaradnak: azoknak saját, tünet-alapú, pontosabb
+  // forrás-szabályuk van (hipertoniaTunet), amivel ez ütközne (ld. lentebb + eset_08).
   // Csak FELNŐTTNÉL alkalmazandó (a gyermek élettani normálértékek teljesen mások — ld. vitalBands).
   function vitalSav(ertek, savok) {
     for (var i = 0; i < savok.length; i++) {
@@ -22095,13 +22310,17 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       { max: 39, pont: 2 }, { min: 40, max: 50, pont: 1 }, { min: 51, max: 100, pont: 0 },
       { min: 101, max: 110, pont: 1 }, { min: 111, max: 130, pont: 2 }, { min: 131, pont: 3 },
     ]);
-    // Szisztolés vérnyomás SZÁNDÉKOSAN NEM tagja az összegnek: a magas RR-nek (hipertónia) saját,
-    // pontosabb, tünet-alapú forrás-szabálya van (hipertoniaTunet: van→2, nincs→3 — ld.
-    // masodlagos_20/panasz-szabályok), ami KIFEJEZETTEN megengedi, hogy önmagában magas RR
-    // (>220/>130), kísérő tünet NÉLKÜL, csak MSTR 3 legyen — ha a szisztolés RR is beleszámítana
-    // ebbe az összegbe, ez a szabály ütközne azzal (eset_08 regresszió: 222/130 Hgmm tünetmentes
-    // hipertóniás beteg tévesen MSTR 2-t kapott volna MSTR 3 helyett). Az alacsony vérnyomást
-    // (sokk) a keringesiAllapot klinikai-ítélet mező és/vagy a tachycardia-komponens már lefedi.
+    // Szisztolés vérnyomás: CSAK az ALACSONY (hipotenzió/sokk-gyanú) sávokat számítjuk be
+    // (<=100 Hgmm) — a MAGAS sávokat (>200) szándékosan kihagyjuk, mert azoknak saját,
+    // pontosabb, tünet-alapú forrás-szabályuk van (masodlagos_12-19: hipertoniaTunet
+    // van→2/3, nincs→3/4), ami KIFEJEZETTEN megengedi, hogy önmagában magas vérnyomás,
+    // kísérő tünet NÉLKÜL, csak MSTR 3-4 legyen — ha a magas sávok is beleszámítanának, ez
+    // ütközne azzal (eset_08 regresszió volt: 222/130 Hgmm tünetmentes hipertóniás beteget
+    // tévesen MSTR 2-re emelte volna MSTR 3 helyett). Az alacsony vérnyomásnak nincs ilyen
+    // saját, ütköző szabálya — az önmagában a sokk egyik objektív jele, forrás szerint is.
+    if (beteg.sys != null) pont += vitalSav(beteg.sys, [
+      { max: 70, pont: 3 }, { min: 71, max: 80, pont: 2 }, { min: 81, max: 100, pont: 1 },
+    ]);
     if (beteg.temp != null) pont += vitalSav(beteg.temp, [
       { max: 34.9, pont: 2 }, { min: 35, max: 36, pont: 1 }, { min: 36.01, max: 38, pont: 0 },
       { min: 38.01, max: 38.6, pont: 1 }, { min: 38.61, pont: 2 },

@@ -61,9 +61,11 @@
   }
 
   // Objektív felnőtt vitál-riasztási pontszám (tankönyv o.86, MEWS pontozótáblázat sávjai) —
-  // CSAK a nyers számokból (RR/HR/SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
+  // a nyers számokból (RR/HR/alacsony-SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
   // NÉLKÜL (nincs tiszta AVPU-mezőnk; a GCS-alapú becslés félrevezető lenne) — ez a hiány KIZÁRÓLAG
   // alulszámlálhat, sosem túlszámlálhat, tehát az eredmény biztonságosan konzervatív alsó becslés.
+  // A MAGAS SBP-sávok (>200) szándékosan kimaradnak: azoknak saját, tünet-alapú, pontosabb
+  // forrás-szabályuk van (hipertoniaTunet), amivel ez ütközne (ld. lentebb + eset_08).
   // Csak FELNŐTTNÉL alkalmazandó (a gyermek élettani normálértékek teljesen mások — ld. vitalBands).
   function vitalSav(ertek, savok) {
     for (var i = 0; i < savok.length; i++) {
@@ -84,13 +86,17 @@
       { max: 39, pont: 2 }, { min: 40, max: 50, pont: 1 }, { min: 51, max: 100, pont: 0 },
       { min: 101, max: 110, pont: 1 }, { min: 111, max: 130, pont: 2 }, { min: 131, pont: 3 },
     ]);
-    // Szisztolés vérnyomás SZÁNDÉKOSAN NEM tagja az összegnek: a magas RR-nek (hipertónia) saját,
-    // pontosabb, tünet-alapú forrás-szabálya van (hipertoniaTunet: van→2, nincs→3 — ld.
-    // masodlagos_20/panasz-szabályok), ami KIFEJEZETTEN megengedi, hogy önmagában magas RR
-    // (>220/>130), kísérő tünet NÉLKÜL, csak MSTR 3 legyen — ha a szisztolés RR is beleszámítana
-    // ebbe az összegbe, ez a szabály ütközne azzal (eset_08 regresszió: 222/130 Hgmm tünetmentes
-    // hipertóniás beteg tévesen MSTR 2-t kapott volna MSTR 3 helyett). Az alacsony vérnyomást
-    // (sokk) a keringesiAllapot klinikai-ítélet mező és/vagy a tachycardia-komponens már lefedi.
+    // Szisztolés vérnyomás: CSAK az ALACSONY (hipotenzió/sokk-gyanú) sávokat számítjuk be
+    // (<=100 Hgmm) — a MAGAS sávokat (>200) szándékosan kihagyjuk, mert azoknak saját,
+    // pontosabb, tünet-alapú forrás-szabályuk van (masodlagos_12-19: hipertoniaTunet
+    // van→2/3, nincs→3/4), ami KIFEJEZETTEN megengedi, hogy önmagában magas vérnyomás,
+    // kísérő tünet NÉLKÜL, csak MSTR 3-4 legyen — ha a magas sávok is beleszámítanának, ez
+    // ütközne azzal (eset_08 regresszió volt: 222/130 Hgmm tünetmentes hipertóniás beteget
+    // tévesen MSTR 2-re emelte volna MSTR 3 helyett). Az alacsony vérnyomásnak nincs ilyen
+    // saját, ütköző szabálya — az önmagában a sokk egyik objektív jele, forrás szerint is.
+    if (beteg.sys != null) pont += vitalSav(beteg.sys, [
+      { max: 70, pont: 3 }, { min: 71, max: 80, pont: 2 }, { min: 81, max: 100, pont: 1 },
+    ]);
     if (beteg.temp != null) pont += vitalSav(beteg.temp, [
       { max: 34.9, pont: 2 }, { min: 35, max: 36, pont: 1 }, { min: 36.01, max: 38, pont: 0 },
       { min: 38.01, max: 38.6, pont: 1 }, { min: 38.61, pont: 2 },
