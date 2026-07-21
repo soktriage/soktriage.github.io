@@ -4292,8 +4292,8 @@
     {
       "id": "elsodleges_felnott_14",
       "name": "Láz (E) – felnőtt láz definíció",
-      "applies_to": "felnott",
-      "condition_text": "Felnőttnél (kor ≥17 év) a láz definíciója testhőmérséklet ≥38°C. A megemelkedett testhőmérsékletet a vezető panasszal összefüggésben kell értékelni; lázas betegnél mindig keresni kell a szepszis jeleit.",
+      "applies_to": "mind",
+      "condition_text": "Felnőttnél (kor ≥16 év, MSOTKE-MSTR poszter szerint) a láz definíciója testhőmérséklet ≥38°C. A megemelkedett testhőmérsékletet a vezető panasszal összefüggésben kell értékelni; lázas betegnél mindig keresni kell a szepszis jeleit.",
       "condition": [
         {
           "mezo": "temp",
@@ -4301,7 +4301,7 @@
         },
         {
           "mezo": "eletkorEv",
-          "min": 17
+          "min": 16
         }
       ],
       "level": null,
@@ -4950,7 +4950,7 @@
     {
       "id": "elsodleges_felnott_38",
       "name": "Vérzékenység – életet vagy végtagot veszélyeztető vérzés → MSTR 2",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Öröklött vagy szerzett vérzékenységnél életet/végtagot veszélyeztető vérzés → MSTR 2. Helyszínek: fej (koponyán belüli) és nyak; mellkas, has, medence, gerinc; masszív hüvelyi vérzés; csípőtáji/medenceizmok; végtagizom-kompartment; törések és ficamok; mély lágyrész-sérülések; bármely csillapíthatatlan vérzés.",
       "condition": [
         {
@@ -4973,14 +4973,14 @@
           "page": 39
         }
       ],
-      "notes": "Major vérzéssel érkező hemofíliás beteg azonnali faktorpótlást igényelhet (helyi protokoll, hematológus konzultáció).",
+      "notes": "Major vérzéssel érkező hemofíliás beteg azonnali faktorpótlást igényelhet (helyi protokoll, hematológus konzultáció). [2026-07-21: applies_to felnott->mind — a CTAS COT-2008 külön \"Paeds: Bleeding disorder\" táblája (DIA 2079 kontextus) SZÓ SZERINT AZONOS az Adults táblával (ugyanazok a helyszínek, ugyanazok az MSTR 2/3 szintek) — az életet/végtagot veszélyeztető vérzés gyermeknél is MSTR 2, nem csak felnőttnél. Ádám átfogó logika-auditja találta: egy 8 éves gyermek életet/végtagot veszélyeztető vérzéssel korábban tévesen MSTR 5-öt kapott (a felnőtt-only korlátozás miatt), a helyes MSTR 2 helyett.]",
       "conflicts": [],
       "group": "bleeding"
     },
     {
       "id": "elsodleges_felnott_39",
       "name": "Vérzékenység – mérsékelt/enyhe vérzés → MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Öröklött vagy szerzett vérzékenységnél mérsékelt/enyhe vérzés → MSTR 3. Helyszínek: orr (epistaxis); száj/íny; ízületek (haemarthros); menstruációs vérzés; horzsolások; felszínes sérülések.",
       "condition": [
         {
@@ -5003,14 +5003,14 @@
           "page": 39
         }
       ],
-      "notes": "",
+      "notes": " [2026-07-21: applies_to felnott->mind — a CTAS COT-2008 külön \"Paeds: Bleeding disorder\" táblája (DIA 2079 kontextus) SZÓ SZERINT AZONOS az Adults táblával (ugyanazok a helyszínek, ugyanazok az MSTR 2/3 szintek) — az életet/végtagot veszélyeztető vérzés gyermeknél is MSTR 2, nem csak felnőttnél. Ádám átfogó logika-auditja találta: egy 8 éves gyermek életet/végtagot veszélyeztető vérzéssel korábban tévesen MSTR 5-öt kapott (a felnőtt-only korlátozás miatt), a helyes MSTR 2 helyett.]",
       "conflicts": [],
       "group": "bleeding"
     },
     {
       "id": "elsodleges_felnott_40",
       "name": "Vérzékenység – gyanított enyhe/közepes ízületi vérzés → MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Nyilvánvaló vagy gyanított veleszületett/szerzett vérzékenységű betegnél gyanított enyhe vagy közepes ízületi vérzés (haemarthros) → MSTR 3 (Sürgős). Az érintett betegcsoportok: veleszületett vérzészavar/jelentős faktorhiány, véralvadásgátlót szedők, súlyos májbetegség (megnyúlt PT/PTT).",
       "condition": [
         {
@@ -5037,7 +5037,7 @@
           "page": 40
         }
       ],
-      "notes": "Vérzékenységnél a gyors faktorpótlás fontosabb lehet a vizsgálatoknál; ajánlott az alvadási faktor azonnali megrendelését biztosító helyi protokoll.",
+      "notes": "Vérzékenységnél a gyors faktorpótlás fontosabb lehet a vizsgálatoknál; ajánlott az alvadási faktor azonnali megrendelését biztosító helyi protokoll. [2026-07-21: applies_to felnott->mind — a CTAS COT-2008 külön \"Paeds: Bleeding disorder\" táblája (DIA 2079 kontextus) SZÓ SZERINT AZONOS az Adults táblával (ugyanazok a helyszínek, ugyanazok az MSTR 2/3 szintek) — az életet/végtagot veszélyeztető vérzés gyermeknél is MSTR 2, nem csak felnőttnél. Ádám átfogó logika-auditja találta: egy 8 éves gyermek életet/végtagot veszélyeztető vérzéssel korábban tévesen MSTR 5-öt kapott (a felnőtt-only korlátozás miatt), a helyes MSTR 2 helyett.]",
       "conflicts": [],
       "group": "bleeding"
     },
