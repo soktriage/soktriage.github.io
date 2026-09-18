@@ -2450,3 +2450,32 @@ opcióból 0 volt hibás). MÉG NYITOTT (nem betegbiztonsági, következő körr
 - 18. A „Lépés N" számozás nem követi a kihagyásokat (5-ről 7-re ugrik), és néhány kártyacím
   eltér a folyamatsáv lépésnevétől.
 - 19. Kereshetőség: néhány CEDIS-panasznévnél a forrás elütése megmaradt.
+
+
+#### 87. egység — A KORHATÁR-DÖNTÉS STÁTUSZA: ÉRTELMEZÉS, NEM SZÓ SZERINTI ELŐÍRÁS
+
+Egy adverzáriális cáfoló jogos ponton támadta a döntést: a jegyzet 191. oldalának mondata
+(„a gyermekgyógyászati irányelveket úgy fejlesztették, hogy 16 éves korig alkalmazhatók") az
+IRÁNYELVEKRŐL mint egészről szól, nem kifejezetten a pulzus- és légzésszám-táblázatról — sőt
+ugyanaz az oldal azt is írja, hogy a gyermekgyógyászati ELLÁTÁS a kórház szabályzata szerint
+kiterjedhet a 16-18 évesekre. A commit-üzenetem és a KB-jegyzetem ezt túl erősen fogalmazta
+(„a forrás ADOTT explicit korhatárt").
+
+A DÖNTÉS ÁLL, de a státusza pontosítva: ez a PROJEKT ÉRTELMEZÉSE, hogy a táblázat az irányelvek
+része, tehát rá is a 16 éves határ vonatkozik. Ezt most a felület IS kimondja (a 16-18 éves
+sávban megjelenő magyarázatban és a tábla saját megjegyzésében), nem hallgatja el.
+
+A döntés melletti érvek együtt: (1) a 191. oldal idézett mondata; (2) a tábla 18 éves sorát a
+hivatkozott Fleming-vizsgálat adathatára magyarázza („from birth to 18 years of age"); (3) a
+projekt saját szabálykészlete már 16-ot használ felnőtt-határként a láz-létránál és a SIRS-nél,
+tehát a 18-as sávhatár BELSŐ ELLENTMONDÁST okozott (egy 17 éves egyszerre volt felnőtt és
+gyermek); (4) a CTAS COT-2008 17 évnél húzza meg a határt, és EGYÁLTALÁN NEM tartalmaz számszerű
+gyermek HR/RR sávtáblát — a gyermek-módosítói minőségiek; (5) a gyakorlati következmény: a
+18-as határral a pulzusértékek 78%-ánál eltért a 17 és a 18 éves eredménye, és klinikailag
+tarthatatlan kimeneteket termelt (17 éves, tünetmentes torokfájós, izolált 118-as pulzussal →
+MSTR 1, reszuszitáció); (6) a tankönyv 96. oldala szerint a táblák „referencia irányszámok",
+amelyek használatának összhangban kell állnia a klinikai fogalmakkal.
+
+ELLENÉRV, amit vállalunk: a 191. oldal diája „a serdülőkor végéig" mondatot is tartalmazza. Ha a
+klinikai vezetés úgy dönt, hogy a sávtábla 18-ig mérvadó maradjon, a visszaállítás EGYETLEN
+adat átírása (kb_gyermek.json → vital_tables → mervadoMaxHonap), kód-módosítás nélkül.
