@@ -518,3 +518,26 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .adat-sor-db { font-variant-numeric: tabular-nums; font-weight: 600; }
 .adat-figyelem { margin-top: 10px; font-size: 12.5px; color: var(--l3t); }
 .adat-torol { margin-top: 12px; width: 100%; }
+
+/* Maradék re-triage lista kikapcsolt torlódási nézetnél. SZÁNDÉKOSAN más (borostyán)
+   színű, mint az aktív torlódási sáv (indigó): nem szabad azt a látszatot kelteni,
+   hogy az eljárásrend hatályban van — csak a betegek maradtak a listán. */
+.torlodas-sav.torl-maradek {
+  background: #FEF9E7;
+  color: var(--l3t);
+  border-bottom-color: var(--l3s);
+}
+.torlodas-sav.torl-maradek .torl-btn {
+  border-color: var(--l3s);
+  color: var(--l3t);
+}
+
+/* „Régóta bekapcsolva" emlékeztető a torlódási sávban. Kérdés, nem állítás: az app
+   nem kapcsolja ki magától az eljárásrendet, mert azt a műszakvezető orvos rendeli el. */
+.torl-emlekezteto {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 6px; padding: 3px 8px; font-size: 12px; line-height: 1.35;
+}
+.torl-emlekezteto .ico { width: 14px; height: 14px; flex: 0 0 auto; }

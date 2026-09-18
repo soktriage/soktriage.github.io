@@ -991,9 +991,28 @@
     var sav = $('torlodas-sav'); if (!sav) return;
     sav.innerHTML = '';
     var t = torlodas();
-    if (!t || !t.aktiv) { sav.hidden = true; return; }
-    sav.hidden = false;
     var lista = varolista();
+    if (!t || !t.aktiv) {
+      // Normál üzemben 0 pixel — KIVÉVE, ha maradtak betegek a re-triage listán. Korábban
+      // a nézet kikapcsolása után a lista teljesen elérhetetlen lett, miközben a betegek
+      // benne maradtak a tárolóban (lektori észrevétel).
+      if (!lista.length) { sav.hidden = true; return; }
+      sav.hidden = false;
+      sav.classList.add('torl-maradek');
+      var mcim = el('span', 'torl-cimke');
+      mcim.innerHTML = ikonSvg('warn') + '<span>A TORLÓDÁSI NÉZET KI VAN KAPCSOLVA</span>';
+      sav.appendChild(mcim);
+      var minfo = el('span', 'torl-info');
+      minfo.textContent = lista.length + ' beteg maradt a re-triage listán — nem tűntek el, de a nézet nem mutatja őket.';
+      sav.appendChild(minfo);
+      var mbtn = el('button', 'torl-btn'); mbtn.type = 'button';
+      mbtn.textContent = 'Lista megnyitása →';
+      mbtn.onclick = function () { if (S.step !== 'varolista') { S.varolistaElozoStep = S.step; S.step = 'varolista'; render(); } };
+      sav.appendChild(mbtn);
+      return;
+    }
+    sav.classList.remove('torl-maradek');
+    sav.hidden = false;
     var lejart = lista.filter(function (v) { var r = retriageAllapot(v); return r && r.lejart; }).length;
     var cimke = el('span', 'torl-cimke');
     cimke.innerHTML = ikonSvg('bolt') + '<span>TORLÓDÁSI ELJÁRÁSREND — NÉZET</span>';
@@ -1001,6 +1020,18 @@
     var info = el('span', 'torl-info');
     info.textContent = (t.elrendelo ? 'elrendelte: ' + t.elrendelo + ' · ' : '') + oraPerc(t.ido) + ' óta (' + idoSzoveg(percTol(t.ido)) + ')';
     sav.appendChild(info);
+    // HOSSZAN BEKAPCSOLVA — emlékeztető, NEM automatikus kikapcsolás. Az eljárásrend
+    // elrendelése ÉS megszüntetése a műszakvezető orvos hatásköre (4/2026. Ig. Utasítás),
+    // ezért az app nem kapcsolhatja ki magától, és nem is állíthatja, hogy már nem hatályos.
+    // Csak megkérdezi. A küszöb ugyanaz a MEGORZES_ORA (egy műszak + átadás), amit az
+    // adatmegőrzésnél is használunk — üzemeltetési érték, a forrás időközt nem ad meg.
+    if (percTol(t.ido) >= MEGORZES_ORA * 60) {
+      var emlek = el('span', 'torl-emlekezteto');
+      emlek.innerHTML = ikonSvg('warn') + '<span>Több mint ' + MEGORZES_ORA +
+        ' órája bekapcsolva — még érvényben van? A megszüntetést a műszakvezető orvos rendeli el, ' +
+        'és ugyanúgy dokumentálni kell, valamint az OMSZ mentésirányítását tájékoztatni.</span>';
+      sav.appendChild(emlek);
+    }
     var varoBtn = el('button', 'torl-btn'); varoBtn.type = 'button';
     varoBtn.textContent = lista.length + ' vár' + (lejart ? ' · ' + lejart + ' lejárt re-triage' : '') + ' →';
     if (lejart) varoBtn.classList.add('lejart');
@@ -2528,6 +2559,20 @@
         (be ? '' : ' ' + ((T.hatalybaLepes || {}).megszunes || ''));
       panel.appendChild(teendo);
 
+      // Kikapcsoláskor MEG KELL MONDANI, ha maradtak betegek a re-triage listán —
+      // korábban a párbeszéd nem említette őket, és a lista utána elérhetetlen lett.
+      if (!be) {
+        var maradok = varolista();
+        if (maradok.length) {
+          var m = el('div', 'warn');
+          m.style.cssText = 'background:#FEF9E7;border-color:var(--l3s);color:var(--l3t)';
+          m.innerHTML = ikonSvg('warn') + ' <b>' + maradok.length + ' beteg van még a re-triage listán.</b> ' +
+            'Ők a kikapcsolás után is megmaradnak, és a felület tetején továbbra is elérhetők lesznek — ' +
+            'de a re-triage emlékeztetőt innentől nem a torlódási nézet tartja szem előtt.';
+          panel.appendChild(m);
+        }
+      }
+
       var sor = el('div', 'nav-row'); sor.style.marginTop = '12px';
       var megse = el('button', 'btn btn-ghost', 'Mégse'); megse.type = 'button'; megse.onclick = bezar;
       sor.appendChild(megse); sor.appendChild(el('span', 'spacer'));
@@ -2593,7 +2638,11 @@
       }
       // Kategória szerint CSOPORTOSÍTVA — de sem számozás, sem „következő beteg" kijelölés:
       // a sorrendet az utasítás a nővérre és a kollégákkal való egyeztetésre bízza.
-      var szintek = [1, 2, 3, 4, 5, 9];
+      // A 9 = „nincs automatikus szint". SZÁNDÉKOSAN a kritikus (1-2) csoportok UTÁN, de a
+      // rutin (3-5) csoportok ELÉ kerül: az ismeretlen sürgősség nem azonos az alacsonnyal,
+      // egy befejezetlen besorolású beteget nem szabad rutinként a lista aljára tenni.
+      // (Korábban legutolsó volt, az MSTR 5 után is — lektori észrevétel.)
+      var szintek = [1, 2, 9, 3, 4, 5];
       szintek.forEach(function (sz) {
         var cs = lista.filter(function (v) { return varolistaSzint(v) === sz; });
         if (!cs.length) return;
@@ -2602,7 +2651,9 @@
         var bd = el('span', 'varo-badge'); bd.textContent = sz === 9 ? '?' : sz;
         if (sz !== 9) bd.style.background = szinSzint(sz);
         fej.appendChild(bd);
-        fej.appendChild(el('span', null, sz === 9 ? 'Nincs automatikus szint (kézi döntés)' : 'MSTR ' + sz + ' — ' + cs.length + ' beteg'));
+        fej.appendChild(el('span', null, sz === 9
+          ? 'Nincs triázs-szint — befejezetlen besorolás (' + cs.length + ' beteg)'
+          : 'MSTR ' + sz + ' — ' + cs.length + ' beteg'));
         c.appendChild(fej);
         cs.forEach(function (v) {
           var sor = el('div', 'varo-sor');
@@ -2623,6 +2674,13 @@
           } else if (v.szint === 1) {
             var r1 = el('div', 'varo-retri lejart'); r1.textContent = 'MSTR 1 — folyamatos ellátás, nem várakoztatható';
             bal.appendChild(r1);
+          } else if (v.szint == null) {
+            // Nincs szint → nincs forrásból számolható re-triage időköz. Ezt kimondjuk,
+            // nem hallgatjuk el, és nem is találunk ki helyette időközt.
+            var rn = el('div', 'varo-retri lejart');
+            rn.textContent = 'NINCS TRIÁZS-SZINT — ' + idoSzoveg(percTol(v.erkezes)) + ' vár. ' +
+              'Re-triage időköz csak szinttel számolható: kérjük fejezze be a besorolást.';
+            bal.appendChild(rn);
           }
           sor.appendChild(bal);
           var jobb = el('div', 'varo-akciok');
