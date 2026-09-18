@@ -14977,14 +14977,10 @@
     },
     {
       "id": "esc_sbp_felnott_sulyos",
-      "name": "Szisztolés vérnyomás ≤70 Hgmm (felnőtt) → önmagában legalább MSTR 2",
+      "name": "Szisztolés vérnyomás ≤70 Hgmm  → önmagában legalább MSTR 2 — minden életkorban",
       "applies_to": "mind",
       "condition_text": "Szisztolés vérnyomás ≤70 Hgmm önmagában, más paraméterektől függetlenül legalább MSTR 2-t (sokk-gyanú) indokol.",
       "condition": [
-        {
-          "mezo": "eletkorEv",
-          "min": 16
-        },
         {
           "mezo": "sys",
           "max": 70
@@ -15003,22 +14999,30 @@
         {
           "doc": "jegyzet",
           "page": 191
+        },
+        {
+          "doc": "tankonyv",
+          "page": 65
+        },
+        {
+          "doc": "tankonyv",
+          "page": 66
+        },
+        {
+          "doc": "tankonyv",
+          "page": 96
         }
       ],
-      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a ápoló explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
+      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a ápoló explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott. HATÓKÖR-BŐVÍTÉS MINDEN KORRA (2026-09-18, adverzáriális lektor). Korábban ez a padló felnőttre korlátozódott, mert a forrás gyermekre nem ad számszerű vérnyomás-küszöböt. A következmény viszont nem semleges volt, hanem MEGNYUGTATÓ: a 8 éves, tompa hasi sérüléssel és 60 Hgmm-rel érkező gyermek MSTR 4-et („kevésbé sürgős”) kapott, a hasmenéses 55 Hgmm-es pedig MSTR 5-öt. A forrás azt mondja ki, hogy gyermeknél a vérnyomás KÉSŐI jel — vagyis a NORMÁLIS érték ne nyugtasson meg; ebből nem következik, hogy az ALACSONY értéket figyelmen kívül kell hagyni. Ellenkezőleg: a forrás a hipotenziót a „Sokk → MSTR 1” jelei közt sorolja fel, és kimondja, hogy a bradycardia és a hipotenzió már a fenyegető keringésmegállást jelzi (tankönyv 65-66. o.), valamint hogy bizonytalanság esetén FELFELÉ kell triázsolni (tankönyv 96. o.). A küszöbérték maga továbbra is a felnőtt MEWS-táblából származik (tankönyv 86. o.) — ezt a felület KIMONDJA, nem hallgatja el. Csecsemőnél ez FÖLÉ-triázsolhat (az újszülött élettani szisztolés értéke 60-70 Hgmm körül van); ez tudatosan vállalt, a forrás által előírt irány.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_sbp_felnott_kozepes",
-      "name": "Szisztolés vérnyomás 71-80 Hgmm (felnőtt) → önmagában legalább MSTR 3",
+      "name": "Szisztolés vérnyomás 71-80 Hgmm  → önmagában legalább MSTR 3 — minden életkorban",
       "applies_to": "mind",
       "condition_text": "Szisztolés vérnyomás 71-80 Hgmm önmagában legalább MSTR 3-at (potenciálisan instabil) indokol.",
       "condition": [
-        {
-          "mezo": "eletkorEv",
-          "min": 16
-        },
         {
           "mezo": "sys",
           "min": 71,
@@ -15038,9 +15042,21 @@
         {
           "doc": "jegyzet",
           "page": 191
+        },
+        {
+          "doc": "tankonyv",
+          "page": 65
+        },
+        {
+          "doc": "tankonyv",
+          "page": 66
+        },
+        {
+          "doc": "tankonyv",
+          "page": 96
         }
       ],
-      "notes": "MEWS 2-pontos SBP-sáv. Ez a szabály pontosan lefedi Ádám másik konkrét példáját (sys=80 önmagában) — előtte MSTR5-ön maradt, most MSTR3 a padló. Ld. esc_sbp_felnott_sulyos jegyzete. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
+      "notes": "MEWS 2-pontos SBP-sáv. Ez a szabály pontosan lefedi Ádám másik konkrét példáját (sys=80 önmagában) — előtte MSTR5-ön maradt, most MSTR3 a padló. Ld. esc_sbp_felnott_sulyos jegyzete. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott. HATÓKÖR-BŐVÍTÉS MINDEN KORRA (2026-09-18, adverzáriális lektor). Korábban ez a padló felnőttre korlátozódott, mert a forrás gyermekre nem ad számszerű vérnyomás-küszöböt. A következmény viszont nem semleges volt, hanem MEGNYUGTATÓ: a 8 éves, tompa hasi sérüléssel és 60 Hgmm-rel érkező gyermek MSTR 4-et („kevésbé sürgős”) kapott, a hasmenéses 55 Hgmm-es pedig MSTR 5-öt. A forrás azt mondja ki, hogy gyermeknél a vérnyomás KÉSŐI jel — vagyis a NORMÁLIS érték ne nyugtasson meg; ebből nem következik, hogy az ALACSONY értéket figyelmen kívül kell hagyni. Ellenkezőleg: a forrás a hipotenziót a „Sokk → MSTR 1” jelei közt sorolja fel, és kimondja, hogy a bradycardia és a hipotenzió már a fenyegető keringésmegállást jelzi (tankönyv 65-66. o.), valamint hogy bizonytalanság esetén FELFELÉ kell triázsolni (tankönyv 96. o.). A küszöbérték maga továbbra is a felnőtt MEWS-táblából származik (tankönyv 86. o.) — ezt a felület KIMONDJA, nem hallgatja el. Csecsemőnél ez FÖLÉ-triázsolhat (az újszülött élettani szisztolés értéke 60-70 Hgmm körül van); ez tudatosan vállalt, a forrás által előírt irány.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -22200,7 +22216,7 @@
           "vanErtek": true
         }
       ],
-      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. TEENDŐ: a besorolást ne a mért értékre alapozza, hanem töltse ki a „Hemodinamikai státusz (C)” kérdést — az minden korban ad szintet (sokk → MSTR 1, instabilitás → MSTR 2). Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa, a mért vérnyomástól függetlenül. A forrás a hipotenziót a „Sokk → MSTR 1” jelei közt sorolja fel, és kimondja: a tachycardia a korai válasz, a bradycardia és a hipotenzió KÉSŐBB alakul ki, és már a fenyegető keringésmegállást jelzi (tankönyv 65-66. o.). Számszerű gyermek-vérnyomás küszöböt egyik forrásunk sem ad — a tankönyv 98. oldalán szereplő grafikon gyermekkori HIPERTÓNIA-görbe (90./95. percentilis, 80-145 Hgmm), alsó határt nem tartalmaz; a CTAS is csak felnőtt sávokat közöl.",
+      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik; a tachycardia a korai válasz, a bradycardia és a hipotenzió KÉSŐBB alakul ki, és már a fenyegető keringésmegállást jelzi (tankönyv 65-66., 83. o.). TEHÁT: a NORMÁLIS vérnyomás önmagában semmit nem zár ki — a besorolást a keringés klinikai képe adja, ezért töltse ki a „Hemodinamikai státusz (C)” kérdést (sokk → MSTR 1, instabilitás → MSTR 2, minden korban). Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja merül fel, a gyermeket NE várakoztassa, a mért vérnyomástól függetlenül. AZ ALACSONY vérnyomás viszont ad padlót (≤70 Hgmm → legalább MSTR 2, 71-80 Hgmm → legalább MSTR 3): FIGYELEM, ez a küszöb a FELNŐTT referenciatáblából származik (tankönyv 86. o.), mert a forrás gyermekre számszerű vérnyomás-küszöböt sehol nem ad meg — a 98. oldal grafikonja gyermekkori HIPERTÓNIA-görbe, alsó határt nem tartalmaz. Csecsemőnél ez fölé-triázsolhat; ez tudatosan vállalt, a forrás „bizonytalanság esetén triázsoljon felfelé” elve szerint.",
       "source": [
         {
           "doc": "tankonyv",
@@ -22213,6 +22229,14 @@
         {
           "doc": "tankonyv",
           "page": 66
+        },
+        {
+          "doc": "tankonyv",
+          "page": 86
+        },
+        {
+          "doc": "tankonyv",
+          "page": 96
         },
         {
           "doc": "tankonyv",

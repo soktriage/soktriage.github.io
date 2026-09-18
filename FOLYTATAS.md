@@ -2384,3 +2384,42 @@ REGRESSZIÓ: 72/75 → 74/75. EZ NE LEGYEN FÉLREÉRTHETŐ:
   az `atirat_megjegyzes` mezőben, hogy ez a mi átiratunk hiánya volt, nem a forrásé, nem a motoré.
 - eset_47 az egyetlen megmaradó valódi eltérés (6 é, RR 24/HR 110, jó küllem: sáv 3, forrás 4) —
   tudatosan a biztonságos irány, a forrás külön óv a gyermekkori kompenzált sokktól.
+
+
+#### 87. egység — AMIT AZ ADVERZÁRIÁLIS CÁFOLÓK AZ ÉN MUNKÁMBAN TALÁLTAK (mind javítva)
+
+A cáfoló ügynökök nemcsak a vizsgálók javaslatait nézték át, hanem a közben ÉLESBE KERÜLT saját
+kódomat is. Négy valódi hibát találtak, kettő már kitelepítve volt.
+
+1. A MEGŐRZÉSI ÓRA AZ ÉRKEZÉSHEZ KÖTŐDÖTT, NEM AZ UTOLSÓ ÉRINTÉSHEZ. Egy 13 órája bent lévő, de
+   5 PERCE re-triázsolt (tehát nagyon is élő) beteg lejártnak minősült és eltűnt a várólistáról.
+   A rekordTs() most a jelöltek MAXIMUMÁT veszi (utolso / mentveTs / ts / erkezes / felvettTs /
+   az azonosítóba ágyazott idő). Böngészőben igazolva.
+2. HAMIS FORRÁSÉRVELÉS A SAJÁT KOMMENTEMBEN. A 2 órás néma-visszatöltési határhoz azt írtam, hogy
+   „a rendszerben a leghosszabb klinikai időköz 120 perc (MSTR 5)". Ez tényszerűen hamis: él 12
+   órás (masodlagos_78) és 2 órás (masodlagos_76) klinikai időablak is. Pontosan az a tiltott
+   minta, amit a projekt vasszabálya kizár: valós oldalszámmal legitimált, de nem alátámasztott
+   általánosítás. A komment most kimondja, hogy a 2 óra TISZTÁN üzemeltetési döntés.
+3. KITALÁLT ÉRTÉK AZ ÉLŐ SZÖVEGBEN. A gyermek-vérnyomás intelembe azt írtam, hogy a tankönyv 98.
+   oldalának grafikonja „90./95. percentilis". A forrás ezt nem mondja — a hivatkozás „50th
+   percentile HEIGHT for age", azaz TESTMAGASSÁG-percentilis. Eltávolítva; a szöveg most csak azt
+   állítja, ami a kinyerésben igazolható (y-tengely 80-145 Hgmm, két emelkedő görbe).
+4. A LELET-REDAKCIÓM ÚJ HIBÁT VITT BE. Az azonosító sorok értékét „[tárolásból kihagyva]"
+   helyőrzőre cseréltem — amit a lelet-értelmező visszaolvasva BETEGNÉVKÉNT vett át. Most az
+   egész sor kimarad, és egy darabszámot közlő sor kerül a helyére.
+
+ÉS EGY ÉRDEMI KLINIKAI KORREKCIÓ, amit egy cáfoló érvelése kényszerített ki:
+5. AZ ALACSONY VÉRNYOMÁS PADLÓJA MOSTANTÓL MINDEN KORRA ÉRVÉNYES. Korábban úgy döntöttem, hogy
+   gyermekre nem teszünk vérnyomás-padlót, mert a forrás nem ad számot — és ez önmagában igaz is.
+   A cáfoló viszont kimutatta, hogy a következmény NEM semleges, hanem MEGNYUGTATÓ: a 8 éves,
+   tompa hasi sérüléssel és 60 Hgmm-rel érkező gyermek MSTR 4-et („kevésbé sürgős") kapott, a
+   hasmenéses 55 Hgmm-es pedig MSTR 5-öt. És rámutatott az érvelési hibámra: a forrás azt mondja,
+   hogy gyermeknél a vérnyomás KÉSŐI jel — vagyis a NORMÁLIS érték ne nyugtasson meg. Ebből nem
+   következik, hogy az ALACSONY értéket figyelmen kívül kell hagyni; ellenkezőleg, a forrás a
+   hipotenziót a „Sokk → MSTR 1" jelei közt sorolja fel (tankönyv 65-66. o.).
+   A megoldás NEM új szám kitalálása, hanem egy FORRÁS NÉLKÜLI megszorítás (applies_to:"felnott")
+   visszavonása: ≤70 Hgmm → legalább MSTR 2, 71-80 Hgmm → legalább MSTR 3, minden életkorban.
+   A küszöb továbbra is a felnőtt MEWS-táblából származik — ezt a felület KIMONDJA. Csecsemőnél
+   ez fölé-triázsol (az újszülött élettani szisztolés értéke 60-70 körül van); ez tudatosan
+   vállalt, a forrás „bizonytalanság esetén triázsoljon felfelé" elve szerint, és a szabály
+   jegyzetében is rögzítve van.

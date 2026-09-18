@@ -357,10 +357,18 @@
   // marad, amíg a felvétel tart — csak a lemezre írt másolat redaktált.
   function leletRedakt(t) {
     if (!t) return '';
-    return String(t).split('\n').map(function (sor) {
-      return /^\s*(TAJ|Beteg\s*neve|Sz[uü]let[eé]si|Anyja\s*neve|Lakc[ií]m)\b/i.test(sor)
-        ? sor.replace(/:.*$/, ': [tárolásból kihagyva]') : sor;
-    }).join('\n');
+    var sorok = String(t).split('\n');
+    var kihagyott = 0;
+    var maradt = sorok.filter(function (sor) {
+      var azonosito = /^\s*(TAJ|Beteg\s*neve|Sz[uü]let[eé]si|Anyja\s*neve|Lakc[ií]m)\b/i.test(sor);
+      if (azonosito) kihagyott++;
+      return !azonosito;
+    });
+    // Az azonosító sorokat EGÉSZBEN elhagyjuk. (Korábban csak az értéket cseréltük
+    // helyőrzőre — abból viszont a lelet-értelmező a helyőrzőt olvasta ki BETEGNÉVKÉNT,
+    // ha valaki a visszatöltött szöveget újra átvette.)
+    if (kihagyott) maradt.push('[' + kihagyott + ' azonosító sor a tárolásból kihagyva]');
+    return maradt.join('\n');
   }
   function sMentheto() {
     // A tetra és a betegut is IDE tartozik: a TETRA-lapot élő rádiós riasztás közben töltik,
@@ -425,9 +433,11 @@
   // Néma visszatöltés csak eddig: ennél régebbi felvételnél a felület MEGKÉRDEZI, hogy
   // folytatja-e. Ok: egy órákkal korábbi beteg neve és vitálértékei egyébként úgy
   // jelennének meg, mintha épp most vették volna fel őket — ez rosszabb, mint az
-  // adatvesztés. A 2 óra ÜZEMELTETÉSI döntés (a forrás megőrzési időt nem ad meg);
-  // egyetlen klinikai horgonya, hogy a leghosszabb újraértékelési időköz a rendszerben
-  // 120 perc (MSTR 5, tankönyv 22. o.) — ennél régebbi felvétel már biztosan nem "élő".
+  // adatvesztés. A 2 óra TISZTÁN ÜZEMELTETÉSI döntés: a forrás megőrzési időt sehol
+  // nem ad meg, és ezt a számot SEMMILYEN forráshely nem támasztja alá. (Korábban itt
+  // egy forrásra hivatkozó indoklás állt — az MSTR 5 120 perces újraértékelési időköze —,
+  // de az állítás, hogy ez a rendszer leghosszabb klinikai időköze, tényszerűen hamis:
+  // él 12 órás és 2 órás klinikai időablak is a másodlagos módosítók között.)
   var NEMA_VISSZATOLTES_ORA = 2;
   var MEGORZES_MS = MEGORZES_ORA * 60 * 60 * 1000;
   var STORE_TISZTITVA = 'mstr_utolso_tisztitas_v1';
@@ -443,11 +453,16 @@
   // várólistás beteget azonnal törölt, köztük esetleg MSTR 1-2 szintűeket is.
   function rekordTs(x) {
     if (!x) return null;
-    return x.mentveTs != null ? x.mentveTs
-         : x.erkezes != null ? x.erkezes
-         : x.felvettTs != null ? x.felvettTs
-         : x.ts != null ? x.ts
-         : tsAzonositobol(x.id);
+    // A LEGFRISSEBB időbélyeg számít, nem az első megtalált. A várólistán az `erkezes`
+    // az érkezés, az `utolso` viszont az utolsó újraértékelés ideje — ha az érkezésből
+    // számolnánk, egy 13 órája bent lévő, de 5 perce re-triázsolt (tehát nagyon is élő)
+    // beteg lejártnak minősülne és eltűnne a listáról.
+    // A mezőnév-lánc SZÁNDÉKOS visszafelé-kompatibilitás a korábbi buildek rekordjaihoz —
+    // ne legyen „kitisztítva". A tsAzonositobol() az ujId()-be ágyazott Date.now()-ot olvassa.
+    var jeloltek = [x.utolso, x.mentveTs, x.ts, x.erkezes, x.felvettTs, tsAzonositobol(x.id)];
+    var max = 0;
+    for (var i = 0; i < jeloltek.length; i++) { var v = +jeloltek[i]; if (v > max) max = v; }
+    return max || null;
   }
   function idobelyeggel(o) { o = o || {}; o.mentveTs = most(); return o; }
   function lejart(ts) { return ts == null || (most() - ts) > MEGORZES_MS; }
