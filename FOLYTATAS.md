@@ -2309,3 +2309,78 @@ FEJLESZTŐI TEENDŐK (forrásdöntést nem igényelnek)
 20. A munka/ könyvtár (szerkeszthető tudásbázis + build-szkriptek) nincs verziókövetés alatt.
     Ez SZÁNDÉKOS (a repó publikus, a forrás-PDF-ek nem kerülhetnek bele), de a DEPLOY.md
     karbantartási fejezete ezt nem mondja ki elég világosan.
+
+
+### 2026-09-18 (87. munkaegység): ÁDÁM RÁM BÍZTA A NYITOTT DÖNTÉSEKET — build ?v=119
+
+Ádám: „rád bizom … csináld ahogy jó csak legyen transzpaens" (a belépő figyelmeztetés kérdését
+kivette: „ezzel ne foglalkozz jo igy"). Négy irányban független ügynökök vizsgálták a forrásokat,
+minden javaslatot adverzáriális cáfolat követett. Minden döntés forráshivatkozással, és mindegyik
+LÁTSZIK a felületen.
+
+1) GYERMEK VITÁL-SÁVOK KORHATÁRA: 18 → 16 ÉV
+A korábbi feltételezésem TÉVES volt. A forrás explicit korhatárt ad: „A gyermekgyógyászati
+irányelveket úgy fejlesztették, hogy 16 éves korig alkalmazhatók." (jegyzet 191. o.) A táblázat
+18 éves sora a hivatkozott Fleming-vizsgálat ADATHATÁRA („from birth to 18 years"), nem
+alkalmazási határ. Mért hatás a változás előtt: a pulzusértékek 76%-ánál (84/111) és a
+légzésszámok 88%-ánál (29/33) MÁS szintet adott a 17 és a 18 éves beteg. 17 évesen HR 120 →
+MSTR 1 (reszuszitáció), 18 évesen MSTR 4; fordítva 17 évesen sys 60 → MSTR 5, 18 évesen MSTR 2.
+Változás után: 0/111 és 0/33 eltérés. A gyermek-táblázat eredménye NEM vész el — figyelmeztetésként
+megjelenik, és a felület kiírja, miért felnőtt normák szerint soroltunk. A gyermekHatarEv marad 18,
+tehát a MINŐSÉGI gyermek-szabályok (PAT, gyermek-GCS, kompenzált sokk, stridor) tovább védik a
+16-17 éveseket. Az adverzáriális lektor kiegészítése nyomán a MEWS-összeg is 16 évtől él — enélkül
+a javítás alultriázsolt volna (17 é, sys 75 + HR 130: MSTR 3 a 18 éves MSTR 2-je helyett).
+
+2) GYERMEK VÉRNYOMÁS: MARAD A FORRÁS-INTELEM, MEGERŐSÍTVE
+Két független ügynök is teljes átnézéssel igazolta, hogy SEMMILYEN forrásunk nem ad gyermek-
+vérnyomás küszöböt: sem a tankönyv (31+28 vérnyomás-említés átnézve), sem a jegyzet, sem a CTAS
+COT-2008 (239. dia: gyermeknél a vérnyomás késői jelző, utána csak felnőtt sávok), sem az MSTR-
+poszter („Vérnyomás — Felnőttek esetében"). A tankönyv 98. oldalán lévő grafikon HIPERTÓNIA-görbe
+(90./95. percentilis, 80-145 Hgmm), alsó határt nem tartalmaz. Küszöböt tehát NEM találtunk ki.
+A meglévő intelem forráshivatkozása viszont TÉVES volt (79. o. helyett 83. o.) — javítva —, és a
+szöveg kiegészült a forrás két további megállapításával (a hipotenzió a „Sokk → MSTR 1" jelei közt
+szerepel; a tachycardia a korai válasz, a bradycardia és a hipotenzió később alakul ki, már a
+fenyegető keringésmegállást jelezve, tankönyv 65-66. o.), valamint konkrét teendővel: töltse ki a
+Hemodinamikai státusz kérdést, ami minden korban ad szintet.
+
+3) BETEGADAT MEGŐRZÉSE A KÉSZÜLÉKEN
+12 órás automatikus lejárat (egy műszak + átadás), időbélyeggel minden betegadat-rekordon. A
+törlés SOSEM néma: elbocsátható sáv nevezi meg, mi és mennyi törlődött. Az Előzmények panel
+alján adatleltár + „Minden betegadat törlése most". 2 óra felett a félbehagyott felvétel NEM
+töltődik vissza némán: a felület megkérdezi, folytatja-e vagy félreteszi (a félretett a parkolt
+betegek közé kerül, nem vész el). A nyers MedSol-leletből a TAJ, a név és a születési dátum
+kimarad a TÁROLÁSBÓL (a képernyőn a felvétel végéig megmarad). Az ápolónév a saját időbélyege
+szerint jár le. A 12 és a 2 óra ÜZEMELTETÉSI döntés — a forrás megőrzési időt nem ad meg; ez a
+kódban ki van mondva.
+
+FONTOS ÖNKORREKCIÓ: a 12 órás lejárat első verziója BLOKKOLÓ hibát tartalmazott, amit egy
+független lektor élesben reprodukált — a torlódási várólista MINDEN bejegyzését azonnal törölte,
+mert a takarító `mentveTs`-t keresett, a lista viszont `erkezes` néven tárolja az időbélyeget.
+Ezen a listán MSTR 1-2 beteg is szerepelhet. Javítva egyetlen rekordTs() függvénnyel, ami a kort
+bármelyik mezőnévből kiolvassa, végső esetben az azonosítóba ágyazott Date.now()-ból — így a
+KORÁBBI buildben írt, időbélyeg nélküli rekordok sem vesznek el a frissítéskor.
+
+4) A NYITOTT HIBALISTA
+- Feltétel nélküli, sosem tüzelő szabály: 7 → 0. Egyből VALÓDI hézag lett: a 75 év feletti lázas
+  beteg → MSTR 2 (jegyzet 86. o. az immunszuppresszív állapotok közt SZÓ SZERINT felsorolja a
+  „75 év feletti életkor" tételt; a munkanapló korábban tévesen az ellenkezőjét rögzítette).
+  Hat redundánsnak bizonyult, leváltottként dokumentálva. Menet közben három SAJÁT, fölöslegesnek
+  bizonyult szabályomat visszavettem, mert mérés után kiderült, hogy meglévők már lefedik.
+- Penetráló trauma: a hézag a SÚGÓBAN volt, nem a szabályban. Egy nyaki szúrt seb MSTR 5-öt kapott
+  volna, mert a „magas rizikójú mechanizmus" mező súgója csak km/h- és esésmagasság-küszöböket
+  említett. A súgó most a forrás teljes kritériumlistáját tartalmazza, a penetráló tétellel.
+- Immunszupprimált kérdés hatóköre: eddig CSAK a „Láz" panasznál jelent meg.
+- TEK: az AMI-időablak 54 sorból csak 5-nél futott le (most adatvezérelt illesztés); a KB.tek.korlat
+  védőmondat sosem jelent meg; a „Nincs találat" doboz valótlant állított Pest vármegyei
+  irányítószámnál.
+- Duplikált bőrelfeketedés-kérdés összevonva; „Új beteg" már nem dobja el a TETRA-lapot;
+  vágólap-összegzés kiírja a vérnyomást akkor is, ha csak szisztolés van; pilot-kapu fail-closed.
+
+REGRESSZIÓ: 72/75 → 74/75. EZ NE LEGYEN FÉLREÉRTHETŐ:
+- eset_54: VALÓDI motor-javulás (a korhatár-változás javította).
+- eset_57 és eset_64: NEM motor-javulás. Mindkettő GÉPI ÁTIRATÁBÓL hiányzott az a módosító,
+  amelyet az eset SAJÁT indoklása nevesít. Az eset_57 eddig VÉLETLENÜL ment át, rossz indokból
+  (a 17 évesre alkalmazott gyermek-sávtól). Az átiratot pótoltam, és mindkét esetnél rögzítettem
+  az `atirat_megjegyzes` mezőben, hogy ez a mi átiratunk hiánya volt, nem a forrásé, nem a motoré.
+- eset_47 az egyetlen megmaradó valódi eltérés (6 é, RR 24/HR 110, jó küllem: sáv 3, forrás 4) —
+  tudatosan a biztonságos irány, a forrás külön óv a gyermekkori kompenzált sokktól.
