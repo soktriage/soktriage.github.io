@@ -23443,7 +23443,7 @@
       "szoveg": "Életveszélyes vagy kritikus állapotú beteg (MSTR I–II): kapacitástól függetlenül azonnal be kell vinni az ellátótérbe, a tartalék ágyra át kell helyezni. Az ellátást akár a mentőhordágyon meg kell kezdeni.",
       "kiemelt": "Ezt a beteget NEM sorolhatja várólistára — a torlódás nem ok a késleltetésre."
     },
-    "utakBevezeto": "Minden más (MSTR 3–5) beteg a következő három út egyikére kerül.",
+    "utakBevezeto": "Minden más beteg a következő három út egyikére kerül.",
     "utak": [
       {
         "id": "ut_nem_igenyel_agyat",
@@ -23451,7 +23451,7 @@
         "cim": "Ágyat nem igénylő beteg",
         "szoveg": "A triage ápoló a járóbeteg-ellenőrzőlista alapján dönt a járóbeteg részlegre irányításról. Ha nem irányítható a járóbeteg részlegre, de ágyat sem igényel, a fekvőbeteg-részen ülő helyet kap egy kezelőszékben.",
         "dontesHozo": "triage ápoló",
-        "eszkoz": "A járóbeteg-ellenőrzőlista = a Betegút képernyő 7 pontos járó-checklistje.",
+        "eszkoz": "Az utasítás „járóbeteg-ellenőrzőlista” néven hivatkozik rá. Az alkalmazásban ennek a Betegút képernyő 7 pontos járó-checklistje felel meg (SE SOK betegfelvételi szabályok) — ez a mi megfeleltetésünk, az utasítás nem nevezi meg a lista forrását.",
         "kimenetek": [
           {
             "ha": "a járó-checklist minden pontja teljesül",
@@ -23511,7 +23511,9 @@
         "Triage és re-triage dokumentáció minden betegnél szükséges.",
         "Fast-track ellátás esetén ambuláns lap készítendő, amely minimálisan a státuszt és az epikrízist tartalmazza."
       ]
-    }
+    },
+    "forrasFajl": "munka/forras_kulso/torlodasi_eljarasrend_4_2026.txt (a PDF gépi szövegkivonata)",
+    "forrasEllenorzes": "2026-09-18: az elsődleges forrásdokumentum (PDF) bekerült a projektbe, és a modul minden állítása tételesen vissza lett ellenőrizve rá. A forrás 22 érdemi mondatából mind a 22 megjelenik a tudásbázisban; két saját pontatlanság javítva (a „minden más beteg\" kör szűkítése MSTR 3-5-re, és a járóbeteg-ellenőrzőlista azonosításának egyenlőségjele)."
   }
 };
   if (typeof module !== 'undefined' && module.exports) module.exports = KB;

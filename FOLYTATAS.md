@@ -2622,3 +2622,46 @@ ellenőrző a mentőágy/mentőhordágy megkülönböztetést csak a KB-n keresz
 elsődleges forráson nem.
 
 VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden tétel böngészőben ellenőrizve. Build ?v=131.
+
+
+### 2026-09-18 (89. munkaegység): MEGÉRKEZETT A 4/2026. UTASÍTÁS ELSŐDLEGES FORRÁSA — build ?v=132
+
+Ádám beküldte a hiányzó dokumentumot (4_2026. számú Igazgatói Utasítás_Torlódási eljárásrend.pdf,
+2 oldal, Dr. Fenyves Bánk Gábor, 2026.09.15.). Ez volt a 87-88. egység egyik nyitott tétele: a
+teljes torlódási modul addig egyetlen kézzel írt KB-fájlban élt, elsődleges forrás nélkül, ezért
+a lektorok az állításait csak a KB-n keresztül tudták igazolni.
+
+BETÉVE: munka/forras_kulso/torlodasi_eljarasrend_4_2026.txt (a PDF gépi szövegkivonata, oldal-
+jelölőkkel). A kb_torlodas.json kapott egy forrasFajl és egy forrasEllenorzes mezőt.
+
+KÉTIRÁNYÚ ELLENŐRZÉS
+- FORRÁS → KB: a dokumentum 22 érdemi mondatából MIND A 22 megjelenik a tudásbázisban.
+- KB → FORRÁS: a KB szöveges állításait szó szerint visszamértem. A szó szerinti idézetek
+  egyeznek; a nem egyező tételek a mi saját szerkesztői szövegeink (címek, kiemelések,
+  kereszthivatkozások) — ezeket egyesével átnéztem.
+
+KÉT SAJÁT PONTATLANSÁG JAVÍTVA
+1. „Minden más (MSTR 3–5) beteg a következő három út egyikére kerül." — a forrás „Minden más
+   beteg"-et ír. A mi „(MSTR 3–5)" kiegészítésünk SZŰKÍTETT: kihagyta a szint nélküli
+   (befejezetlen besorolású) beteget, aki szintén ide tartozik. Visszaállítva a forrás körére.
+2. „A járóbeteg-ellenőrzőlista = a Betegút képernyő 7 pontos járó-checklistje." Az egyenlőségjel
+   azt állította, hogy a kettő azonos — ez a MI megfeleltetésünk, nem az utasítás kijelentése.
+   A szöveg most kimondja, hogy az utasítás nem nevezi meg a lista forrását.
+
+KÉT FORRÁSMONDAT, AMI BENT VOLT A KB-BEN, DE SEHOL NEM JELENT MEG
+- Az utasítás NYITÓ ALAPELVE: „Amíg a klinikán rendelkezésre áll szabad ágy, a mentőszolgálat
+  által beszállított betegeket át kell venni." Ez a legfontosabb mondat az ápolónak — most
+  „Alapelv — mikor NEM kell az eljárásrend" címmel a Tudástárban, kereshetően.
+- A triázs helyszíne torlódás idején (mentőágy, az eMedSol-felvétellel párhuzamosan).
+
+MEGERŐSÍTETT KORÁBBI DÖNTÉSEK (most már elsődleges forráson)
+- A mentőágy és a mentőhordágy TÉNYLEG két különböző dolog: „A triage ápoló a mentőágyon
+  triázsol, majd a beteg a mentőhordágyon várakozik szabad ágyra." A 88. egységben helyesen
+  NEM egyesítettem őket a lektori javaslat ellenére.
+- A 12 órás emlékeztető szövege is igazolt: „Az eljárásrend megszűnésekor ugyanígy kell eljárni"
+  — tehát a megszüntetést is a műszakvezető orvos rendeli el, és a flow manager dokumentálja
+  és értesíti az OMSZ mentésirányítását.
+- A várólista sorrendje: „a triage ápoló a betegek állapota és triage-kategóriája alapján
+  határozza meg, nem az érkezési idő szerint" — pontosan ezt írja ki a képernyő.
+
+VERIFIKÁCIÓ: jsc 74/75 (változatlan), a Tudástár-keresés böngészőben ellenőrizve.

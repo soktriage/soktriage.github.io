@@ -2896,6 +2896,11 @@
     });
     var TO = K.torlodas || {};
     if (TO.utak) {
+      // Az utasítás NYITÓ ALAPELVE és a triázs helyszíne eddig bent volt a tudásbázisban,
+      // de sehol nem jelent meg a felületen. Az alapelv a legfontosabb mondat az ápolónak:
+      // amíg van szabad ágy, a beszállított beteget át KELL venni.
+      if (TO.alapelv) t.push({ szekcio: 'torlodas', cim: 'Alapelv — mikor NEM kell az eljárásrend', szoveg: TO.alapelv, forrasSzoveg: TO.forras });
+      if (TO.triazsHely) t.push({ szekcio: 'torlodas', cim: 'Hol történik a triázs torlódás idején', szoveg: TO.triazsHely, forrasSzoveg: TO.forras });
       t.push({ szekcio: 'torlodas', cim: 'Hatálybalépés', szoveg: (TO.hatalybaLepes || {}).mikor + ' ' + (TO.hatalybaLepes || {}).kiRendeliEl, forrasSzoveg: TO.forras });
       t.push({ szekcio: 'torlodas', cim: 'MSTR 1–2 torlódás alatt', szoveg: (TO.kritikus || {}).szoveg, forrasSzoveg: TO.forras });
       (TO.utak || []).forEach(function (u) { t.push({ szekcio: 'torlodas', cim: u.sorszam + '. ' + u.cim, szoveg: u.szoveg, megjegyzes: 'Döntéshozó: ' + u.dontesHozo, forrasSzoveg: TO.forras }); });
