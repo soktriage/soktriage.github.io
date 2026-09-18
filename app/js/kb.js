@@ -12810,9 +12810,13 @@
     {
       "id": "esc_objektiv_vital_pontszam",
       "name": "Objektív vitál-riasztási pontszám ≥4 → legalább MSTR 2 (bármely panasznál, küllemtől és panasztól függetlenül)",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "A légzésszám, pulzusszám és testhőmérséklet — a tankönyv 86. oldalán található MEWS-pontozótáblázat sávjai szerint összesített — objektív pontszáma önmagában eléri a forrás szerinti »azonnali riasztás« küszöböt (≥4 pont), FÜGGETLENÜL a vezető panasztól és a ápoló szubjektív küllem-megítélésétől. Ekkor a beteg legalább MSTR 2 (kritikus) — a tankönyv saját minőségi elve szerint (o.48: »a kritikus állapotú beteg … MSTR 2. vagy magasabb kategóriát kap«).",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "objektivVitalPontszam",
           "min": 4
@@ -12831,9 +12835,13 @@
         {
           "doc": "tankonyv",
           "page": 85
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a ápoló külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/szisztolés-vérnyomás(csak ALACSONY sávok)/hőmérséklet sávjaiból összegez — a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (nincs tiszta AVPU-mezőnk; ez a hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A MAGAS vérnyomás-sávokat (>200) szándékosan kihagytuk: build közben derült ki, hogy az eredeti (teljes SBP-tartományt tartalmazó) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_12-19/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna. Az ALACSONY vérnyomás-sávoknak (≤100 Hgmm, hipotenzió/sokk-gyanú) nincs ilyen ütköző szabályuk, ezért azok BENNE maradtak az összegben (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
+      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a ápoló külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/szisztolés-vérnyomás(csak ALACSONY sávok)/hőmérséklet sávjaiból összegez — a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (nincs tiszta AVPU-mezőnk; ez a hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A MAGAS vérnyomás-sávokat (>200) szándékosan kihagytuk: build közben derült ki, hogy az eredeti (teljes SBP-tartományt tartalmazó) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_12-19/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna. Az ALACSONY vérnyomás-sávoknak (≤100 Hgmm, hipotenzió/sokk-gyanú) nincs ilyen ütköző szabályuk, ezért azok BENNE maradtak az összegben (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -14610,9 +14618,13 @@
     {
       "id": "esc_spo2_felnott_sulyos",
       "name": "Súlyos légzési elégtelenség (felnőtt, O2-szaturáció <90%) → MSTR 1",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "O2-szaturáció < 90% önmagában súlyos légzési elégtelenséget jelez → MSTR 1, függetlenül a vezető panasztól.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "spo2",
           "max": 89
@@ -14639,18 +14651,26 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a ápoló nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
+      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a ápoló nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_spo2_felnott_kozepes",
       "name": "Közepes légzési elégtelenség (felnőtt, O2-szaturáció 90-92%) → MSTR 2",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "O2-szaturáció 90-92% önmagában közepes légzési elégtelenséget jelez → MSTR 2, függetlenül a vezető panasztól.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "spo2",
           "min": 90,
@@ -14678,18 +14698,26 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_06 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_06 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_spo2_felnott_enyhe",
       "name": "Enyhe légzési elégtelenség (felnőtt, O2-szaturáció 93-94%) → MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "O2-szaturáció 93-94% önmagában enyhe légzési elégtelenséget jelez → MSTR 3, függetlenül a vezető panasztól.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "spo2",
           "min": 93,
@@ -14717,18 +14745,26 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_07 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_07 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_spo2_felnott_normal",
       "name": "Nincs légzési elégtelenség (felnőtt, O2-szaturáció >94%) → egyéb tényezők döntenek",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "O2-szaturáció > 94% önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más tényezők határozzák meg.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "spo2",
           "min": 95
@@ -14747,18 +14783,26 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Referencia-only (level:null), NEM korlátozó padló — a gyermek_08-nál talált hiba (level:4 helyett level:null a helyes, ld. ott a javítás jegyzetét) mintájára rögtön helyesen implementálva, hogy ne korlátozzon egy egyébként MSTR5 besorolású, jó szaturációjú beteget MSTR4-re.",
+      "notes": "Referencia-only (level:null), NEM korlátozó padló — a gyermek_08-nál talált hiba (level:4 helyett level:null a helyes, ld. ott a javítás jegyzetét) mintájára rögtön helyesen implementálva, hogy ne korlátozzon egy egyébként MSTR5 besorolású, jó szaturációjú beteget MSTR4-re. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_rr_felnott_sulyos",
       "name": "Légzésszám ≥30/perc (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Légzésszám ≥30/perc önmagában, más paraméterektől és a vezető panasztól függetlenül legalább MSTR 3-at indokol (MEWS legsúlyosabb légzésszám-sáv).",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "rr",
           "min": 30
@@ -14769,18 +14813,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ádám 2026-07-21 (2. kérés): 'már egy vérnyomás is minimum determinisztikus legyen... ugyanígy légzés, sat, gcs, temp' — az addig meglévő esc_objektiv_vital_pontszam (78-79. egység) ÖSSZEGZETT (több paraméter együttes) küszöb volt, ami miatt EGYETLEN, önmagában súlyosan kóros érték (pl. csak HR140, csak RR32, csak SBP80) NEM emelt, ha a többi mező üres/normál maradt — motoron reprodukálva és megerősítve Ádám jelzése alapján. Ez a szabály (és a testvérei lentebb) az összegzés MELLETT, attól függetlenül, EGYETLEN paraméter önmagában is padlót ad — pontosan a gyermek-oldali vitalBands mintáját követve (ahol pl. band_rr/band_hr is önállóan, összegzés nélkül határoz meg szintet). Forrás: tankönyv o.86 MEWS-tábla RR-sávjai (ugyanaz a tábla, amit az esc_objektiv_vital_pontszam is használ) — a 3-pontos (legsúlyosabb) sáv önmagában MSTR3 padlót ad; MSTR2-t csak NEM ad (annak GCS/keringés/légzési-munka klinikai megerősítés vagy a kombinált padló kell hozzá) — ez a konzervatívabb, de még mindig biztonságos irány (felül-triázsolás elve, folyamat_32), amíg más jel nem erősíti meg a súlyosabb szintet.",
+      "notes": "Ádám 2026-07-21 (2. kérés): 'már egy vérnyomás is minimum determinisztikus legyen... ugyanígy légzés, sat, gcs, temp' — az addig meglévő esc_objektiv_vital_pontszam (78-79. egység) ÖSSZEGZETT (több paraméter együttes) küszöb volt, ami miatt EGYETLEN, önmagában súlyosan kóros érték (pl. csak HR140, csak RR32, csak SBP80) NEM emelt, ha a többi mező üres/normál maradt — motoron reprodukálva és megerősítve Ádám jelzése alapján. Ez a szabály (és a testvérei lentebb) az összegzés MELLETT, attól függetlenül, EGYETLEN paraméter önmagában is padlót ad — pontosan a gyermek-oldali vitalBands mintáját követve (ahol pl. band_rr/band_hr is önállóan, összegzés nélkül határoz meg szintet). Forrás: tankönyv o.86 MEWS-tábla RR-sávjai (ugyanaz a tábla, amit az esc_objektiv_vital_pontszam is használ) — a 3-pontos (legsúlyosabb) sáv önmagában MSTR3 padlót ad; MSTR2-t csak NEM ad (annak GCS/keringés/légzési-munka klinikai megerősítés vagy a kombinált padló kell hozzá) — ez a konzervatívabb, de még mindig biztonságos irány (felül-triázsolás elve, folyamat_32), amíg más jel nem erősíti meg a súlyosabb szintet. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_rr_felnott_kozepes_magas",
       "name": "Légzésszám 21-29/perc (felnőtt) → önmagában legalább MSTR 4",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Légzésszám 21-29/perc (enyhe-közepes tachypnoe) önmagában legalább MSTR 4-et indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "rr",
           "min": 21,
@@ -14792,18 +14844,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "MEWS 2-pontos RR-sáv. Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért. Ez a sáv gyakori, enyhe eltérés (pl. fájdalom/szorongás is okozhatja) — ezért csak MSTR4 padló, nem MSTR3, hogy ne triázsoljon túl agresszíven önmagában; kombinálva más tényezővel (fájdalom, láz stb.) a meglévő szabályok/az esc_objektiv_vital_pontszam már úgyis feljebb viheti.",
+      "notes": "MEWS 2-pontos RR-sáv. Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért. Ez a sáv gyakori, enyhe eltérés (pl. fájdalom/szorongás is okozhatja) — ezért csak MSTR4 padló, nem MSTR3, hogy ne triázsoljon túl agresszíven önmagában; kombinálva más tényezővel (fájdalom, láz stb.) a meglévő szabályok/az esc_objektiv_vital_pontszam már úgyis feljebb viheti. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_rr_felnott_bradypnoe",
       "name": "Légzésszám <9/perc (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Légzésszám <9/perc (súlyos bradypnoe) önmagában legalább MSTR 3-at indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "rr",
           "max": 8
@@ -14814,18 +14874,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "MEWS 2-pontos RR-sáv (a tábla szerint <9/perc csak 2, nem 3 pontos — a legsúlyosabb 3-pontos sáv kizárólag a >30/perc). Ld. esc_rr_felnott_sulyos jegyzete.",
+      "notes": "MEWS 2-pontos RR-sáv (a tábla szerint <9/perc csak 2, nem 3 pontos — a legsúlyosabb 3-pontos sáv kizárólag a >30/perc). Ld. esc_rr_felnott_sulyos jegyzete. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_hr_felnott_sulyos",
       "name": "Pulzus ≥131/perc (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Pulzus ≥131/perc önmagában, más paraméterektől függetlenül legalább MSTR 3-at indokol (MEWS legsúlyosabb pulzus-sáv).",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "hr",
           "min": 131
@@ -14836,18 +14904,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért — ugyanaz a minta, pulzusra. MEWS 3-pontos pulzus-sáv.",
+      "notes": "Ld. esc_rr_felnott_sulyos jegyzete az általános indoklásért — ugyanaz a minta, pulzusra. MEWS 3-pontos pulzus-sáv. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_hr_felnott_kozepes_magas",
       "name": "Pulzus 111-130/perc (felnőtt) → önmagában legalább MSTR 4",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Pulzus 111-130/perc önmagában legalább MSTR 4-et indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "hr",
           "min": 111,
@@ -14859,18 +14935,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "MEWS 2-pontos pulzus-sáv. Csak MSTR4 padló (nem 3), mert gyakori, enyhe eltérés (fájdalom/szorongás/láz is okozhatja) — kombinációban a meglévő szabályok/esc_objektiv_vital_pontszam feljebb viheti.",
+      "notes": "MEWS 2-pontos pulzus-sáv. Csak MSTR4 padló (nem 3), mert gyakori, enyhe eltérés (fájdalom/szorongás/láz is okozhatja) — kombinációban a meglévő szabályok/esc_objektiv_vital_pontszam feljebb viheti. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_hr_felnott_bradycardia",
       "name": "Pulzus <40/perc (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Pulzus <40/perc (súlyos bradycardia) önmagában legalább MSTR 3-at indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "hr",
           "max": 39
@@ -14881,18 +14965,26 @@
         {
           "doc": "tankonyv",
           "page": 86
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "MEWS 2-pontos pulzus-sáv (alacsony vég). Ld. esc_hr_felnott_sulyos jegyzete.",
+      "notes": "MEWS 2-pontos pulzus-sáv (alacsony vég). Ld. esc_hr_felnott_sulyos jegyzete. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_sbp_felnott_sulyos",
       "name": "Szisztolés vérnyomás ≤70 Hgmm (felnőtt) → önmagában legalább MSTR 2",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Szisztolés vérnyomás ≤70 Hgmm önmagában, más paraméterektől függetlenül legalább MSTR 2-t (sokk-gyanú) indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "sys",
           "max": 70
@@ -14907,18 +14999,26 @@
         {
           "doc": "tankonyv",
           "page": 33
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a ápoló explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya.",
+      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a ápoló explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
     {
       "id": "esc_sbp_felnott_kozepes",
       "name": "Szisztolés vérnyomás 71-80 Hgmm (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
+      "applies_to": "mind",
       "condition_text": "Szisztolés vérnyomás 71-80 Hgmm önmagában legalább MSTR 3-at (potenciálisan instabil) indokol.",
       "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
         {
           "mezo": "sys",
           "min": 71,
@@ -14934,9 +15034,13 @@
         {
           "doc": "tankonyv",
           "page": 33
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
       ],
-      "notes": "MEWS 2-pontos SBP-sáv. Ez a szabály pontosan lefedi Ádám másik konkrét példáját (sys=80 önmagában) — előtte MSTR5-ön maradt, most MSTR3 a padló. Ld. esc_sbp_felnott_sulyos jegyzete.",
+      "notes": "MEWS 2-pontos SBP-sáv. Ez a szabály pontosan lefedi Ádám másik konkrét példáját (sys=80 önmagában) — előtte MSTR5-ön maradt, most MSTR3 a padló. Ld. esc_sbp_felnott_sulyos jegyzete. KORHATÁR (2026-09-18): 18 helyett 16 évtől érvényes, mert a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók (jegyzet 191. o.). Enélkül a 17 és a 18 éves beteg ugyanarra a mért értékre két kategóriányit eltérő szintet kapott.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -15379,8 +15483,14 @@
         {
           "doc": "jegyzet",
           "page": 220
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
-      ]
+      ],
+      "mervadoMaxHonap": 192,
+      "mervadoMegjegyzes": "A forrás kimondja: „A gyermekgyógyászati irányelveket úgy fejlesztették, hogy 16 éves korig alkalmazhatók.” (jegyzet 191. o.) A táblázat 18 éves sora a hivatkozott Fleming-vizsgálat ADATHATÁRA („from birth to 18 years of age”), nem alkalmazási határ. 16 éves kortól ezért a felnőtt referenciaértékek élnek; a gyermek-sáv eredménye NEM vész el, figyelmeztetésként megjelenik."
     },
     {
       "param": "hr",
@@ -15673,8 +15783,14 @@
         {
           "doc": "jegyzet",
           "page": 229
+        },
+        {
+          "doc": "jegyzet",
+          "page": 191
         }
-      ]
+      ],
+      "mervadoMaxHonap": 192,
+      "mervadoMegjegyzes": "A forrás kimondja: „A gyermekgyógyászati irányelveket úgy fejlesztették, hogy 16 éves korig alkalmazhatók.” (jegyzet 191. o.) A táblázat 18 éves sora a hivatkozott Fleming-vizsgálat ADATHATÁRA („from birth to 18 years of age”), nem alkalmazási határ. 16 éves kortól ezért a felnőtt referenciaértékek élnek; a gyermek-sáv eredménye NEM vész el, figyelmeztetésként megjelenik."
     }
   ],
   "secondOrderNote": "A másodlagos módosítók panasz-hatóköre (csakPanaszok) a v1-ben nincs bekötve — minden másodlagos szabály minden panasznál kiértékelődik. Ld. FOLYTATAS.md.",
@@ -21420,7 +21536,8 @@
         "sys": 132,
         "dia": 86,
         "vezetoPanaszId": "allergias-reakcio",
-        "nehezlegzesFok": "nincs"
+        "nehezlegzesFok": "nincs",
+        "allergiaReakcio": "korabbi_sulyos_reakcio"
       },
       "expected_level": 2,
       "rationale": "'Korábbi súlyos allergiás reakció' másodlagos módosító → MSTR 2, bár a vitálisok stabilak és jelenleg csalánkiütésesnek tűnik.",
@@ -21566,7 +21683,8 @@
       "inputs": {
         "eletkorEv": 6,
         "gyermek": true,
-        "vezetoPanaszId": "szemserules"
+        "vezetoPanaszId": "szemserules",
+        "szemSerulesModosito": "athatolo_kemiai_eges_nem_megtekintheto"
       },
       "expected_level": 2,
       "rationale": "Másodlagos módosító: 'szembe hatoló sérülés, kémiai/közvetlen égés, vagy a szem megtekintése nem lehetséges' → MSTR 2. (Ha a fájdalom enyhe, a látás ép és nincs látható idegen test, kevésbé sürgős lehet.)",
@@ -22182,6 +22300,35 @@
         {
           "doc": "tankonyv",
           "page": 70
+        }
+      ]
+    },
+    {
+      "id": "int_serdulo_felnott_normak",
+      "tipus": "forras_intelem",
+      "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
+        {
+          "mezo": "eletkorEv",
+          "kisebb": 18
+        }
+      ],
+      "szoveg": "16-18 ÉV: ennél a betegnél a FELNŐTT referenciaértékek szerint soroltunk. A forrás kimondja, hogy a gyermekgyógyászati irányelveket 16 éves korig alkalmazhatóra fejlesztették; a gyermek pulzus- és légzésszám-táblázat 18 éves sora a hivatkozott Fleming-vizsgálat adathatára, nem alkalmazási határ. A gyermek-specifikus MINŐSÉGI szabályok (PAT, gyermek-GCS, kompenzált sokk, stridor) továbbra is élnek. Ha a gyermek-táblázat ennél a betegnél súlyosabb szintet adna, azt külön jelezzük — bizonytalanság esetén a forrás elve szerint FELFELÉ kell triázsolni.",
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 191
+        },
+        {
+          "doc": "tankonyv",
+          "page": 96
+        },
+        {
+          "doc": "tankonyv",
+          "page": 97
         }
       ]
     }

@@ -1955,7 +1955,7 @@
   // A tudásbázisból jövő forrás-intelmek dobozai (szint-módosítás NÉLKÜL).
   function intelemSorok(er) {
     return ((er && er.figyelmeztetesek) || [])
-      .filter(function (f) { return f.tipus === 'forras_intelem'; })
+      .filter(function (f) { return f.tipus === 'forras_intelem' || f.tipus === 'sav_tanacsado'; })
       .map(function (f) {
         var d = el('div', 'warn');
         var fej = el('div', ''); fej.innerHTML = ikonSvg('warn');

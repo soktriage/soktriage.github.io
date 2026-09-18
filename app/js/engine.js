@@ -99,6 +99,7 @@
 
   // Gyermek HR/RR sáv → szint a kb.vitalBands "kiertekeles" logikája szerint:
   //  <b1→1, b1..b2-1→2, b2..b3-1→3, b3..b4→normál(null), b4+1..b5→3, b5+1..b6→2, >b6→1
+  function hasznalt0(row, val) { return { eletkor: row.eletkor, ertek: val, savhatarok: [row.b1, row.b2, row.b3, row.b4, row.b5, row.b6] }; }
   function savSzint(ertek, row) {
     if (ertek < row.b1) return 1;
     if (ertek < row.b2) return 2;
@@ -208,7 +209,24 @@
         }
         if (!row) { rogzit(lepes, szabaly, 'nem_alkalmazhato', { eletkorHonap: kh }, null, 'Nincs korcsoport a táblában'); return; }
         var lvl = savSzint(val, row);
-        var hasznalt = { eletkor: row.eletkor, ertek: val, savhatarok: [row.b1, row.b2, row.b3, row.b4, row.b5, row.b6] };
+        // A tábla MÉRVADÓSÁGI korhatára a tudásbázisból jön (mervadoMaxHonap), nem innen:
+        // a forrás szerint a gyermekgyógyászati irányelvek 16 éves korig alkalmazhatók, a
+        // táblázat 18 éves sora csak a hivatkozott vizsgálat adathatára. E fölött a tábla
+        // eredménye NEM ad szintet, de nem is vész el: figyelmeztetésként megjelenik, hogy
+        // az ápoló a forrás „bizonytalanság esetén felfelé" elve szerint dönthessen.
+        if (band.mervadoMaxHonap != null && kh >= band.mervadoMaxHonap) {
+          if (lvl != null) {
+            figyelmeztetesek.push({ tipus: 'sav_tanacsado', szabalyId: szabaly.id,
+              szoveg: band.param.toUpperCase() + ' = ' + val + ' — a gyermek referenciatáblázat ' + row.eletkor +
+                ' sora szerint ez MSTR ' + lvl + ' lenne. Ennél a betegnél a felnőtt referenciaértékek élnek; ' +
+                'ha klinikailag indokolt, a besorolás felfelé módosítható.',
+              forras: band.source || [] });
+          }
+          rogzit(lepes, szabaly, 'nem_alkalmazhato', hasznalt0(row, val), null,
+            band.mervadoMegjegyzes || 'A gyermek irányelvek 16 éves korig alkalmazhatók');
+          return;
+        }
+        var hasznalt = hasznalt0(row, val);
         if (lvl == null) rogzit(lepes, szabaly, 'tuzelt', hasznalt, null, 'Normál tartomány (' + row.b3 + '–' + row.b4 + ') → 4-5, más módosító dönt');
         else rogzit(lepes, szabaly, 'tuzelt', hasznalt, lvl, band.param.toUpperCase() + '=' + val + ' a(z) ' + row.eletkor + ' korcsoport sávjai szerint → MSTR ' + lvl);
       });
