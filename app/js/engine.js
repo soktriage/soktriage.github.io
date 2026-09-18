@@ -49,9 +49,20 @@
       var f = feltetelek[i];
       var ertek = Object.prototype.hasOwnProperty.call(szarmaztatott, f.mezo) ? szarmaztatott[f.mezo] : beteg[f.mezo];
       hasznalt[f.mezo] = ertek == null ? null : ertek;
+      // 'vanErtek': pusztán azt kéri, hogy a mező ki legyen töltve (nem küszöbérték).
+      // Üres mező itt HAMIS — nem "hiányzó adat" —, különben az ilyen szabály sosem dőlne el.
+      if (f.vanErtek != null) {
+        if (f.vanErtek === (ertek != null)) continue;
+        return { ok: false, hasznalt: hasznalt };
+      }
       if (ertek == null) { vanHianyzo = true; hianyzoMezok.push(f.mezo); continue; }
       if (f.min != null && !(ertek >= f.min)) return { ok: false, hasznalt: hasznalt };
       if (f.max != null && !(ertek <= f.max)) return { ok: false, hasznalt: hasznalt };
+      // Szigorú (nyílt) határok — hogy a tudásbázis a forrás „<35 °C" / „>38 °C" alakú
+      // küszöbeit PONTOSAN kimondhassa, közelítés (34.9 / 38.01) nélkül. A közelítés
+      // hézagot hagyott a sávok között (pl. 34.95 °C-ra egyetlen szabály sem tüzelt).
+      if (f.kisebb != null && !(ertek < f.kisebb)) return { ok: false, hasznalt: hasznalt };
+      if (f.nagyobb != null && !(ertek > f.nagyobb)) return { ok: false, hasznalt: hasznalt };
       if (f.egyenlo !== undefined && ertek !== f.egyenlo) return { ok: false, hasznalt: hasznalt };
       if (f.benne && f.benne.indexOf(ertek) === -1) return { ok: false, hasznalt: hasznalt };
       if (f.nemEgyenlo !== undefined && ertek === f.nemEgyenlo) return { ok: false, hasznalt: hasznalt };
@@ -60,47 +71,29 @@
     return { ok: true, hasznalt: hasznalt };
   }
 
-  // Objektív felnőtt vitál-riasztási pontszám (tankönyv o.86, MEWS pontozótáblázat sávjai) —
-  // a nyers számokból (RR/HR/alacsony-SBP/Temp) számolt résszel, a tudati-állapot (AVPU) komponens
-  // NÉLKÜL (nincs tiszta AVPU-mezőnk; a GCS-alapú becslés félrevezető lenne) — ez a hiány KIZÁRÓLAG
-  // alulszámlálhat, sosem túlszámlálhat, tehát az eredmény biztonságosan konzervatív alsó becslés.
-  // A MAGAS SBP-sávok (>200) szándékosan kimaradnak: azoknak saját, tünet-alapú, pontosabb
-  // forrás-szabályuk van (hipertoniaTunet), amivel ez ütközne (ld. lentebb + eset_08).
-  // Csak FELNŐTTNÉL alkalmazandó (a gyermek élettani normálértékek teljesen mások — ld. vitalBands).
+  // Objektív felnőtt vitál-riasztási pontszám — a sávok és a pontok KIZÁRÓLAG a
+  // tudásbázisból jönnek (kb.mewsSavok, forrás: tankönyv o.86 MEWS pontozótáblázat).
+  // A motor itt csak ÖSSZEGEZ; egyetlen orvosi küszöbérték sincs beleégetve.
+  // A tábla saját megjegyzése írja le, mi és miért marad ki (AVPU, magas SBP-sávok).
   function vitalSav(ertek, savok) {
     for (var i = 0; i < savok.length; i++) {
       var s = savok[i];
       if (s.min != null && ertek < s.min) continue;
       if (s.max != null && ertek > s.max) continue;
+      if (s.kisebb != null && !(ertek < s.kisebb)) continue;
+      if (s.nagyobb != null && !(ertek > s.nagyobb)) continue;
       return s.pont;
     }
     return 0;
   }
-  function objektivVitalPontszam(beteg) {
+  function objektivVitalPontszam(beteg, kb) {
+    var tabla = (kb && kb.mewsSavok && kb.mewsSavok.parameterek) || [];
     var pont = 0;
-    if (beteg.rr != null) pont += vitalSav(beteg.rr, [
-      { max: 8, pont: 2 }, { min: 9, max: 14, pont: 0 }, { min: 15, max: 20, pont: 1 },
-      { min: 21, max: 29, pont: 2 }, { min: 30, pont: 3 },
-    ]);
-    if (beteg.hr != null) pont += vitalSav(beteg.hr, [
-      { max: 39, pont: 2 }, { min: 40, max: 50, pont: 1 }, { min: 51, max: 100, pont: 0 },
-      { min: 101, max: 110, pont: 1 }, { min: 111, max: 130, pont: 2 }, { min: 131, pont: 3 },
-    ]);
-    // Szisztolés vérnyomás: CSAK az ALACSONY (hipotenzió/sokk-gyanú) sávokat számítjuk be
-    // (<=100 Hgmm) — a MAGAS sávokat (>200) szándékosan kihagyjuk, mert azoknak saját,
-    // pontosabb, tünet-alapú forrás-szabályuk van (masodlagos_12-19: hipertoniaTunet
-    // van→2/3, nincs→3/4), ami KIFEJEZETTEN megengedi, hogy önmagában magas vérnyomás,
-    // kísérő tünet NÉLKÜL, csak MSTR 3-4 legyen — ha a magas sávok is beleszámítanának, ez
-    // ütközne azzal (eset_08 regresszió volt: 222/130 Hgmm tünetmentes hipertóniás beteget
-    // tévesen MSTR 2-re emelte volna MSTR 3 helyett). Az alacsony vérnyomásnak nincs ilyen
-    // saját, ütköző szabálya — az önmagában a sokk egyik objektív jele, forrás szerint is.
-    if (beteg.sys != null) pont += vitalSav(beteg.sys, [
-      { max: 70, pont: 3 }, { min: 71, max: 80, pont: 2 }, { min: 81, max: 100, pont: 1 },
-    ]);
-    if (beteg.temp != null) pont += vitalSav(beteg.temp, [
-      { max: 34.9, pont: 2 }, { min: 35, max: 36, pont: 1 }, { min: 36.01, max: 38, pont: 0 },
-      { min: 38.01, max: 38.6, pont: 1 }, { min: 38.61, pont: 2 },
-    ]);
+    for (var i = 0; i < tabla.length; i++) {
+      var p = tabla[i];
+      var ertek = beteg[p.mezo];
+      if (ertek != null) pont += vitalSav(ertek, p.savok || []);
+    }
     return pont;
   }
 
@@ -122,7 +115,13 @@
       gcs: gcsOsszeg(beteg),
       eletkorHonap: eletkorHonapban(beteg),
       gyermek: gyermekE(beteg, kb),
-      objektivVitalPontszam: objektivVitalPontszam(beteg),
+      // Tisztán logikai származtatás (NEM küszöbérték): igaz CSAK akkor, ha a nővér
+      // kifejezetten a „krónikus / COPD / ismeretlen alapérték" választ adta. Kitöltetlenül
+      // HAMIS — így a szaturációs padlók kitöltetlen mezőnél is tüzelnek (biztonságos alapeset),
+      // és csak kimondott krónikus válasznál engednek (tankönyv 31. o.: az ABSZOLÚT szaturáció
+      // a nehézlégzés fokának megítélésére csak akut esetben használható).
+      o2Kronikus: beteg.o2Akut === 'kronikus',
+      objektivVitalPontszam: objektivVitalPontszam(beteg, kb),
     };
 
     function rogzit(lepes, szabaly, statusz, hasznalt, javasoltSzint, megjegyzes, hianyzoMezok) {
@@ -238,6 +237,19 @@
         figyelmeztetesek.push({ tipus: 'orfeltetel', szabalyId: guard.id, szoveg: (guard.condition_text || 'A 4-5. szinthez a vitális paramétereknek normálisnak kell lenniük') + ' — hiányzó vitális adatok mellett ez nem igazolt.', forras: guard.source || [] });
       }
     }
+
+    // KB-vezérelt figyelmeztetések — a feltétel, a szöveg és a forrás mind a
+    // tudásbázisból (KB.figyelmeztetoSzabalyok) jön; a motor csak kiértékel.
+    // Ezek NEM adnak MSTR-szintet: olyan forrás-intelmeket jelenítenek meg, amelyeket
+    // számszerű küszöbbé alakítani a forrás alapján nem lehetne (pl. a gyermekkori
+    // vérnyomás késői, megbízhatatlan volta).
+    (kb.figyelmeztetoSzabalyok || []).forEach(function (fsz) {
+      var k = feltetelKiertekel(fsz.condition || [], beteg, szarmaztatott);
+      if (k.ok === true) {
+        figyelmeztetesek.push({ tipus: fsz.tipus || 'forras_intelem', szabalyId: fsz.id,
+          szoveg: fsz.szoveg, forras: fsz.source || [] });
+      }
+    });
 
     return {
       szint: szint, dontoSzabalyok: dontoSzabalyok, jeloltek: jeloltek,

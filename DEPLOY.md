@@ -42,16 +42,26 @@ Másold a fájlt (vagy a teljes `app/` mappát) a szerver webgyökerébe:
 ## Fontos telepítési tudnivalók
 - **HTTPS ajánlott** éles használatnál (különösen ha később KBA-vonalkód / kamera / MedSol-
   integráció jön — ezek gyakran csak biztonságos eredetről működnek).
-- **Semmi adat nem hagyja el a böngészőt** jelenleg: nincs szerverhívás, a beírt betegadat
-  csak a memóriában van, lap frissítésre törlődik. (Ha később triázs-napló mentés kell tartósan,
-  az külön döntés/lépés — pl. localStorage vagy a MedSol felé küldés.)
+- **Semmi adat nem hagyja el a készüléket**: nincs szerverhívás, nincs analitika, nincs
+  külső betöltés — a kód offline, egyetlen fájlból is fut.
+- **DE: a készüléken MARAD betegadat.** A felület a munka elvesztése ellen a böngésző
+  localStorage-ába ment, és ez lapfrissítés, böngészőzárás és újraindítás után is megmarad:
+  `mstr_aktiv_v1` (folyamatban lévő felvétel), `mstr_parkolt_v1` (félbehagyott felvételek),
+  `mstr_history_v1` (lezárt betegek), `mstr_varolista_v1` (torlódási várólista),
+  `mstr_staff_v1` / `mstr_staff_aktiv_v1` (ápolónevek), `mstr_torlodas_v1`, `mstr_disclaimer_ack_v2`.
+  Ezek **tartalmazhatnak azonosítható betegadatot** (név, KBA-szám, életkor, panasz).
+  Üzemeltetési következmény: (1) közös/megosztott gépen a böngésző adatait műszakzáráskor
+  törölni kell; (2) a készülék legyen jelszóval védett; (3) éles bevezetés előtt ezt az
+  adatkezelést az intézményi adatvédelmi szabályzathoz kell illeszteni. Automatikus lejárat
+  jelenleg NINCS — ez nyitott fejlesztési tétel.
 - **Nincs npm/node függőség** a futtatáshoz. A fejlesztői segédszkriptek Python3-at használnak
   (assemble_kb.py, build_singlefile.py); a teszt JavaScriptCore-ral fut (`jsc`), node nem kell.
 
 ## Frissítési folyamat (ha a tudásbázis változik)
 1. `munka/kb/kb_*.json` szerkesztése (forráshivatkozással!)
 2. `python3 munka/assemble_kb.py` → újragenerálja `app/js/kb.js`
-3. `"/System/Library/.../jsc" app/tests/run_tests_jsc.js` → tesztek (elvárt: 72/75, ld. FOLYTATAS.md)
+3. `"/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc" app/tests/run_tests_jsc.js`
+   → regressziós tesztek (elvárt: 72/75 — a 3 ismert, dokumentált eltéréssel; ld. FOLYTATAS.md)
 4. `python3 munka/build_singlefile.py` → új `dist/mstr_triage.html`
 5. feltöltés a szerverre / commit GitHubra
 

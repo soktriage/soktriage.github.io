@@ -453,7 +453,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 
 /* ≤480px: a fejléc négy vezérlője csak így fér el egy sorban — a szöveg elrejtve,
    a title/aria megmarad. A gombok helye NEM változik torlódás módban sem. */
-@media(max-width:480px){
+@media(max-width:700px){
   .hdr .btn>span{display:none}
   .hdr .btn{padding:10px 11px}
   .torlodas-sav{gap:7px;padding:7px 9px}
@@ -475,3 +475,15 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .tudastar-belepo .tb-arrow{color:var(--l5s);font-size:20px;flex:none}
 .gyakori-chip.sel{border-color:var(--accent);background:var(--accent-bg);color:var(--accent)}
 
+
+/* Kihagyó gomb ÓVATOS változata: akkor jelenik meg, ha a lapon van olyan meg nem
+   válaszolt kérdés, amelyik súlyosabb kategóriát adhatna. Ilyenkor a gomb nem
+   állíthatja, hogy "nincs releváns" — kimondja, mit vállal az ápoló. */
+.nincs-mod-btn-ovatos {
+  border-color: var(--l3);
+  color: var(--l3t);
+  background: #FEF9E7;
+  display: flex; align-items: center; gap: 8px;
+}
+.nincs-mod-btn-ovatos .ico { flex: 0 0 auto; }
+.nincs-mod-btn-ovatos .nm-arrow { margin-left: auto; }

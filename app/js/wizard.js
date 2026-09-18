@@ -39,6 +39,19 @@
   function elIko(tag, cls, name, txt) {
     var e = el(tag, cls); e.innerHTML = ikonSvg(name) + '<span>' + txt + '</span>'; return e;
   }
+  // Beillesztett (nem megbízható) szöveg HTML-be ágyazás előtt — a lelet-import
+  // a MedSolution-ból másolt nyers szöveget vesz át, amiben lehet < > & karakter.
+  function htmlBiztos(sz) {
+    var d = document.createElement('div'); d.textContent = String(sz == null ? '' : sz); return d.innerHTML;
+  }
+  // A KB idő-szövegei hol tartalmazzák a címkét ("orvosi értékelés 30 percen belül"),
+  // hol nem ("azonnal") — így nem lesz belőle "Orvosi értékelés: orvosi értékelés …".
+  function cimkezettIdo(cimke, ertek) {
+    var v = String(ertek || '').trim();
+    if (!v) return cimke + ': —';
+    if (v.toLowerCase().indexOf(cimke.toLowerCase()) === 0) return v.charAt(0).toUpperCase() + v.slice(1);
+    return cimke + ': ' + v;
+  }
   function ikonBtnEl(cls, name) { var b = el('button', cls); b.type = 'button'; b.innerHTML = ikonSvg(name); return b; }
 
   // ---- állapot --------------------------------------------------------------
@@ -195,6 +208,32 @@
     if (cf && cf !== fieldId && m[cf + '|' + value] != null) return m[cf + '|' + value];
     return null;
   }
+  // Igaz, ha a szabály valamelyik MÁSIK feltétele a MÁR ISMERT adatokból nézve
+  // biztosan hamis — ilyenkor a szabály e betegnél nem tüzelhet, tehát a kérdést
+  // fölösleges feltenni. (Pl. a felnőtt láz-létra feltétele eletkorEv>=16; enélkül
+  // a 6 éves betegnél is megjelent a 4 opciós "lázas küllem" kérdés, amire viszont
+  // egyetlen gyermek-szabály sem reagál — néma, félrevezető kérdés volt.)
+  function marCafolt(r, fieldId) {
+    var d = (S.utolso && S.utolso.szarmaztatott) || {};
+    var kh = d.eletkorHonap;
+    if (kh != null) {
+      if (r.korMinHonap != null && kh < r.korMinHonap) return true;
+      if (r.korMaxHonap != null && kh > r.korMaxHonap) return true;
+    }
+    return (r.condition || []).some(function (c) {
+      if (c.mezo === fieldId) return false;
+      var v = Object.prototype.hasOwnProperty.call(d, c.mezo) ? d[c.mezo] : S.beteg[c.mezo];
+      if (v == null) return false;                       // nem ismert → nem cáfolt
+      if (c.min != null && !(v >= c.min)) return true;
+      if (c.max != null && !(v <= c.max)) return true;
+      if (c.kisebb != null && !(v < c.kisebb)) return true;
+      if (c.nagyobb != null && !(v > c.nagyobb)) return true;
+      if (c.egyenlo !== undefined && v !== c.egyenlo) return true;
+      if (c.benne && c.benne.indexOf(v) === -1) return true;
+      if (c.nemEgyenlo !== undefined && v === c.nemEgyenlo) return true;
+      return false;
+    });
+  }
   function mezoLegjobbSzint(fieldId, _melyseg) {
     var cel = computedCel(fieldId);
     if (cel && cel !== fieldId && (_melyseg || 0) < 3) return mezoLegjobbSzint(cel, (_melyseg || 0) + 1);
@@ -209,6 +248,7 @@
       if (r.csakPanaszok && r.csakPanaszok.length) {
         if (!S.beteg.vezetoPanaszId || r.csakPanaszok.indexOf(S.beteg.vezetoPanaszId) === -1) return;
       }
+      if (marCafolt(r, fieldId)) return;   // egyéb feltétele a már ismert adatból hamis
       if (best == null || r.level < best) best = r.level;
     });
     return best; // null = nincs szintet adó szabály ehhez a mezőhöz
@@ -287,7 +327,18 @@
       return S.beteg.vezetoPanaszId && f.csakPanaszok.indexOf(S.beteg.vezetoPanaszId) !== -1;
     });
   }
-  function gyermekMezok() { return (KB.inputFields || []).filter(function (f) { return f.pediatricOnly; }); }
+  function gyermekMezok() {
+    return (KB.inputFields || []).filter(function (f) {
+      if (!f.pediatricOnly) return false;
+      // Panasz-hatókör: a lathatoModositok()-kal AZONOS szűrés. Enélkül a panaszhoz
+      // kötött gyermek-kérdések minden gyermek-panasznál előjöttek (pl. a csecsemő-
+      // köhögés kérdése bokasérülésnél is), és a válaszuk téves eszkalációt adott.
+      if (f.csakPanaszok && f.csakPanaszok.length) {
+        return !!S.beteg.vezetoPanaszId && f.csakPanaszok.indexOf(S.beteg.vezetoPanaszId) !== -1;
+      }
+      return true;
+    });
+  }
 
   // ---- navigáció --------------------------------------------------------------
   function megy(id) { S.history.push(S.step); S.step = id; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -301,10 +352,13 @@
   // Adatvesztés-védelem (lapfrissítés/összeomlás) + párhuzamos függő betegek.
   var STORE_AKTIV = 'mstr_aktiv_v1', STORE_PARK = 'mstr_parkolt_v1';
   function sMentheto() {
-    return { step: S.step, beteg: S.beteg, azon: S.azon, catKey: S.catKey, pathLog: S.pathLog, keziMezo: S.keziMezo, panaszKereso: S.panaszKereso, leletRaw: S.leletRaw, leletMsg: S.leletMsg };
+    // A tetra és a betegut is IDE tartozik: a TETRA-lapot élő rádiós riasztás közben töltik,
+    // a betegút-checklistet pedig a triázs után — mindkettő elveszett lapfrissítéskor, és
+    // beteg-parkoláskor sem ment a beteggel. (A history csak összefoglalót tárol, azt nem érinti.)
+    return { step: S.step, beteg: S.beteg, azon: S.azon, catKey: S.catKey, pathLog: S.pathLog, keziMezo: S.keziMezo, panaszKereso: S.panaszKereso, leletRaw: S.leletRaw, leletMsg: S.leletMsg, tetra: S.tetra, betegut: S.betegut };
   }
   function sVisszaallit(o) {
-    S = { step: o.step || 'azonositas', history: [], beteg: o.beteg || {}, azon: o.azon || {}, catKey: o.catKey || null, pathLog: o.pathLog || [], utolso: null, autoMezo: {}, keziMezo: o.keziMezo || {}, panaszKereso: o.panaszKereso || '', leletRaw: o.leletRaw || '', leletMsg: o.leletMsg || '' };
+    S = { step: o.step || 'azonositas', history: [], beteg: o.beteg || {}, azon: o.azon || {}, catKey: o.catKey || null, pathLog: o.pathLog || [], utolso: null, autoMezo: {}, keziMezo: o.keziMezo || {}, panaszKereso: o.panaszKereso || '', leletRaw: o.leletRaw || '', leletMsg: o.leletMsg || '', tetra: o.tetra || {}, betegut: o.betegut || {} };
     ertekel();
   }
   function perzisztal() { try { localStorage.setItem(STORE_AKTIV, JSON.stringify(sMentheto())); } catch (e) {} }
@@ -870,7 +924,7 @@
     var tot = el('div', 'race-total' + (osszeg != null && osszeg >= 5 ? ' magas' : ''));
     tot.appendChild(el('div', 'race-total-num', osszeg == null ? '–' : (osszeg + ' / 9')));
     var desc = osszeg == null ? 'RACE összeg (töltse ki mindegyik tételt, és válasszon oldalt)'
-      : osszeg >= 5 ? 'Magas LVO-valószínűség — megfontolandó direkt szállítás thrombectomiás centrumba (Komprehenzív Stroke Center)'
+      : osszeg >= 5 ? 'RACE ≥ 5 — magas nagyérelzáródás- (LVO-) kockázat a nyomtatvány szerint. A célintézményről a műszakvezető orvos dönt.'
       : osszeg > 0 ? 'Stroke-gyanú fennáll, alacsonyabb LVO-valószínűség'
       : 'RACE 0 — tünetmentes vizsgálat ezen a skálán';
     tot.appendChild(el('div', 'race-total-desc', desc));
@@ -1226,7 +1280,7 @@
 
   RENDER.megfigyeles = function (fo) {
     var c = kartya('Lépés 6', 'Elsődleges meghatározók (A–B, C) és módosítók', 'ABCDE szerint.');
-    c.appendChild(nincsModositoGomb('Nincs eltérés az elsődleges meghatározókban', function () { megy(kovetkezo('megfigyeles', 1)); }));
+    var _kihagyoAlul = kihagyoGomb(c, 'Nincs eltérés az elsődleges meghatározókban', relevansMezok(mezokCsoportban('megfigyeles')), function () { megy(kovetkezo('megfigyeles', 1)); });
     var spo2Alacsony = S.beteg.spo2 != null && S.beteg.spo2 < 95;
     var lista = mezokCsoportban('megfigyeles').filter(function (f) {
       if (f.id === 'legzesiJelek') return true;
@@ -1270,6 +1324,7 @@
     });
     c.appendChild(blokkTarto);
     if (!vanMezo) c.appendChild(el('div', 'skip-hint', 'Nincs további kérdés — a megadott adatok alapján továbbléphet.'));
+    if (_kihagyoAlul) _kihagyoAlul();       // kihagyó gomb a döntő kérdések ALÁ
 
     c.appendChild(navSor({ tovabb: function () { megy(kovetkezo('megfigyeles', 1)); } }));
     fo.appendChild(c);
@@ -1345,14 +1400,16 @@
     // módosítóból derül ki), a módosító megadása KÖTELEZŐ — enélkül a rendszer "nincs
     // javaslat" zsákutcába futna. Ilyenkor a gyors-kihagyás gomb nem jelenik meg, a Tovább védett.
     var kotelezo = !(S.utolso && S.utolso.szint != null);
+    var _kihagyoAlul2 = null;
     if (!kotelezo) {
-      c.appendChild(nincsModositoGomb('Nincs releváns panasz-specifikus módosító', function () { megy(kovetkezo('modosito', 1)); }));
+      _kihagyoAlul2 = kihagyoGomb(c, 'Nincs releváns panasz-specifikus módosító', relevansMezok(lathatoModositok()), function () { megy(kovetkezo('modosito', 1)); });
     }
     relevansMezok(lathatoModositok()).forEach(function (f) {
       c.appendChild(el('div', 'card-eye', f.label));
       c.appendChild(opcioKartyak(f, function () { render(); }));
       var sp = el('div'); sp.style.height = '14px'; c.appendChild(sp);
     });
+    if (_kihagyoAlul2) _kihagyoAlul2();     // kihagyó gomb a döntő kérdések ALÁ
     c.appendChild(navSor({
       tovabb: function () { megy(kovetkezo('modosito', 1)); },
       validate: function () { return !!(S.utolso && S.utolso.szint != null); },
@@ -1361,6 +1418,33 @@
     fo.appendChild(c);
   };
   // Gyors-affordancia: „nincs releváns módosító" → egy koppintás továbblép (baseline érvényes; nem tippel).
+  // Igaz, ha a képernyőn ténylegesen megjelenő mezők közül bármelyik SÚLYOSABB
+  // (kisebb számú) szintet tudna adni a jelenleginél. Ilyenkor a "nincs releváns…"
+  // gyorsgomb valótlant állítana: közvetlenül alatta ott állnak a döntő kérdések.
+  function vanSulyosbitoMezo(mezok) {
+    var padlo = S.utolso ? S.utolso.szint : null;
+    return mezok.some(function (f) {
+      var b = mezoLegjobbSzint(f.id);
+      return b != null && (padlo == null || b < padlo);
+    });
+  }
+  // Kihagyó gomb. Ha van a lapon súlyosbítani képes, megválaszolatlan kérdés, akkor
+  // NEM állíthatjuk, hogy "nincs releváns" — a gomb ilyenkor a lap ALJÁRA kerül, és
+  // kimondja, mit vállal az ápoló. (Lektori észrevétel: 45 éves szédülő betegnél a
+  // gomb a "Szédülés jellege (MSTR 2/3)" kérdés FÖLÖTT állt, egy koppintás = MSTR 4.)
+  function kihagyoGomb(c, cimke, mezok, tovabbFn) {
+    if (vanSulyosbitoMezo(mezok)) {
+      return function () {
+        var b = el('button', 'nincs-mod-btn nincs-mod-btn-ovatos'); b.type = 'button';
+        b.innerHTML = ikonSvg('warn') + ' <span>Ezeket a kérdéseket kihagyom — a besorolás enyhébb maradhat</span>' +
+          ' <span class="nm-arrow">→</span>';
+        b.onclick = tovabbFn;
+        c.appendChild(b);
+      };
+    }
+    c.appendChild(nincsModositoGomb(cimke, tovabbFn));
+    return null;
+  }
   function nincsModositoGomb(cimke, tovabbFn) {
     var b = el('button', 'nincs-mod-btn'); b.type = 'button';
     b.innerHTML = cimke + ' <span class="nm-arrow">→</span>';
@@ -1512,7 +1596,7 @@
       badge.appendChild(el('div', 'result-lv', String(er.szint)));
       badge.appendChild(el('div', 'result-name', 'MSTR ' + er.szint + ' — ' + nevSzint(er.szint)));
       var lvDef = (KB.levels || []).filter(function (l) { return l.level === er.szint; })[0] || {};
-      badge.appendChild(el('div', 'result-wait', 'Orvosi értékelés: ' + (lvDef.targetTime || '') + ' · Újraértékelés: ' + (lvDef.reassess || '')));
+      badge.appendChild(el('div', 'result-wait', cimkezettIdo('Orvosi értékelés', lvDef.targetTime) + ' · Újraértékelés: ' + (lvDef.reassess || '')));
       colA.appendChild(badge);
       var reason = el('div', 'reason');
       reason.innerHTML = '<b>Döntő szabály:</b> ' + (er.dontoSzabalyok || []).map(function (d) {
@@ -1537,6 +1621,13 @@
       colA.appendChild(buBtn);
     } else {
       colA.appendChild(el('div', 'result-none', 'Nincs automatikus javaslat — egyetlen szabály sem teljesült. Ellenőrizze a kitöltést, vagy döntsön a folyamat alapján kézzel.'));
+      // ZSÁKUTCA-JAVÍTÁS: eddig a Betegút kizárólag akkor volt elérhető, ha a motor adott szintet —
+      // pedig épp az atipikus, nehezen besorolható betegnél kell leginkább az elhelyezési út
+      // (és torlódás alatt a három betegút). A szint ilyenkor KÉZI, ezt jelezzük is.
+      var buBtn2 = elIko('button', 'btn btn-ghost btn-full', 'utvonal', 'Betegút és elhelyezés (kézi besorolással)');
+      buBtn2.type = 'button'; buBtn2.classList.add('no-print'); buBtn2.style.marginTop = '8px';
+      buBtn2.onclick = function () { S.betegutElozoStep = 'eredmeny'; S.step = 'betegut'; render(); };
+      colA.appendChild(buBtn2);
     }
 
     // előre kitöltött, megerősítésre váró (derivált) mezők jelzése
@@ -1561,6 +1652,10 @@
       lz.innerHTML = ikonSvg('warn') + ' <b>Zavart tudatállapot / GCS &lt; 14</b> — <b>értékleltár szükséges</b>.';
       colA.appendChild(lz);
     }
+
+    // forrás-intelmek (KB.figyelmeztetoSzabalyok) — olyan forrás-kikötések, amelyeket
+    // számszerű küszöbbé alakítani nem lehet, de a besorolásnál tudni KELL róluk.
+    intelemSorok(er).forEach(function (d) { colA.appendChild(d); });
 
     // figyelmeztetések (összevont, hiányzó mezők)
     var w = warnSor(er);
@@ -1617,6 +1712,20 @@
     fo.appendChild(c);
   };
 
+  // A tudásbázisból jövő forrás-intelmek dobozai (szint-módosítás NÉLKÜL).
+  function intelemSorok(er) {
+    return ((er && er.figyelmeztetesek) || [])
+      .filter(function (f) { return f.tipus === 'forras_intelem'; })
+      .map(function (f) {
+        var d = el('div', 'warn');
+        var fej = el('div', ''); fej.innerHTML = ikonSvg('warn');
+        fej.appendChild(el('span', '', f.szoveg));      // textContent — nem HTML
+        d.appendChild(fej);
+        var fsz = Folyamatabra.forrasSzoveg(f.forras || []);
+        if (fsz) d.appendChild(el('div', 'footnote', 'Forrás: ' + fsz));
+        return d;
+      });
+  }
   function warnSor(er) {
     // Kritikus, döntő szintnél (MSTR 1-2) ne nyaggassunk opcionális mezőkért.
     if (er && er.szint != null && er.szint <= 2) return null;
@@ -1651,9 +1760,9 @@
     if (e.azonositok.eletkorHonap != null) S.beteg.eletkorHonap = e.azonositok.eletkorHonap;
     ertekel();
     var html = '<span class="ok">Átvéve: ' + e.talalatok.filter(function (k) { return k !== 'map'; }).map(function (k) { return nev[k] || k; }).join(', ') + '.</span>';
-    if (e.azonositok.nev) html += ' Beteg: <b>' + e.azonositok.nev + '</b>';
+    if (e.azonositok.nev) html += ' Beteg: <b>' + htmlBiztos(e.azonositok.nev) + '</b>';
     if (e.azonositok.eletkorEv != null) html += ' (' + e.azonositok.eletkorEv + ' év)';
-    if (e.azonositok.kba) html += ' · KBA: ' + e.azonositok.kba;
+    if (e.azonositok.kba) html += ' · KBA: ' + htmlBiztos(e.azonositok.kba);
     naplo('Lelet átvétele', (e.azonositok.nev || '') + (e.azonositok.kba ? ' · KBA ' + e.azonositok.kba : ''));
     S.leletMsg = html;
     msgEl.innerHTML = html;
@@ -1707,6 +1816,13 @@
     ered.appendChild(colA); ered.appendChild(colB); c.appendChild(ered);
 
     var TO = KB.torlodas || {}, torlAktiv = torlodasAktiv();
+    if (szint == null) {
+      var nincsSzint = el('div', 'warn');
+      nincsSzint.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+      nincsSzint.innerHTML = ikonSvg('warn') + ' <b>Nincs automatikus triázs-szint</b> — a besorolás itt KÉZI. ' +
+        'A járóbeteg-checklist csak MSTR III–V betegnél alkalmazható: ha a kézi besorolás MSTR I–II, a beteg a fekvőbeteg részlegre kerül.';
+      colA.appendChild(nincsSzint);
+    }
     if (szint === 1 || szint === 2) {
       var fb = el('div', 'warn'); fb.style.background = '#FDECEA'; fb.style.borderColor = 'var(--l1s)'; fb.style.color = 'var(--l1t)';
       if (torlAktiv) {
@@ -2359,7 +2475,7 @@
     var K = KB, t = [];
     (K.levels || []).forEach(function (l) {
       t.push({ szekcio: 'szintek', cim: 'MSTR ' + l.level + ' — ' + l.name,
-        szoveg: l.description + '\n\nOrvosi értékelés: ' + l.targetTime + ' · Ápolói: ' + l.nurseTime + ' · Újraértékelés: ' + l.reassess +
+        szoveg: l.description + '\n\n' + cimkezettIdo('Orvosi értékelés', l.targetTime) + ' · Ápolói: ' + l.nurseTime + ' · Újraértékelés: ' + l.reassess +
           (l.typical && l.typical.length ? '\n\nTipikus: ' + l.typical.join('; ') : ''),
         forras: l.source, szint: l.level });
     });
@@ -2392,6 +2508,16 @@
     (IK.kerdesek || []).forEach(function (q) {
       t.push({ szekcio: 'infekcio', cim: q.cimke, szoveg: (q.tipus || '') + ' — PPE/elhelyezés: ' + (q.ppe || ''), forrasSzoveg: IK.megjegyzes });
     });
+    // A TEK helységei is kereshetők legyenek: a kereső súgója településnevet is ígér, ezért
+    // a találatnak meg kell lennie. Ezek a tételek a TEK-keresőt nyitják meg (ott van a
+    // teljes kontextus: védőkorlát, kivételek, AMI-időablak) — nem duplikáljuk a tartalmat.
+    var TK = K.tek || {};
+    (TK.keruletek || []).forEach(function (r) {
+      t.push({ szekcio: 'tek', cim: r.ker + ' kerület', szoveg: 'Területi ellátás: ' + (r.ellatas || []).join(', '), tekKulcs: r.ker, forrasSzoveg: TK.forras });
+    });
+    (TK.telepulesek || []).forEach(function (r) {
+      t.push({ szekcio: 'tek', cim: r.telepules, szoveg: 'Területi ellátás: ' + (r.ellatas || []).join(', '), tekKulcs: r.telepules, forrasSzoveg: TK.forras });
+    });
     _tudastarCache = t; return t;
   }
   var _tudastarCache = null;
@@ -2408,8 +2534,12 @@
       (x.tabla.rows || []).forEach(function (r) {
         var sor = el('div', 'tek-sor');
         var kulcsok = Object.keys(r);
-        sor.appendChild(el('span', 'tek-kod', String(r[kulcsok[0]])));
-        sor.appendChild(el('span', 'tek-nev', kulcsok.slice(1).map(function (k) { return k + ': ' + r[k]; }).join(' · ')));
+        // A cellák egy része tömb (pl. a vérzékenység-tábla "helyek" mezője), és a bennük
+        // lévő tételek maguk is tartalmaznak vesszőt — ezért ' · '-tal fűzzük össze, különben
+        // olvashatatlan vesszőlevessé folyna össze.
+        function cella(v) { return Array.isArray(v) ? v.join(' · ') : String(v); }
+        sor.appendChild(el('span', 'tek-kod', cella(r[kulcsok[0]])));
+        sor.appendChild(el('span', 'tek-nev', kulcsok.slice(1).map(function (k) { return k + ': ' + cella(r[k]); }).join(' — ')));
         pre.appendChild(sor);
       });
       if (x.tabla.megjegyzes) { var mj = el('div', 'skip-hint'); mj.style.marginTop = '6px'; mj.textContent = x.tabla.megjegyzes; pre.appendChild(mj); }
@@ -2426,6 +2556,12 @@
       b.appendChild(tb);
     }
     if (x.megjegyzes) { var m = el('div', 'skip-hint'); m.style.marginTop = '6px'; m.textContent = x.megjegyzes; b.appendChild(m); }
+    if (x.tekKulcs) {
+      var tb = elIko('button', 'btn btn-ghost btn-full', 'search', 'Megnyitás a területi keresőben (kivételekkel együtt)');
+      tb.type = 'button'; tb.style.cssText = 'margin-top:8px;text-align:left;font-size:12.5px';
+      tb.onclick = function () { S.tekQuery = x.tekKulcs; tekOverlay(); };
+      b.appendChild(tb);
+    }
     var fs = x.forrasSzoveg || (x.forras && x.forras.length ? Folyamatabra.forrasSzoveg(x.forras) : null);
     if (fs) { var fr = el('div', 'reszlet-forras'); fr.innerHTML = ikonSvg('book') + '<span>' + fs + '</span>'; b.appendChild(fr); }
     d.appendChild(b); return d;
@@ -2649,7 +2785,7 @@
         var lvo = el('div', 'warn');
         if (rp >= 5) {
           lvo.style.cssText = 'background:var(--l1b);border-color:var(--l1s);color:var(--l1t);font-weight:700';
-          lvo.innerHTML = ikonSvg('warn') + ' <b>RACE ' + rp + ' — nagyérelzáródás (LVO) gyanúja.</b> A nyomtatvány szerint: SE INK felé irányítandó.';
+          lvo.innerHTML = ikonSvg('warn') + ' <b>RACE ' + rp + ' — nagyérelzáródás (LVO) gyanúja.</b> A nyomtatvány ennyit mond ki: „RACE score ≥ 5 pont; high LVO risk". A célintézmény kijelölése NEM ezen a lapon dől el — arról a műszakvezető orvos dönt.';
         } else {
           lvo.style.cssText = 'background:var(--l4b);border-color:var(--l4s);color:var(--l4t)';
           lvo.innerHTML = ikonSvg('bulb') + ' RACE ' + rp + ' — a nyomtatvány LVO-küszöbe (5) alatt.';
@@ -2701,7 +2837,7 @@
       add('Premorbid állapot', T.stPremorbid);
       var raceOssz = raceOsszeg(T);
       if (raceOssz != null) {
-        L.push('RACE score: ' + raceOssz + '/9' + (raceOssz >= 5 ? ' — NAGYÉRELZÁRÓDÁS (LVO) GYANÚJA, SE INK felé irányítandó' : ' (LVO-küszöb alatt)'));
+        L.push('RACE score: ' + raceOssz + '/9' + (raceOssz >= 5 ? ' — NAGYÉRELZÁRÓDÁS (LVO) GYANÚJA (a nyomtatvány szerint high LVO risk; célintézmény: a műszakvezető orvos dönt)' : ' (LVO-küszöb alatt)'));
         if (T.stINKertesitve) L.push('INK értesítve: IGEN');
       }
       add('Antikoaguláció', T.stAntikoag); add('  szer és utolsó bevétel', T.stAntikoagMit);
@@ -2789,7 +2925,10 @@
       var mentett = localStorage.getItem(STORE_AKTIV);
       if (mentett) {
         var o = JSON.parse(mentett);
-        if (o && o.step && o.step !== 'eredmeny' && ((o.beteg && Object.keys(o.beteg).length) || (o.azon && o.azon.raw))) {
+        // Egy megkezdett TETRA-lap önmagában is érdemi tartalom (élő riasztás közben töltik),
+        // akkor is, ha triázs-adat még nincs mellette — ezért az is visszatöltendő.
+        var vanTetra = o && o.tetra && Object.keys(o.tetra).length > 0;
+        if (o && o.step && o.step !== 'eredmeny' && ((o.beteg && Object.keys(o.beteg).length) || (o.azon && o.azon.raw) || vanTetra)) {
           sVisszaallit(o); render(); return;
         }
       }

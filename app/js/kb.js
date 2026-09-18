@@ -21,7 +21,7 @@
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 420,
+      "rules": 419,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -11899,6 +11899,9 @@
       ],
       "notes": "Jegyzet o.275 munkapélda (is_normative:false, de a hivatalos eset_44 tesztesetünk pontosan ez a szcenárió, forrás-azonosított vitálokkal). Ez a szabály a valódi, panasz-specifikus mechanizmus — korábban a teszteset véletlenül a gyermek_08 hibás (level:4) globális SpO2-padlóján futott át helyesen, ami a hiba javítása után lelepleződött (2026-07-21, univerzális vitál-padló audit). Az eset_44 caseInputAdditions mostantól explicit beállítja ezt a mezőt.",
       "conflicts": [],
+      "csakPanaszok": [
+        "kohoges-torokszukulet"
+      ],
       "group": "secondary"
     },
     {
@@ -11921,6 +11924,9 @@
       ],
       "notes": "Jegyzet o.275: »Ha az elsápadást keringési instabilitás jeleként értékeli, akkor MSTR 2.«",
       "conflicts": [],
+      "csakPanaszok": [
+        "kohoges-torokszukulet"
+      ],
       "group": "secondary"
     },
     {
@@ -11943,6 +11949,9 @@
       ],
       "notes": "Jegyzet o.275: »Ha a köhögés alatt cyanotikus, akkor feljebb kell triázsolni« — a forrás nem ad pontos számot, csak azt, hogy MSTR2-nél súlyosabb; MSTR1-re állítva, mert a cyanosis másutt (kritikus_03: cianotikus/márványozott gyermek, gyermek_05: SpO2<90%) következetesen MSTR1 kritérium.",
       "conflicts": [],
+      "csakPanaszok": [
+        "kohoges-torokszukulet"
+      ],
       "group": "secondary"
     },
     {
@@ -12883,15 +12892,15 @@
         },
         {
           "mezo": "temp",
-          "min": 38.01
+          "nagyobb": 38
         },
         {
           "mezo": "hr",
-          "min": 90.01
+          "nagyobb": 90
         },
         {
           "mezo": "rr",
-          "min": 20.01
+          "nagyobb": 20
         }
       ],
       "level": 2,
@@ -12924,11 +12933,11 @@
         },
         {
           "mezo": "temp",
-          "min": 38.01
+          "nagyobb": 38
         },
         {
           "mezo": "hr",
-          "min": 90.01
+          "nagyobb": 90
         }
       ],
       "level": 3,
@@ -12958,11 +12967,11 @@
         },
         {
           "mezo": "temp",
-          "min": 38.01
+          "nagyobb": 38
         },
         {
           "mezo": "rr",
-          "min": 20.01
+          "nagyobb": 20
         }
       ],
       "level": 3,
@@ -14789,6 +14798,10 @@
         {
           "mezo": "spo2",
           "max": 89
+        },
+        {
+          "mezo": "o2Kronikus",
+          "egyenlo": false
         }
       ],
       "level": 1,
@@ -14804,9 +14817,13 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
         }
       ],
-      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a nővér nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'.",
+      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a nővér nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -14820,6 +14837,10 @@
           "mezo": "spo2",
           "min": 90,
           "max": 92
+        },
+        {
+          "mezo": "o2Kronikus",
+          "egyenlo": false
         }
       ],
       "level": 2,
@@ -14835,9 +14856,13 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
         }
       ],
-      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_06 felnőtt megfelelője.",
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_06 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -14851,6 +14876,10 @@
           "mezo": "spo2",
           "min": 93,
           "max": 94
+        },
+        {
+          "mezo": "o2Kronikus",
+          "egyenlo": false
         }
       ],
       "level": 3,
@@ -14866,9 +14895,13 @@
         {
           "doc": "tankonyv",
           "page": 31
+        },
+        {
+          "doc": "tankonyv",
+          "page": 31
         }
       ],
-      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_07 felnőtt megfelelője.",
+      "notes": "Ld. esc_spo2_felnott_sulyos jegyzete — ugyanaz a forrás-tábla, a gyermek_07 felnőtt megfelelője. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -15090,14 +15123,14 @@
       "group": "secondary"
     },
     {
-      "id": "esc_temp_felnott_hipotermia",
-      "name": "Testhőmérséklet ≤34,9°C (felnőtt) → önmagában legalább MSTR 3",
-      "applies_to": "felnott",
-      "condition_text": "Testhőmérséklet ≤34,9°C (hipotermia) önmagában legalább MSTR 3-at indokol.",
+      "id": "esc_temp_hipotermia",
+      "name": "Testhőmérséklet ≤34,9°C (bármely életkor) → önmagában legalább MSTR 3",
+      "applies_to": "mind",
+      "condition_text": "Testhőmérséklet ≤34,9°C (hipotermia) önmagában, bármely életkorban legalább MSTR 3-at indokol. A hipotermia-küszöb — a pulzus- és légzésszám-normáktól eltérően — nem korfüggő élettani érték.",
       "condition": [
         {
           "mezo": "temp",
-          "max": 34.9
+          "kisebb": 35
         }
       ],
       "level": 3,
@@ -15107,29 +15140,7 @@
           "page": 86
         }
       ],
-      "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv — a hőmérsékletnél a MEWS-tábla sosem ad 3 pontot egyetlen sávnál sem, ezért itt a padló max. MSTR3, nem MSTR2 (a máshol dokumentált SIRS-kombó szabályok, esc_laz_objektiv_sirs*, tovább emelhetik, ha láz+tachycardia/tachypnoe is fennáll).",
-      "conflicts": [],
-      "group": "secondary"
-    },
-    {
-      "id": "esc_temp_felnott_magas_onallo",
-      "name": "Testhőmérséklet ≥38,61°C (felnőtt) → önmagában legalább MSTR 3, a küllem-választástól függetlenül",
-      "applies_to": "felnott",
-      "condition_text": "Testhőmérséklet ≥38,61°C önmagában legalább MSTR 3-at indokol, akkor is, ha a nővér még nem választott küllem-kategóriát, vagy 'jó általános állapot'-ot választott.",
-      "condition": [
-        {
-          "mezo": "temp",
-          "min": 38.61
-        }
-      ],
-      "level": 3,
-      "source": [
-        {
-          "doc": "tankonyv",
-          "page": 86
-        }
-      ],
-      "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv. Ádám kérése: 'temp (ha az modosít önmagából de lehet hogy az csak sirs)' — a temp itt ÖNMAGÁBAN is ad egy MSTR3 padlót (nem csak a SIRS-kombón, HR/RR-rel együtt keresztül, ld. esc_laz_objektiv_sirs2_hr/rr), függetlenül attól, hogy a nővér a lazKullem mezőt kitöltötte-e (ha nem, a küllem-alapú elsodleges_felnott_15-18 szabályok »nincs_adat« miatt nem tüzelnek — enélkül a szabály nélkül egy önmagában magas láz-érték, küllem-választás nélkül, egyáltalán NEM adott volna semmilyen hőmérséklet-alapú padlót). Nem emeli MSTR2-re, mert ahhoz vagy 3 SIRS-kritérium (esc_laz_objektiv_sirs), vagy explicit szeptikus/immunszupprimált küllem-választás kell.",
+      "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv — a hőmérsékletnél a MEWS-tábla sosem ad 3 pontot egyetlen sávnál sem, ezért itt a padló max. MSTR3, nem MSTR2 (a máshol dokumentált SIRS-kombó szabályok, esc_laz_objektiv_sirs*, tovább emelhetik, ha láz+tachycardia/tachypnoe is fennáll). HATÓKÖR-TISZTÁZÁS (2026-09-18, klinikai lektorálás): a magas láz önmagában NEM ad padlót — arra a tankönyv 35-36. o. láz-létrája az irányadó (ha a láz az egyetlen pozitív SIRS-kritérium és a küllem jó: MSTR 4), ezért az esc_temp_felnott_magas_onallo szabályt töröltük. A hipotermia-ág marad: erre nincs versengő, konkrétabb forrás-szabály, és a SIRS definíciója a <36 °C-ot önálló kritériumként sorolja fel. KORHATÁR-JAVÍTÁS (2026-09-18, klinikai lektorálás): a szabály korábban csak felnőttre vonatkozott (applies_to:felnott), így egy 8 vagy 17 éves betegnél a 28 °C-os maghőmérséklet SEMMILYEN padlót nem adott (a gyermek vitalBands csak légzés- és pulzusszámot fed). A hipotermia-küszöb nem korfüggő: a SIRS-definíció a <36 °C-ot életkortól függetlenül sorolja fel, és a gyermek_laz_02 (0-3 hó, <36 °C → MSTR 2) már ma is pediátriai precedens. Kiterjesztve minden korra; a 0-3 hónaposoknál a szigorúbb gyermek_laz_02 marad érvényben (min-logika).",
       "conflicts": [],
       "group": "secondary"
     }
@@ -22003,6 +22014,227 @@
       }
     ]
   },
+  "mewsSavok": {
+    "_forras": "Triázs tankönyv 2.0, 86. o. — MEWS (Modified Early Warning Score) pontozótáblázat",
+    "megjegyzes": "A tudati állapot (AVPU) komponens SZÁNDÉKOSAN kimarad: nincs tiszta AVPU-mezőnk, a GCS-ből becsült érték félrevezető lenne. Ez a hiány kizárólag ALULszámlálhat, sosem túl — biztonságosan konzervatív. A szisztolés vérnyomásból CSAK az alacsony (hipotenzió/sokk-gyanú) sávok számítanak: a MAGAS sávoknak saját, pontosabb, tünet-alapú forrásszabályuk van (masodlagos_12-19, hipertoniaTunet), ami kifejezetten megengedi, hogy kísérő tünet nélküli magas vérnyomás csak MSTR 3-4 legyen — a magas sávok beszámítása ezzel ütközne (eset_08: 222/130 Hgmm tünetmentes hipertóniás tévesen MSTR 2-re emelkedett volna).",
+    "parameterek": [
+      {
+        "mezo": "rr",
+        "savok": [
+          {
+            "max": 8,
+            "pont": 2
+          },
+          {
+            "min": 9,
+            "max": 14,
+            "pont": 0
+          },
+          {
+            "min": 15,
+            "max": 20,
+            "pont": 1
+          },
+          {
+            "min": 21,
+            "max": 29,
+            "pont": 2
+          },
+          {
+            "min": 30,
+            "pont": 3
+          }
+        ]
+      },
+      {
+        "mezo": "hr",
+        "savok": [
+          {
+            "max": 39,
+            "pont": 2
+          },
+          {
+            "min": 40,
+            "max": 50,
+            "pont": 1
+          },
+          {
+            "min": 51,
+            "max": 100,
+            "pont": 0
+          },
+          {
+            "min": 101,
+            "max": 110,
+            "pont": 1
+          },
+          {
+            "min": 111,
+            "max": 130,
+            "pont": 2
+          },
+          {
+            "min": 131,
+            "pont": 3
+          }
+        ]
+      },
+      {
+        "mezo": "sys",
+        "csakAlacsonySavok": true,
+        "savok": [
+          {
+            "max": 70,
+            "pont": 3
+          },
+          {
+            "min": 71,
+            "max": 80,
+            "pont": 2
+          },
+          {
+            "min": 81,
+            "max": 100,
+            "pont": 1
+          }
+        ]
+      },
+      {
+        "mezo": "temp",
+        "savok": [
+          {
+            "kisebb": 35,
+            "pont": 2
+          },
+          {
+            "min": 35,
+            "max": 36,
+            "pont": 1
+          },
+          {
+            "nagyobb": 36,
+            "max": 38,
+            "pont": 0
+          },
+          {
+            "nagyobb": 38,
+            "max": 38.6,
+            "pont": 1
+          },
+          {
+            "nagyobb": 38.6,
+            "pont": 2
+          }
+        ]
+      }
+    ]
+  },
+  "figyelmeztetoSzabalyok": [
+    {
+      "id": "int_gyermek_vernyomas_kesoi_jel",
+      "tipus": "forras_intelem",
+      "condition": [
+        {
+          "mezo": "gyermek",
+          "egyenlo": true
+        },
+        {
+          "mezo": "sys",
+          "vanErtek": true
+        }
+      ],
+      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa — azonnal irányítsa aktív kezelőhelyiségbe, a mért vérnyomástól függetlenül. (Ezért nincs gyermekre számszerű vérnyomás-padló: a forrás ilyet nem ad meg.)",
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 79
+        }
+      ]
+    },
+    {
+      "id": "int_szaturacio_kronikus_alapertek",
+      "tipus": "forras_intelem",
+      "condition": [
+        {
+          "mezo": "o2Kronikus",
+          "egyenlo": true
+        },
+        {
+          "mezo": "spo2",
+          "vanErtek": true
+        }
+      ],
+      "szoveg": "Krónikus / COPD / ismeretlen alapérték: az ABSZOLÚT szaturáció itt nem dönt — a forrás szerint a szaturáció a nehézlégzés fokának megítélésére csak akut esetben (előzőleg normál alapérték) használható. A besorolást a klinikai jelek, a PEFR és a beteg SAJÁT alapértékéhez mért relatív esés adja. Ezért az abszolút szaturációs padló ennél a betegnél nem lépett életbe.",
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "id": "int_laz_kullem_hianyzik_felnott",
+      "tipus": "forras_intelem",
+      "condition": [
+        {
+          "mezo": "temp",
+          "min": 38
+        },
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
+        {
+          "mezo": "lazKullem",
+          "vanErtek": false
+        }
+      ],
+      "szoveg": "LÁZ MÉRVE, DE A KÜLLEM NINCS MEGÍTÉLVE — a besorolás ezért NEM a láz-létra szerint történt. A forrás a lázas beteget nem a hőmérséklet nagysága, hanem a küllem alapján sorolja be (immunszupprimált vagy szeptikus küllem → MSTR 2; súlyos beteg benyomása → MSTR 3; jó általános állapot → MSTR 4). Ezt a kérdést magas láznál is meg kell válaszolni — önmagában a hőmérséklet szám nem emel kategóriát, tehát enélkül a besorolás alultriázsolhat.",
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 35
+        },
+        {
+          "doc": "tankonyv",
+          "page": 36
+        },
+        {
+          "doc": "jegyzet",
+          "page": 85
+        }
+      ]
+    },
+    {
+      "id": "int_laz_kullem_hianyzik_gyermek",
+      "tipus": "forras_intelem",
+      "condition": [
+        {
+          "mezo": "temp",
+          "min": 38
+        },
+        {
+          "mezo": "gyermek",
+          "egyenlo": true
+        },
+        {
+          "mezo": "gyermekKullem",
+          "vanErtek": false
+        }
+      ],
+      "szoveg": "LÁZAS GYERMEK, DE A KÜLLEM NINCS MEGÍTÉLVE — a gyermek lázas besorolása a forrásban a küllemen (betegnek tűnik / nem tűnik betegnek) múlik, nem a hőmérséklet nagyságán. E kérdés nélkül a láz-szabályok nem tudnak lefutni, tehát a besorolás alultriázsolhat.",
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 236
+        },
+        {
+          "doc": "tankonyv",
+          "page": 70
+        }
+      ]
+    }
+  ],
   "tek": {
     "cim": "SE területi ellátás (TEK)",
     "forras": "SE Területi Ellátás Segédlet — OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK-nyilvántartás (2026.08.04.)",
@@ -23152,7 +23384,7 @@
         "szoveg": "A triage ápoló a mentőágyon triázsol, majd a beteg a mentőhordágyon várakozik szabad ágyra. Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges. A további ellátást a rendelkezésre álló kapacitás szerint mielőbb el kell kezdeni.",
         "dontesHozo": "triage ápoló",
         "retriage": "Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges.",
-        "retriageForras": "Az időközöket az MSTR-szintek újraértékelési előírása adja (KB.levels[].reassess): MSTR 2 – 15 percenként, MSTR 3 – 30 percenként, MSTR 4 – 60 percenként, MSTR 5 – 120 percenként."
+        "retriageForras": "Az időközöket az MSTR-szintek újraértékelési előírása adja (KB.levels[].reassessMin): MSTR 2 – 15 percenként, MSTR 3 – 30 percenként, MSTR 4 – 60 percenként, MSTR 5 – 120 percenként."
       }
     ],
     "sorrend": {
