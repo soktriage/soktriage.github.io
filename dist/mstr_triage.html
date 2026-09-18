@@ -290,7 +290,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 
 /* Nyomtatás: csak az eredmény-kártya tartalma */
 @media print{
-  .hdr,.prog-wrap,.crumbs,.parkolt-sav,#crit-banner,.nav-row,.no-print,.detour-wrap summary::before{display:none !important}
+  .hdr,.prog-wrap,.crumbs,.parkolt-sav,.torlodas-sav,#crit-banner,.nav-row,.no-print,.detour-wrap summary::before{display:none !important}
   body{background:#fff}
   .card{box-shadow:none;border:1px solid #ccc}
   details.detour-wrap{display:none}
@@ -403,6 +403,54 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .bk-btn.sel-igen{border-color:var(--l4);background:var(--l4b);color:var(--l4t)}
 .bk-btn.sel-nem{border-color:var(--l1);background:var(--l1b);color:var(--l1t)}
 .betegut-eredmeny{margin-top:12px;padding:14px;border-radius:12px;font-size:14px;line-height:1.5;border:2px solid var(--border)}
+/* Torlódási üzemmód — a szín SZÁNDÉKOSAN nem piros/narancs (MSTR 1–2 foglalt)
+   és nem borostyán (félbehagyott felvétel sávja), hogy perifériás látásban se
+   tűnjön kritikus betegnek. */
+.torlodas-sav{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:10px;padding:8px 11px;background:#EEF0FB;border:1.5px solid #9FA8DA;border-radius:10px}
+/* Normál üzemben a sáv NULLA pixel: a display:flex különben felülírná a hidden attribútumot
+   (a .parkolt-sav[hidden] szabálya feljebb van, ezért ezt itt külön ki kell mondani). */
+.torlodas-sav[hidden]{display:none}
+.torl-cimke{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#3949AB}
+.torl-cimke svg{width:15px;height:15px}
+.torl-info{font-size:11.5px;color:#4A4A6A;font-weight:600}
+.torl-btn{margin-left:auto;border:1.5px solid #9FA8DA;background:#fff;color:#3949AB;border-radius:999px;padding:6px 13px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.torl-btn:hover{background:#E8EAF6}
+.torl-btn.lejart{border-color:var(--l2);color:var(--l2t);background:var(--l2b)}
+.torl-ki{border:0;background:none;color:#5C6BC0;font-family:inherit;font-size:11.5px;font-weight:650;cursor:pointer;text-decoration:underline}
+.torl-utak{margin-top:8px}
+.torl-dontes{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.45;color:var(--text);background:var(--bg);border-radius:7px;padding:6px 9px;margin-top:6px}
+.torl-dontes svg{flex:none;width:15px;height:15px;margin-top:1px}
+.torl-felt{font-size:12.5px;line-height:1.5;padding:2px 0 2px 4px;color:var(--text)}
+.betegut-eredmeny.ulo{background:#EEF0FB;border-color:#9FA8DA;color:#3949AB}
+/* re-triage várólista */
+.varo-csoport{display:flex;align-items:center;gap:9px;margin:14px 0 6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.varo-badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:6px;background:var(--muted);color:#fff;font-size:12px;font-weight:800}
+.varo-sor{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:7px;background:#fff}
+.varo-bal{flex:1;min-width:190px}
+.varo-nev{font-size:13.5px;font-weight:700;color:var(--text);line-height:1.3}
+.varo-meta{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.varo-retri{font-size:12px;font-weight:700;color:var(--l4t);margin-top:3px}
+.varo-retri.lejart{color:var(--l1t)}
+.varo-akciok{display:flex;gap:7px;flex-wrap:wrap}
+.varo-akciok .btn{padding:8px 12px;font-size:12.5px}
+/* Területi ellátás (TEK) offline lekérdezés */
+.tek-talalat{border:2px solid var(--accent);border-radius:10px;padding:10px 12px;background:var(--accent-bg);margin-top:4px}
+.tek-talalat-fej{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.tek-talalat-nev{font-size:15px;font-weight:800;color:var(--accent)}
+.tek-talalat-tip{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.tek-sor{display:flex;align-items:baseline;gap:9px;padding:6px 4px;font-size:12.5px;line-height:1.4;width:100%;background:none;border:0;border-bottom:1px solid var(--border);font-family:inherit;text-align:left;cursor:pointer}
+.tek-sor:last-of-type{border-bottom:0}
+.tek-kod{flex:none;min-width:52px;font-weight:800;color:var(--accent);font-size:12px}
+.tek-nev{color:var(--text)}
+.tek-reszlet{font-size:11.5px;color:var(--muted);line-height:1.45;padding:2px 0 6px 61px}
+.tek-ido{font-size:11.5px;line-height:1.45;border-radius:7px;padding:5px 9px;margin:4px 0 2px}
+.tek-ido.ok{background:var(--l4b);color:var(--l4t);border:1px solid var(--l4s)}
+.tek-ido.nem{background:var(--l2b);color:var(--l2t);border:1px solid var(--l2s)}
+.tek-sor-megj{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--l2t);background:var(--l2b);border-radius:7px;padding:6px 9px;margin-top:6px}
+.tek-sor-megj svg{flex:none;width:15px;height:15px;margin-top:1px}
+.tek-vedokorlat{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45;font-weight:600;color:var(--l1t);background:var(--l1b);border:2px solid var(--l1s);border-radius:9px;padding:9px 11px;margin-bottom:11px}
+.tek-vedokorlat svg{flex:none;width:17px;height:17px;margin-top:1px}
+.tek-kiemelt{font-size:12px;line-height:1.5;color:var(--l2t);background:var(--l2b);border-left:4px solid var(--l2);border-radius:0 7px 7px 0;padding:6px 10px;margin-top:6px}
 .betegut-eredmeny.jaro{background:var(--l4b);border-color:var(--l4s);color:var(--l4t)}
 .betegut-eredmeny.fekvo{background:var(--l2b);border-color:var(--l2s);color:var(--l2t)}
 .betegut-eredmeny.pending{background:var(--bg);color:var(--muted)}
@@ -419,8 +467,21 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 /* Döntő szabály forrás-jelölése (transzparencia) */
 .reason-src{display:inline-block;color:var(--muted);font-size:11.5px;font-weight:600;background:var(--bg);border-radius:6px;padding:1px 7px;margin-left:2px}
 
+/* ≤480px: a fejléc négy vezérlője csak így fér el egy sorban — a szöveg elrejtve,
+   a title/aria megmarad. A gombok helye NEM változik torlódás módban sem. */
+@media(max-width:480px){
+  .hdr .btn>span{display:none}
+  .hdr .btn{padding:10px 11px}
+  .torlodas-sav{gap:7px;padding:7px 9px}
+  .torl-info{flex-basis:100%;order:3}
+  .torl-btn{margin-left:auto}
+  .varo-sor{gap:7px}
+  .varo-akciok{width:100%}
+  .varo-akciok .btn{flex:1;min-height:44px}
+}
+
 </style>
-<meta name="build" content="egyfajlos 2026-07-21">
+<meta name="build" content="egyfajlos 2026-09-18">
 </head>
 <body>
 <div id="app">
@@ -439,6 +500,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
+  <div class="torlodas-sav" id="torlodas-sav" hidden></div>
   <div class="parkolt-sav" id="parkolt-sav" hidden></div>
   <div class="crumbs" id="crumbs"></div>
   <div id="crit-banner"></div>
@@ -464,7 +526,9 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "tankonyv": "Triázs tankönyv 2.0 (MSOTKE, 2016)",
       "jegyzet": "MSTR oktatói jegyzet (2022)",
       "ctas": "CTAS COT-2008 (kanonikus, döntőbíró)",
-      "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)"
+      "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)",
+      "tek": "SE Területi Ellátás Segédlet — OMSZ Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK (2026.08.04.)",
+      "utasitas": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend (SE SOK, 2026.09.15.)"
     },
     "counts": {
       "levels": 5,
@@ -486,6 +550,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "targetTime": "azonnal",
       "nurseTime": "azonnal",
       "reassess": "folyamatos ellátás, nincs időszakos újraértékelés",
+      "reassessMin": null,
       "description": "Az élet vagy a végtag elvesztésének veszélyével járó állapotok. Halaszthatatlan, invazív beavatkozások szükségesek; az állapotromlás veszélye azonnali. A betegek nyilvánvaló vitális disztresszben és instabilitásban vannak, azonnali és agresszív beavatkozásra szorulnak. Ilyenkor a triázsnál nem kell időt vesztegetni a vitális paraméterekre és az anamnézisre, további triázs értékelésre nincs szükség.",
       "typical": [
         "keringésmegállás",
@@ -533,6 +598,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "targetTime": "orvosi értékelés 15 percen belül",
       "nurseTime": "azonnal",
       "reassess": "15 percenként",
+      "reassessMin": 15,
       "description": "A beteg állapota potenciálisan életveszélyes, vagy a végtag potenciálisan veszélyben van. Orvos által vagy orvos irányításával végzett gyors beavatkozás(ok) szükséges(ek). Gyors orvosi értékelés kell, mert a beteg állapota a reszuszcitáció/azonnali kategóriába súlyosbodhat. A vitális paraméterek általában abnormálisak.",
       "typical": [
         "közepes fokú nehézlégzés",
@@ -585,6 +651,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "targetTime": "orvosi értékelés 30 percen belül",
       "nurseTime": "30 percen belül",
       "reassess": "30 percenként",
+      "reassessMin": 30,
       "description": "Az állapot sürgősségi beavatkozást igénylő, súlyos egészségügyi probléma irányába haladhat. Jelentős tünetekkel járhat, ami a munkavégzést vagy a mindennapi élettevékenységhez szükséges képességeket befolyásolhatja. A vitális paraméterek rendszerint normálisak, vagy a normális alsó vagy felső határán vannak. Egyértelmű az állapotromlás lehetősége, a túlzsúfoltság miatt e betegek mégis gyakran várakozni kényszerülnek.",
       "typical": [
         "enyhe fokú nehézlégzés",
@@ -637,6 +704,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "targetTime": "orvosi értékelés 60 percen belül",
       "nurseTime": "60 percen belül",
       "reassess": "60 percenként",
+      "reassessMin": 60,
       "description": "A panaszok visszavezethetőek a beteg előrehaladott életkorára vagy állapotára; a lehetséges állapotromlás várhatóan megelőzhető 1 vagy 2 órán belüli beavatkozással.",
       "typical": [
         "időskori demenciához társuló zavartság (krónikus, a szokásos tudatállapottól el nem tér)",
@@ -686,6 +754,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       "targetTime": "orvosi értékelés 120 percen belül",
       "nurseTime": "120 percen belül",
       "reassess": "120 percenként",
+      "reassessMin": 120,
       "description": "A panaszok akutak, de nem sürgősek, vagy egy krónikus állapot részei lehetnek (bizonytalan állapotromlással vagy anélkül). A betegség vagy sérülés vizsgálata halasztható, vagy a triázst követő elsődleges orvosi megítélés alapján a kórház/egészségügyi intézmény más területére átirányítható.",
       "typical": [
         "enyhe hasmenés jelentős folyadékvesztés/kiszáradás nélkül",
@@ -22445,6 +22514,1171 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         "megjegyzes": "publikus"
       }
     ]
+  },
+  "tek": {
+    "cim": "SE területi ellátás (TEK)",
+    "forras": "SE Területi Ellátás Segédlet — OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK-nyilvántartás (2026.08.04.)",
+    "fejlec": "SEMMELWEIS EGYETEM SÜRGŐSSÉGI ORVOSTANI KLINIKA SE TERÜLETI ELLÁTÁS SEGÉDLET A 2026. évi OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) és az NNGYK ESZENY TEK-nyilvántartás (2026.08.04.) alapján.",
+    "hasznalat": "Írd be a kerületet (pl. „IX”) vagy a település nevét (pl. „Dunaharaszti”) — ékezet nélkül is működik.",
+    "korlat": "A tábla a beteg LAKCÍME szerinti területi ellátást mutatja. Trauma esetén a sérülés helyszíne, stroke-nál a feltalálási hely dönt. A találat tájékoztató: nem elküldési indok, és nem helyettesíti a műszakvezető orvos döntését.",
+    "keruletek": [
+      {
+        "ker": "I.",
+        "ellatas": [
+          "VSZÉK (AMI)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "budavar var"
+      },
+      {
+        "ker": "II.",
+        "ellatas": [
+          "VSZÉK (csak AMI <12h, BIK-terület kivétel*)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "rozsadomb",
+        "megjegyzesek": [
+          "Csak STEMI-nél: a Margit krt. – Keleti Károly u. – Bimbó út – Alsó Törökvész út – Törökvész út – Pusztaszeri út által határolt terület a Budai Irgalmasrendi Kórházhoz (BIK) tartozik."
+        ]
+      },
+      {
+        "ker": "III.",
+        "ellatas": [
+          "INK (stroke <24h)",
+          "Pszi",
+          "Érseb"
+        ],
+        "aliasok": "obuda bekasmegyer"
+      },
+      {
+        "ker": "V.",
+        "ellatas": [
+          "Neu (>24h)",
+          "Szem"
+        ],
+        "aliasok": "belvaros lipotvaros"
+      },
+      {
+        "ker": "VIII.",
+        "ellatas": [
+          "FOG",
+          "Neu (>24h)",
+          "StrN (stroke <24h)",
+          "Uro",
+          "Pszi",
+          "Pul"
+        ],
+        "aliasok": "jozsefvaros"
+      },
+      {
+        "ker": "IX.",
+        "ellatas": [
+          "Uro",
+          "Pul",
+          "StrN (stroke <24h, egyébként DPC-Szt. István)",
+          "Szem",
+          "Tra"
+        ],
+        "aliasok": "ferencvaros",
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "ker": "XI.",
+        "ellatas": [
+          "Uro",
+          "VSZÉK (AMI)"
+        ],
+        "aliasok": "ujbuda lagymanyos kelenfold"
+      },
+      {
+        "ker": "XII.",
+        "ellatas": [
+          "VSZÉK (AMI)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "hegyvidek"
+      },
+      {
+        "ker": "XV.",
+        "ellatas": [
+          "INK (stroke <24h)"
+        ],
+        "aliasok": "rakospalota pestujhely ujpalota"
+      },
+      {
+        "ker": "XVI.",
+        "ellatas": [
+          "Pul"
+        ],
+        "aliasok": "matyasfold cinkota sashalom arpadfold rakosszentmihaly",
+        "megjegyzesek": [
+          "Belgyógyászat irányítószám szerint: 1161, 1163, 1164 → BOK; 1162, 1165 → BHK. Egyéb (pl. hajléktalan): vezetéknév A-I → BOK, J-Z → BHK.",
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "ker": "XIX.",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ],
+        "aliasok": "kispest"
+      },
+      {
+        "ker": "XX.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "pesterzsebet"
+      },
+      {
+        "ker": "XXI.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "csepel"
+      },
+      {
+        "ker": "XXII.",
+        "ellatas": [
+          "Tra",
+          "VSZÉK (AMI)"
+        ],
+        "aliasok": "budafok teteny budateteny nagyteteny"
+      },
+      {
+        "ker": "XXIII.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "soroksar"
+      }
+    ],
+    "telepulesek": [
+      {
+        "telepules": "Alsónémedi",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Lórév",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetszentmárton",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Apaj",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Majosháza",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetújfalu",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Biatorbágy",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Makád",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Százhalombatta",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pszi",
+          "Szem",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budajenő",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Nagykovácsi",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Sóskút",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budakalász",
+        "ellatas": [
+          "Pszi",
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Perbál",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Tahitótfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Budakeszi",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisborosjenő",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Taksony",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budaörs",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Piliscsaba",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tatárszentgyörgy",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Bugyi",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Pilisjászfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Telki",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Csobánka",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Pilisszentkereszt",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tinnye",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Dabas",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisszentlászló",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Táborfalva",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Diósd",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisszántó",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tárnok",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunabogdány",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Pilisvörösvár",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tök",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunaharaszti",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pomáz",
+        "ellatas": [
+          "Pszi",
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tököl",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Pszi",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunavarsány",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pusztavacs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Törökbálint",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Délegyháza",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pusztazámor",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Vecsés",
+        "ellatas": [
+          "Tra"
+        ],
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "telepules": "Dömsöd",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Páty",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Visegrád",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Felsőpakony",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Pócsmegyer",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Zsámbék",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Gyál",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Remeteszőlős",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Áporka",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Halásztelek",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ],
+        "megjegyzesek": [
+          "Nefrológia: DPC-Szt. István Kh."
+        ]
+      },
+      {
+        "telepules": "Ráckeve",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Érd",
+        "ellatas": [
+          "BOK",
+          "Uro",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Herceghalom",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Solymár",
+        "ellatas": [
+          "Pszi"
+        ]
+      },
+      {
+        "telepules": "Ócsa",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Hernád",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szentendre",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Örkény",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Inárcs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetbecse",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Újhartyán",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Kakucs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetcsép",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Újlengyel",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Kiskunlacháza",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigethalom",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Üllő",
+        "ellatas": [
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Kisoroszi",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Szigetmonostor",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Üröm",
+        "ellatas": [
+          "Pszi"
+        ]
+      },
+      {
+        "telepules": "Leányfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Szigetszentmiklós",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ],
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      }
+    ],
+    "rovidites": [
+      {
+        "kod": "BHK",
+        "nev": "SE Belgyógyászati és Hematológiai Klinika",
+        "megjegyzes": "belgyógyászat",
+        "rovid": "belgyógyászat / hematológia"
+      },
+      {
+        "kod": "BOK",
+        "nev": "SE Belgyógyászati és Onkológiai Klinika",
+        "megjegyzes": "belgyógyászat",
+        "rovid": "belgyógyászat / onkológia"
+      },
+      {
+        "kod": "Hema",
+        "nev": "hematológia",
+        "megjegyzes": "BHK",
+        "rovid": "hematológia"
+      },
+      {
+        "kod": "Seb",
+        "nev": "SE Sebészeti, Transzplantációs és Gasztroenterológiai Klinika",
+        "megjegyzes": "az akut gasztroenterológia is",
+        "rovid": "sebészet (akut gasztroenterológia is)"
+      },
+      {
+        "kod": "Érseb",
+        "nev": "érsebészet",
+        "megjegyzes": "VSZÉK",
+        "rovid": "érsebészet"
+      },
+      {
+        "kod": "FOG",
+        "nev": "SE Fül-, Orr-, Gégészeti és Fej-Nyaksebészeti Klinika",
+        "megjegyzes": "",
+        "rovid": "fül-orr-gégészet"
+      },
+      {
+        "kod": "Neu",
+        "nev": "SE Neurológiai Klinika",
+        "megjegyzes": "általános neurológia (SOK-on keresztül)",
+        "rovid": "neurológia"
+      },
+      {
+        "kod": "StrN",
+        "nev": "SE Neurológiai Klinika",
+        "megjegyzes": "akut stroke <24h (SOK-on keresztül)",
+        "rovid": "stroke <24h (neurológia)"
+      },
+      {
+        "kod": "INK",
+        "nev": "SE Idegsebészeti és Neurointervenciós Klinika",
+        "megjegyzes": "stroke <24h",
+        "rovid": "idegsebészet / neurointervenció"
+      },
+      {
+        "kod": "Uro",
+        "nev": "SE Urológiai Klinika",
+        "megjegyzes": "SOK-on keresztül",
+        "rovid": "urológia"
+      },
+      {
+        "kod": "Pul",
+        "nev": "SE Pulmonológiai Klinika",
+        "megjegyzes": "",
+        "rovid": "tüdőgyógyászat"
+      },
+      {
+        "kod": "Pszi",
+        "nev": "SE Pszichiátriai és Pszichoterápiás Klinika",
+        "megjegyzes": "",
+        "rovid": "pszichiátria"
+      },
+      {
+        "kod": "Szem",
+        "nev": "SE Szemészeti Klinika",
+        "megjegyzes": "",
+        "rovid": "szemészet"
+      },
+      {
+        "kod": "Szül",
+        "nev": "SE Szülészeti és Nőgyógyászati Klinika",
+        "megjegyzes": "",
+        "rovid": "szülészet-nőgyógyászat"
+      },
+      {
+        "kod": "Tra",
+        "nev": "SE Traumatológiai Klinika",
+        "megjegyzes": "",
+        "rovid": "traumatológia"
+      },
+      {
+        "kod": "VSZÉK",
+        "nev": "SE Városmajori Szív- és Érgyógyászati Klinika",
+        "megjegyzes": "",
+        "rovid": "szív- és érgyógyászat"
+      },
+      {
+        "kod": "BIK",
+        "nev": "Budai Irgalmasrendi Kórház",
+        "megjegyzes": "nem a RÖVIDÍTÉSEK sorban, hanem a II. kerületi STEMI-lábjegyzetben feloldva",
+        "rovid": "Budai Irgalmasrendi Kórház"
+      },
+      {
+        "kod": "DPC-Szt. István",
+        "nev": "DPC-Szt. István Kh.",
+        "megjegyzes": "nem a RÖVIDÍTÉSEK sorban; a IX. kerületi stroke-kitételben és a Halásztelek nefrológia szabályban szerepel",
+        "rovid": "DPC-Szt. István Kórház"
+      }
+    ],
+    "szabalyok": [
+      {
+        "cim": "Trauma",
+        "szoveg": "Trauma: mindig a sérülés helyszíne (feltalálási hely) dönt, nem a beteg lakcíme.",
+        "kiemelt": true
+      },
+      {
+        "cim": "Stroke (<24h)",
+        "szoveg": "Stroke (<24h): a beutalás feltalálási hely szerinti, az időablak miatt a mentő ettől eltérhet. Mechanikus thrombectomiára az INK a régió teljes területéről folyamatosan fogad.",
+        "kiemelt": true
+      },
+      {
+        "cim": "Kardiológia (AMI)",
+        "szoveg": "Kardiológia (AMI): a területi elv munkanapokon 8 és 18 óra között érvényes. Éjjel, hétvégén és ünnepnapokon a STEMI a fővárosi napi ügyeleti beosztás szerint megy, a VSZÉK ügyeleti napjain egész Budapestről érkezhet beteg.",
+        "kiemelt": true
+      },
+      {
+        "cim": "* II. kerületi BIK-kivétel (csak STEMI-nél)",
+        "szoveg": "* II. kerületi BIK-kivétel (csak STEMI-nél): a Margit krt. – Keleti Károly u. – Bimbó út – Alsó Törökvész út – Törökvész út – Pusztaszeri út által határolt terület a Budai Irgalmasrendi Kórházhoz tartozik.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Érseb (VSZÉK, TEK szerint)",
+        "szoveg": "Érseb (VSZÉK, TEK szerint): I., II., III., XII. kerület, továbbá a Zsámbéki-medence, a Pilis és a Szentendrei-sziget települései, valamint Esztergom, Dorog, Tata és Komárom térsége.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Hema (BHK, II. szint)",
+        "szoveg": "Hema (BHK, II. szint): I., II., XII. kerület és az északnyugati agglomeráció.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Nem kizárólagos, ügyeleti napokon egész Budapestről az SE-re kerülő ellátások",
+        "szoveg": "Nem kizárólagos, ügyeleti napokon egész Budapestről az SE-re kerülő ellátások: szemészet, GI-vérzés, arc-állcsont-szájsebészet, detoxikálás, nem traumás idegsebészet, bronchológia, pulmonológiai intenzív.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Instabil beteg",
+        "szoveg": "Instabil beteg mindig a legközelebbi SBO-ra kerül.",
+        "kiemelt": true
+      },
+      {
+        "cim": "** XVI. kerület belgyógyászat irányítószám szerint",
+        "szoveg": "** XVI. kerület belgyógyászat irányítószám szerint: 1161, 1163, 1164 BOK, 1162, 1165 BHK. Egyéb (pl. hajléktalan): vezetéknév A-I BOK, J-Z BHK.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Halásztelek nefrológia",
+        "szoveg": "Halásztelek nefrológia: DPC-Szt. István Kh.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Tartós (krónikus) fekvő kijelölés az SE-nél belgyógyászatra",
+        "szoveg": "Tartós (krónikus) fekvő kijelölés az SE-nél belgyógyászatra: IX. és XVI. kerület, Szigetszentmiklós, Tápióság, Vecsés.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Pszichiátriai rehabilitáció",
+        "szoveg": "Pszichiátriai rehabilitáció: a Csepel-sziget és a Ráckevei járás települései.",
+        "kiemelt": false
+      }
+    ],
+    "amiIdoablak": {
+      "munkanapKezd": 8,
+      "munkanapVeg": 18,
+      "ervenyes": "A területi elv érvényes: munkanap 8–18 óra között.",
+      "nemErvenyes": "A területi elv MOST NEM érvényes: a STEMI a fővárosi napi ügyeleti beosztás szerint megy, a VSZÉK ügyeleti napjain egész Budapestről érkezhet beteg.",
+      "figyelem": "A készülék órája alapján számolva; az ünnepnapokat nem ismeri.",
+      "erintettKodok": [
+        "VSZÉK"
+      ]
+    },
+    "nincsTalalat": "Ehhez a kerülethez/településhez ez a segédlet nem sorol fel SE-kötelezettséget. Ez NEM jelenti, hogy a beteg elutasítható vagy elküldhető — a betegfelvételi alapelv 6. pontja szerint területi illetékességre hivatkozva más SBO-ra beteget továbbküldeni TILOS. A segédlet csak a 15 felsorolt budapesti kerületet és a Pest vármegyei / agglomerációs településeket tartalmazza.",
+    "vedokorlat": "Ez a lista a DEFINITÍV ellátó szakma/klinika azonosítására szolgál — nem a felvétel eldöntésére. Területi illetékességre hivatkozva beteget más SBO-ra továbbküldeni TILOS. Instabil beteg mindig a legközelebbi SBO-ra kerül.",
+    "felulvizsgalat": "A beutalási rend évente változik — a hatályos forrást (XTEK / NNGYK) ellenőrizd. Adat: OMSZ 2025.12.03. + NNGYK ESZENY 2026.08.04."
+  },
+  "torlodas": {
+    "cim": "Torlódási eljárásrend",
+    "forras": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend",
+    "forrasReszlet": "SE Sürgősségi Orvostani Klinika, Dr. Fenyves Bánk Gábor klinikaigazgató, Budapest, 2026.09.15.",
+    "alapelv": "Amíg a klinikán rendelkezésre áll szabad ágy, a mentőszolgálat által beszállított betegeket át kell venni.",
+    "hatalybaLepes": {
+      "mikor": "Az eljárásrend akkor lép életbe, amikor (1 „reanimációs” ágy kivételével) minden ellátóhely megtelt, és a beszállító mentőegységek torlódnak.",
+      "kiRendeliEl": "Az életbe lépést a műszakvezető orvos rendeli el.",
+      "teendok": [
+        "A flow manager ezt dokumentálja.",
+        "A flow manager tájékoztatja az OMSZ mentésirányítását arról, hogy a klinika fogadóképessége korlátozott."
+      ],
+      "megszunes": "Az eljárásrend megszűnésekor ugyanígy kell eljárni (dokumentálás + az OMSZ mentésirányításának tájékoztatása)."
+    },
+    "orzo": {
+      "cim": "Az őrző/sokktalanító kapacitásának használata",
+      "szoveg": "Ha a fekvőbeteg részleg megtelt, az őrző/sokktalanító szabad ágyait olyan beteggel is fel kell tölteni, aki egyébként nem igényel őrző/sokktalanító-szintű ellátást. Egy ágyat a műszakvezető orvos reanimációs célra tart fenn, kiadása után a legelső felszabaduló ágyból pótolni kell."
+    },
+    "triazsHely": "Torlódás idején a triage ápoló minden érkező mentőegység betegét a mentőágyon triázsolja, az eMedSolba történő felvétellel párhuzamosan.",
+    "kritikus": {
+      "szintek": [
+        1,
+        2
+      ],
+      "cim": "MSTR 1–2 — kapacitástól függetlenül azonnal",
+      "szoveg": "Életveszélyes vagy kritikus állapotú beteg (MSTR I–II): kapacitástól függetlenül azonnal be kell vinni az ellátótérbe, a tartalék ágyra át kell helyezni. Az ellátást akár a mentőhordágyon meg kell kezdeni.",
+      "kiemelt": "Ezt a beteget NEM sorolhatja várólistára — a torlódás nem ok a késleltetésre."
+    },
+    "utakBevezeto": "Minden más (MSTR 3–5) beteg a következő három út egyikére kerül.",
+    "utak": [
+      {
+        "id": "ut_nem_igenyel_agyat",
+        "sorszam": 1,
+        "cim": "Ágyat nem igénylő beteg",
+        "szoveg": "A triage ápoló a járóbeteg-ellenőrzőlista alapján dönt a járóbeteg részlegre irányításról. Ha nem irányítható a járóbeteg részlegre, de ágyat sem igényel, a fekvőbeteg-részen ülő helyet kap egy kezelőszékben.",
+        "dontesHozo": "triage ápoló",
+        "eszkoz": "A járóbeteg-ellenőrzőlista = a Betegút képernyő 7 pontos járó-checklistje.",
+        "kimenetek": [
+          {
+            "ha": "a járó-checklist minden pontja teljesül",
+            "akkor": "járóbeteg részlegre irányítható"
+          },
+          {
+            "ha": "járóbeteg részlegre nem irányítható, de ágyat sem igényel",
+            "akkor": "ülő hely kezelőszékben, a fekvőbeteg-részen"
+          }
+        ]
+      },
+      {
+        "id": "ut_fast_track",
+        "sorszam": 2,
+        "cim": "Fast track beteg",
+        "szoveg": "A triage ápoló felismeri a potenciális át-/továbbirányíthatóságot és jelzi a műszakvezető orvosnak, aki maga vagy az általa kijelölt ellátó értékeli a beteget és a lehető leghamarabb dönt a további betegútról.",
+        "dontesHozo": "műszakvezető orvos (vagy az általa kijelölt ellátó) — a triage ápoló csak JELEZ, nem dönt",
+        "feltetelekCim": "Területen kívüli beteg más intézménybe CSAK akkor küldhető, ha MINDEN alábbi teljesül:",
+        "feltetelek": [
+          {
+            "id": "ft_iranydiagnozis",
+            "szoveg": "Az iránydiagnózis felállítható."
+          },
+          {
+            "id": "ft_celintezmeny",
+            "szoveg": "A célintézmény kijelölhető — és az NEM lehet másik SBO."
+          },
+          {
+            "id": "ft_szallithato",
+            "szoveg": "A beteg biztonsággal továbbszállítható."
+          },
+          {
+            "id": "ft_medsol",
+            "szoveg": "A továbbküldés a MedSolban rögzítésre került."
+          }
+        ],
+        "tilalom": "Más SBO-ra beteget területi illetékességre hivatkozva továbbküldeni TILOS (SE SOK betegfelvételi alapelv 6.). A területi adat itt a műszakvezetői döntés alapja, nem elküldési indok."
+      },
+      {
+        "id": "ut_agyat_igenyel",
+        "sorszam": 3,
+        "cim": "Ágyat igénylő, nem kritikus beteg",
+        "szoveg": "A triage ápoló a mentőágyon triázsol, majd a beteg a mentőhordágyon várakozik szabad ágyra. Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges. A további ellátást a rendelkezésre álló kapacitás szerint mielőbb el kell kezdeni.",
+        "dontesHozo": "triage ápoló",
+        "retriage": "Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges.",
+        "retriageForras": "Az időközöket az MSTR-szintek újraértékelési előírása adja (KB.levels[].reassess): MSTR 2 – 15 percenként, MSTR 3 – 30 percenként, MSTR 4 – 60 percenként, MSTR 5 – 120 percenként."
+      }
+    ],
+    "sorrend": {
+      "cim": "A fekvőbeteg-részre kerülés sorrendje",
+      "szoveg": "A fekvőbeteg-részre kerülés sorrendjét a triage ápoló a betegek állapota és triage-kategóriája alapján határozza meg, nem az érkezési idő szerint. A következő felszabaduló ágyra kijelölt mentőegység a fekvőbeteg-részen, a többi a triage váróban várakozik. A triage ápolók folyamatosan egyeztetnek, szükség esetén a műszakvezető ápoló is részt vesz a koordinációban.",
+      "kiemelt": "NEM érkezési sorrend — állapot és triázs-kategória dönt."
+    },
+    "dokumentacio": {
+      "cim": "Kötelező dokumentáció",
+      "pontok": [
+        "Triage és re-triage dokumentáció minden betegnél szükséges.",
+        "Fast-track ellátás esetén ambuláns lap készítendő, amely minimálisan a státuszt és az epikrízist tartalmazza."
+      ]
+    }
   }
 };
   if (typeof module !== 'undefined' && module.exports) module.exports = KB;
@@ -22839,7 +24073,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   function forrasSzoveg(forras) {
     if (!forras || !forras.length) return 'nincs forráshivatkozás';
     return forras.map(function (f) {
-      const nev = f.doc === 'tankonyv' ? 'Tankönyv' : f.doc === 'jegyzet' ? 'Oktatói jegyzet (2022)' : f.doc === 'ctas' ? 'CTAS COT-2008' : f.doc === 'mstr' ? 'MSOTKE-MSTR munkacsoport poszter' : f.doc;
+      const nev = f.doc === 'tankonyv' ? 'Tankönyv' : f.doc === 'jegyzet' ? 'Oktatói jegyzet (2022)' : f.doc === 'ctas' ? 'CTAS COT-2008' : f.doc === 'mstr' ? 'MSOTKE-MSTR munkacsoport poszter' : f.doc === 'tek' ? 'SE Területi Ellátás Segédlet' : f.doc === 'utasitas' ? '4/2026. Igazgatói Utasítás — Torlódási eljárásrend' : f.doc;
       if (f.page == null) return nev;
       return f.doc === 'ctas' ? (nev + ' DIA ' + f.page) : (nev + ' ' + f.page + '. o.');
     }).join('; ');
@@ -23439,6 +24673,14 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       $('prog-fill').style.width = '100%';
       // a szint-chip + morzsa marad kontextusnak (nem térünk vissza korán)
     }
+    if (S.step === 'varolista') {
+      $('lv-chip').hidden = true;
+      $('prog-step').textContent = 'Torlódás — mentőágyon várók';
+      $('prog-pct').textContent = '';
+      $('prog-fill').style.width = '100%';
+      $('crumbs').innerHTML = '';
+      return;
+    }
     var er = S.utolso;
     var chip = $('lv-chip'), dot = $('lv-chip-dot');
     if (er && er.szint != null) {
@@ -23641,8 +24883,36 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     (RENDER[S.step] || RENDER.kritikus)(fo);
     fejlecFrissit();
     kritikusBanner();
+    torlodasSavRajzol();
     parkoltSavRajzol();
     perzisztal();
+  }
+
+  // Torlódási státuszsáv — EGY sor: mód + ki rendelte el + mióta + várakozók + lejárt re-triage.
+  // Normál üzemben egyáltalán nem renderelődik (0 pixel), hogy a megszokott felület ne változzon.
+  // Színe szándékosan NEM piros/narancs (MSTR 1–2 foglalt) és nem borostyán (parkolt sáv).
+  function torlodasSavRajzol() {
+    var sav = $('torlodas-sav'); if (!sav) return;
+    sav.innerHTML = '';
+    var t = torlodas();
+    if (!t || !t.aktiv) { sav.hidden = true; return; }
+    sav.hidden = false;
+    var lista = varolista();
+    var lejart = lista.filter(function (v) { var r = retriageAllapot(v); return r && r.lejart; }).length;
+    var cimke = el('span', 'torl-cimke');
+    cimke.innerHTML = ikonSvg('bolt') + '<span>TORLÓDÁSI ELJÁRÁSREND — NÉZET</span>';
+    sav.appendChild(cimke);
+    var info = el('span', 'torl-info');
+    info.textContent = (t.elrendelo ? 'elrendelte: ' + t.elrendelo + ' · ' : '') + oraPerc(t.ido) + ' óta (' + idoSzoveg(percTol(t.ido)) + ')';
+    sav.appendChild(info);
+    var varoBtn = el('button', 'torl-btn'); varoBtn.type = 'button';
+    varoBtn.textContent = lista.length + ' vár' + (lejart ? ' · ' + lejart + ' lejárt re-triage' : '') + ' →';
+    if (lejart) varoBtn.classList.add('lejart');
+    varoBtn.onclick = function () { if (S.step !== 'varolista') { S.varolistaElozoStep = S.step; S.step = 'varolista'; render(); } };
+    sav.appendChild(varoBtn);
+    var ki = el('button', 'torl-ki', 'Kikapcsolás'); ki.type = 'button';
+    ki.onclick = torlodasKapcsolo;
+    sav.appendChild(ki);
   }
 
   // Parkolt (függő) betegek sora — egy koppintás a visszatöltéshez.
@@ -23652,7 +24922,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     sav.innerHTML = '';
     if (!arr.length) { sav.hidden = true; return; }
     sav.hidden = false;
-    var pcimke = el('span', 'parkolt-cimke'); pcimke.innerHTML = ikonSvg('pause') + '<span>Függő betegek (' + arr.length + '):</span>'; sav.appendChild(pcimke);
+    var pcimke = el('span', 'parkolt-cimke'); pcimke.innerHTML = ikonSvg('pause') + '<span>Félbehagyott felvétel (' + arr.length + '):</span>'; sav.appendChild(pcimke);
     arr.forEach(function (pk) {
       var chip = el('span', 'parkolt-chip');
       var b = el('button', null, pk.cimke + ' · ' + (pk.lepesCim || '')); b.type = 'button';
@@ -24631,9 +25901,17 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     var colA = el('div'); var colB = el('div');
     ered.appendChild(colA); ered.appendChild(colB); c.appendChild(ered);
 
+    var TO = KB.torlodas || {}, torlAktiv = torlodasAktiv();
     if (szint === 1 || szint === 2) {
       var fb = el('div', 'warn'); fb.style.background = '#FDECEA'; fb.style.borderColor = 'var(--l1s)'; fb.style.color = 'var(--l1t)';
-      fb.innerHTML = ikonSvg('warn') + ' <b>MSTR ' + szint + '</b> — <b>fekvőbeteg részleg</b> (azonnali/kritikus ellátás). A járóbeteg-checklist kizárólag MSTR III–V betegnél alkalmazható.';
+      if (torlAktiv) {
+        // Torlódás alatt ez a legerősebb üzenet a képernyőn: a globális „megtelt" sáv
+        // önmagában fékezne, ezért ki KELL mondani, hogy erre a betegre nem vonatkozik.
+        fb.style.fontWeight = '700';
+        fb.innerHTML = ikonSvg('warn') + ' <b>MSTR ' + szint + ' — ' + ((TO.kritikus || {}).szoveg || '') + '</b><br>' + ((TO.kritikus || {}).kiemelt || '');
+      } else {
+        fb.innerHTML = ikonSvg('warn') + ' <b>MSTR ' + szint + '</b> — <b>fekvőbeteg részleg</b> (azonnali/kritikus ellátás). A járóbeteg-checklist kizárólag MSTR III–V betegnél alkalmazható.';
+      }
       colA.appendChild(fb);
     } else {
       // — auto-származtatás a triázs-adatból —
@@ -24684,9 +25962,92 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         out.innerHTML = '<b>Járóbeteg részlegre irányítható</b> — minden kritérium teljesül.' + (S.betegut.frailty ? '<br>' + ikonSvg('warn') + ' ' + (BU.eletkorMegjegyzes || '') : '');
       }
       colA.appendChild(out);
+
+      // — TORLÓDÁS: az utasítás 3 útja. Csak torlódás módban, mert ezek a betegutak
+      //   (mentőhordágyon várakozás, ülő hely kezelőszékben) torlódáson kívül nem léteznek.
+      if (torlAktiv) {
+        colA.appendChild(el('div', 'card-eye', 'Torlódás — elhelyezés (4/2026. utasítás)'));
+        var bev = el('div', 'skip-hint'); bev.textContent = TO.utakBevezeto || ''; colA.appendChild(bev);
+
+        // 3. kimenet, ami a mai checklistből hiányzik: „ülő hely kezelőszékben"
+        var ulveOk = S.betegut['ulve'] === 'igen';
+        if (vanNem && ulveOk) {
+          var ulo = el('div', 'betegut-eredmeny ulo');
+          ulo.innerHTML = '<b>Ülő hely kezelőszékben</b> — a fekvőbeteg-részen.<br>' +
+            'Járóbeteg részlegre nem irányítható, de ágyat sem igényel (az „ülve ellátható" pont IGEN).';
+          colA.appendChild(ulo);
+        }
+
+        var utBox = el('div', 'torl-utak');
+        (TO.utak || []).forEach(function (u) {
+          var d = el('details', 'detour-wrap');
+          d.appendChild(el('summary', null, u.sorszam + '. ' + u.cim));
+          var b = el('div', 'detour-body');
+          var sz = el('div'); sz.style.cssText = 'font-size:12.5px;line-height:1.5;margin-bottom:7px'; sz.textContent = u.szoveg;
+          b.appendChild(sz);
+          if (u.dontesHozo) {
+            var dh = el('div', 'torl-dontes'); dh.innerHTML = ikonSvg('shield') + '<span><b>Döntéshozó:</b> ' + u.dontesHozo + '</span>';
+            b.appendChild(dh);
+          }
+          if (u.id === 'ut_fast_track') {
+            // A fast track ÁTADÁS, nem döntés — és a TEK szándékosan NEM érhető el innen:
+            // TEK + fast track + torlódási nyomás egy képernyőn = a tiltott, területi alapú továbbküldés.
+            var til = el('div', 'tek-vedokorlat');
+            til.innerHTML = ikonSvg('warn') + '<span>' + (u.tilalom || '') + ' Instabil beteg mindig a legközelebbi SBO-ra kerül.</span>';
+            b.appendChild(til);
+            var ft = el('div'); ft.style.cssText = 'font-size:12.5px;font-weight:700;margin:8px 0 4px'; ft.textContent = u.feltetelekCim || '';
+            b.appendChild(ft);
+            (u.feltetelek || []).forEach(function (f) {
+              var li = el('div', 'torl-felt'); li.textContent = '• ' + f.szoveg; b.appendChild(li);
+            });
+            var amb = el('button', 'btn btn-ghost btn-full', 'Ambuláns lap váza vágólapra'); amb.type = 'button';
+            amb.style.marginTop = '8px';
+            amb.onclick = function () { vagolapra(ambulansLapVaz(), amb); };
+            b.appendChild(amb);
+          }
+          if (u.id === 'ut_agyat_igenyel') {
+            var rt = el('div', 'torl-dontes'); rt.innerHTML = ikonSvg('history') + '<span><b>Re-triage:</b> ' + (u.retriage || '') + '</span>';
+            b.appendChild(rt);
+            var vb = el('button', 'btn btn-full', 'Várólistára — mentőhordágyon vár'); vb.type = 'button';
+            vb.style.marginTop = '8px';
+            vb.onclick = function () { varolistaraTesz('fekvo_var'); S.varolistaElozoStep = 'betegut'; S.step = 'varolista'; render(); };
+            b.appendChild(vb);
+          }
+          if (u.id === 'ut_nem_igenyel_agyat' && vanNem && ulveOk) {
+            var ub = el('button', 'btn btn-ghost btn-full', 'Várólistára — ülő hely kezelőszékben'); ub.type = 'button';
+            ub.style.marginTop = '8px';
+            ub.onclick = function () { varolistaraTesz('ulo'); S.varolistaElozoStep = 'betegut'; S.step = 'varolista'; render(); };
+            b.appendChild(ub);
+          }
+          d.appendChild(b); utBox.appendChild(d);
+        });
+        colA.appendChild(utBox);
+
+        if (TO.orzo) {
+          var orz = el('div', 'skip-hint'); orz.style.marginTop = '8px';
+          orz.textContent = TO.orzo.cim + ': ' + TO.orzo.szoveg;
+          colA.appendChild(orz);
+        }
+        var dok2 = el('div', 'warn'); dok2.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276;margin-top:8px';
+        dok2.innerHTML = ikonSvg('bulb') + ' <b>' + ((TO.dokumentacio || {}).cim || 'Kötelező dokumentáció') + ':</b> ' + ((TO.dokumentacio || {}).pontok || []).join(' ');
+        colA.appendChild(dok2);
+      }
     }
 
-    // — SE SOK felvételi szabályok (referencia) + linkek — jobb oszlop —
+    // — Területi ellátás (TEK) offline lekérdezés + SE SOK felvételi szabályok + linkek — jobb oszlop —
+    // A TEK csak KÉRÉSRE nyílik (overlay): állandó blokként mobilon a hajtás alá tolná a
+    // járó-checklistet, és fontosabbnak látszana, mint maga a diszpozíciós döntés.
+    if ((KB.tek || {}).telepulesek) {
+      colB.appendChild(el('div', 'card-eye', 'Területi ellátás (tájékoztató)'));
+      var tekBtn = elIko('button', 'btn btn-ghost btn-full', 'search', 'Területi ellátás (TEK) — kerület / település');
+      tekBtn.type = 'button'; tekBtn.style.cssText = 'margin-bottom:6px;text-align:left';
+      tekBtn.onclick = function () { tekOverlay(); };
+      colB.appendChild(tekBtn);
+      var tekH = el('div', 'skip-hint');
+      tekH.textContent = 'Offline, a segédlet alapján. A definitív ellátó szakma azonosítására — nem a felvétel eldöntésére.';
+      tekH.style.marginBottom = '14px';
+      colB.appendChild(tekH);
+    }
     var fsz = BU.felvetelSzabalyok || {};
     if (fsz.pontok) {
       var det = el('details', 'detour-wrap');
@@ -24697,7 +26058,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       det.appendChild(body); colB.appendChild(det);
     }
     if (BU.linkek && BU.linkek.length) {
-      colB.appendChild(el('div', 'card-eye', 'Ellátási terület lekérdezése (külső)'));
+      colB.appendChild(el('div', 'card-eye', 'Hivatalos forrás ellenőrzése (külső, hálózat kell)'));
       BU.linkek.forEach(function (lk) {
         var b = elIko('button', 'btn btn-ghost btn-full', 'utvonal', lk.cim + (lk.megjegyzes ? ' — ' + lk.megjegyzes : '')); b.type = 'button';
         b.style.marginBottom = '8px'; b.style.textAlign = 'left';
@@ -24719,6 +26080,435 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     c.appendChild(row2);
     fo.appendChild(c);
   };
+
+  // ===== TERÜLETI ELLÁTÁS (TEK) — offline lekérdezés =========================
+  // Az XTEK-link csak a kórházi belső hálózaton él; a segédlet táblája offline is kell.
+  // VÉDŐKORLÁT: ez az adat NEM a felvétel eldöntésére való. A betegfelvételi alapelv 6.
+  // szerint területi illetékességre hivatkozva más SBO-ra beteget küldeni TILOS, instabil
+  // beteg pedig mindig a legközelebbi SBO-ra kerül. Ezért a modul SOHA nem ad „elküldhető"
+  // típusú következtetést, és a fast track ágról szándékosan NEM érhető el.
+  function overlayMutat(cim, epito) {
+    var tarto = $('reszlet-tarto');
+    var hatter = el('div', 'reszlet-hatter');
+    hatter.onclick = function (ev) { if (ev.target === hatter) tarto.innerHTML = ''; };
+    var panel = el('div', 'reszlet-panel');
+    var bz = ikonBtnEl('reszlet-bezar', 'close'); bz.onclick = function () { tarto.innerHTML = ''; };
+    panel.appendChild(bz);
+    panel.appendChild(el('h3', null, cim));
+    epito(panel, function () { tarto.innerHTML = ''; });
+    hatter.appendChild(panel);
+    tarto.innerHTML = ''; tarto.appendChild(hatter);
+    return panel;
+  }
+
+  var ROMAI = { i: 1, v: 5, x: 10, l: 50, c: 100 };
+  function romaiSzam(s) {
+    s = normSzo(s).replace(/[^ivxlc]/g, '');
+    if (!s) return null;
+    var ossz = 0;
+    for (var i = 0; i < s.length; i++) {
+      var e = ROMAI[s[i]], k = ROMAI[s[i + 1]];
+      if (e == null) return null;
+      ossz += (k != null && k > e) ? -e : e;
+    }
+    return ossz || null;
+  }
+  var _tekCache = null;
+  function tekTetelek() {
+    if (_tekCache) return _tekCache;
+    var T = KB.tek || {}, out = [];
+    (T.keruletek || []).forEach(function (r) {
+      var arab = romaiSzam(r.ker);
+      var kulcsszavak = [normSzo(r.ker).replace(/\./g, '')];
+      if (arab != null) { kulcsszavak.push(String(arab), ('0' + arab).slice(-2), '1' + ('0' + arab).slice(-2)); }
+      out.push({
+        tipus: 'kerulet', nev: r.ker + ' kerület', kulcs: r.ker,
+        tagok: kulcsszavak, alias: normSzo(r.aliasok || ''),
+        ellatas: r.ellatas, megjegyzesek: r.megjegyzesek || [],
+      });
+    });
+    (T.telepulesek || []).forEach(function (r) {
+      out.push({
+        tipus: 'telepules', nev: r.telepules, kulcs: r.telepules,
+        tagok: [normSzo(r.telepules)], alias: '',
+        ellatas: r.ellatas, megjegyzesek: r.megjegyzesek || [],
+      });
+    });
+    _tekCache = out; return out;
+  }
+  // Zajszavak: a nővér a mentőlapról másol, ahol „Budapest XIII. kerület" formátum van.
+  var TEK_ZAJ = /\b(budapest|bp|kerulet|ker|utca|ut|u|ter|korut|krt|hrsz)\b/g;
+  function tekKereses(query) {
+    var q = normSzo(query).replace(/\./g, ' ').replace(TEK_ZAJ, ' ').replace(/\s+/g, ' ').trim();
+    if (!q) return [];
+    // Budapesti irányítószám (1XYZ) → kerületszám. Ez a leggyorsabb út: a mentőlapon ott az irsz.
+    var irsz = q.match(/\b1(\d{2})\d\b/);
+    var irszKer = irsz ? String(parseInt(irsz[1], 10)) : null;
+    var res = [];
+    tekTetelek().forEach(function (t) {
+      var score = 0;
+      if (t.tipus === 'kerulet') {
+        if (irszKer && t.tagok.indexOf(irszKer) >= 0) score = 120;
+        else if (t.tagok.indexOf(q) >= 0) score = 100;                       // pontos tag: „ix", „9", „09"
+        else if (t.alias && t.alias.indexOf(q) >= 0 && q.length >= 3) score = 60;
+      } else {
+        if (t.tagok[0] === q) score = 110;
+        else if (t.tagok[0].indexOf(q) === 0) score = 80;
+        else if (q.length >= 3 && t.tagok[0].indexOf(q) >= 0) score = 30;
+      }
+      if (score) res.push({ t: t, score: score });
+    });
+    res.sort(function (a, b) { return b.score - a.score || a.t.nev.localeCompare(b.t.nev, 'hu'); });
+    return res.slice(0, 12).map(function (r) { return r.t; });
+  }
+  function tekRovidites(kod) {
+    var alap = String(kod).split('(')[0].trim();
+    return (KB.tek && KB.tek.rovidites || []).filter(function (x) { return x.kod === alap; })[0] || null;
+  }
+  // Az AMI területi elve CSAK munkanap 8–18 közt érvényes — ezt a készülék órájából
+  // kiszámoljuk, mert pont ügyeleti időben (amikor a torlódás jellemző) NEM érvényes.
+  function tekAmiAllapot() {
+    var A = (KB.tek || {}).amiIdoablak; if (!A) return null;
+    var d = new Date(), nap = d.getDay(), ora = d.getHours();
+    var munkanap = nap >= 1 && nap <= 5;
+    var ervenyes = munkanap && ora >= A.munkanapKezd && ora < A.munkanapVeg;
+    var napNev = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat'][nap];
+    return {
+      ervenyes: ervenyes,
+      szoveg: 'Most (' + napNev + ' ' + ('0' + ora).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + '): ' +
+        (ervenyes ? A.ervenyes : A.nemErvenyes),
+      figyelem: A.figyelem,
+    };
+  }
+  function tekTalalatDoboz(t) {
+    var T = KB.tek || {};
+    var box = el('div', 'tek-talalat');
+    var fej = el('div', 'tek-talalat-fej');
+    fej.appendChild(el('span', 'tek-talalat-nev', t.nev));
+    fej.appendChild(el('span', 'tek-talalat-tip', t.tipus === 'kerulet' ? 'budapesti kerület' : 'Pest vármegye'));
+    box.appendChild(fej);
+    t.ellatas.forEach(function (kod) {
+      var r = tekRovidites(kod);
+      var sor = el('button', 'tek-sor'); sor.type = 'button';
+      sor.appendChild(el('span', 'tek-kod', kod));
+      sor.appendChild(el('span', 'tek-nev', r ? r.rovid : '—'));
+      // 2. réteg: koppintásra a teljes klinikanév + útvonal-megjegyzés
+      var reszl = el('div', 'tek-reszlet'); reszl.hidden = true;
+      reszl.textContent = r ? (r.nev + (r.megjegyzes ? ' — ' + r.megjegyzes : '')) : '';
+      sor.onclick = function () { reszl.hidden = !reszl.hidden; };
+      box.appendChild(sor); box.appendChild(reszl);
+      // AMI időfüggés közvetlenül az érintett sornál
+      var ami = tekAmiAllapot();
+      if (ami && /VSZÉK/.test(kod) && /AMI/.test(kod)) {
+        var a = el('div', 'tek-ido' + (ami.ervenyes ? ' ok' : ' nem'));
+        a.textContent = ami.szoveg + ' (' + ami.figyelem + ')';
+        box.appendChild(a);
+      }
+    });
+    // 3. réteg: a SORHOZ tartozó kivételek közvetlenül itt, nem külön blokkban
+    (t.megjegyzesek || []).forEach(function (m) {
+      var d = el('div', 'tek-sor-megj'); d.innerHTML = ikonSvg('warn') + '<span>' + m + '</span>';
+      box.appendChild(d);
+    });
+    return box;
+  }
+  function tekOverlay() {
+    var T = KB.tek || {};
+    overlayMutat(T.cim || 'Területi ellátás (TEK)', function (panel) {
+      // FIX védőkorlát — nem csukható, nem görgethető el a találat elől
+      var vk = el('div', 'tek-vedokorlat');
+      vk.innerHTML = ikonSvg('warn') + '<span>' + (T.vedokorlat || '') + '</span>';
+      panel.appendChild(vk);
+
+      var inp = el('input', 'search-box'); inp.type = 'text';
+      inp.placeholder = 'Kerület, irányítószám vagy település — pl. IX, 1097, Dunaharaszti';
+      inp.value = S.tekQuery || '';
+      panel.appendChild(inp);
+      var cimke = el('div', 'skip-hint');
+      cimke.textContent = 'Traumánál a SÉRÜLÉS HELYSZÍNE, stroke-nál a feltalálási hely dönt — nem a lakcím.';
+      panel.appendChild(cimke);
+      var lista = el('div'); lista.style.marginTop = '8px'; panel.appendChild(lista);
+
+      function rajzol() {
+        lista.innerHTML = '';
+        var q = (S.tekQuery || '').trim();
+        if (!q) {
+          var tipp = el('div', 'skip-hint'); tipp.style.marginTop = '10px';
+          tipp.textContent = 'Kezdj el gépelni. Az ékezet és a pont elhagyható; a kerület római (IX) és arab (9) számmal, valamint budapesti irányítószámmal (1097) is kereshető.';
+          lista.appendChild(tipp); return;
+        }
+        var tal = tekKereses(q);
+        if (!tal.length) {
+          var nincs = el('div', 'warn');
+          nincs.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t)';
+          nincs.innerHTML = ikonSvg('warn') + ' ' + (T.nincsTalalat || 'Nincs találat.');
+          lista.appendChild(nincs); return;
+        }
+        if (tal.length === 1) { lista.appendChild(tekTalalatDoboz(tal[0])); return; }
+        tal.forEach(function (t) {
+          var b = el('button', 'c-item'); b.type = 'button';
+          b.appendChild(el('span', 'ci-name', t.nev));
+          b.appendChild(el('span', 'ci-cat', t.ellatas.length + ' szakma'));
+          b.onclick = function () { S.tekQuery = t.kulcs; inp.value = t.kulcs; rajzol(); };
+          lista.appendChild(b);
+        });
+      }
+      inp.oninput = function () { S.tekQuery = this.value; rajzol(); };
+      rajzol();
+
+      // Általános, minden találatra érvényes szabályok (a 4 kiemelt mindig látszik)
+      (T.szabalyok || []).filter(function (s) { return s.kiemelt; }).forEach(function (s) {
+        var d = el('div', 'tek-kiemelt'); d.textContent = s.szoveg; panel.appendChild(d);
+      });
+      var egyeb = (T.szabalyok || []).filter(function (s) { return !s.kiemelt; });
+      if (egyeb.length) {
+        var det = el('details', 'detour-wrap'); det.style.marginTop = '8px';
+        det.appendChild(el('summary', null, 'További területi szabályok és kivételek (' + egyeb.length + ')'));
+        var body = el('div', 'detour-body');
+        egyeb.forEach(function (s) {
+          var d2 = el('div'); d2.style.cssText = 'font-size:12.5px;line-height:1.5;margin-bottom:7px';
+          d2.textContent = s.szoveg; body.appendChild(d2);
+        });
+        det.appendChild(body); panel.appendChild(det);
+      }
+      var detR = el('details', 'detour-wrap'); detR.style.marginTop = '6px';
+      detR.appendChild(el('summary', null, 'Rövidítések feloldása (' + (T.rovidites || []).length + ')'));
+      var bodyR = el('div', 'detour-body');
+      (T.rovidites || []).forEach(function (r) {
+        var s2 = el('div', 'tek-sor');
+        s2.appendChild(el('span', 'tek-kod', r.kod));
+        s2.appendChild(el('span', 'tek-nev', r.nev + (r.megjegyzes ? ' — ' + r.megjegyzes : '')));
+        bodyR.appendChild(s2);
+      });
+      detR.appendChild(bodyR); panel.appendChild(detR);
+
+      var fr = el('div', 'reszlet-forras');
+      fr.innerHTML = ikonSvg('book') + '<span>' + (T.forras || '') + '<br>' + (T.felulvizsgalat || '') + '</span>';
+      panel.appendChild(fr);
+      setTimeout(function () { inp.focus(); }, 60);
+    });
+  }
+  // ===== TORLÓDÁSI ÜZEMMÓD (4/2026. Igazgatói Utasítás) ======================
+  // HATÓKÖR: a mód SOHA nem nyúl az MSTR-besoroláshoz és nem lazít semmilyen küszöböt —
+  // kizárólag a besorolás UTÁNI elhelyezést, az újraértékelés ütemezését és a dokumentációs
+  // emlékeztetőket írja át. Az eljárásrend ÉLETBE LÉPÉSÉT a műszakvezető orvos rendeli el;
+  // az app csak azt jelzi, hogy a nézet be van kapcsolva — az elrendelés nem itt történik.
+  var STORE_TORL = 'mstr_torlodas_v1', STORE_VARO = 'mstr_varolista_v1';
+  function torlodas() {
+    try { return JSON.parse(localStorage.getItem(STORE_TORL) || 'null') || null; } catch (e) { return null; }
+  }
+  function torlodasAktiv() { var t = torlodas(); return !!(t && t.aktiv); }
+  function torlodasMent(o) { try { o ? localStorage.setItem(STORE_TORL, JSON.stringify(o)) : localStorage.removeItem(STORE_TORL); } catch (e) {} }
+  function percTol(ts) { return ts ? Math.floor((Date.now() - ts) / 60000) : null; }
+  function idoSzoveg(perc) {
+    if (perc == null) return '—';
+    if (perc < 60) return perc + ' perce';
+    return Math.floor(perc / 60) + ' óra ' + (perc % 60) + ' perce';
+  }
+  function oraPerc(ts) { var d = new Date(ts); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+
+  function torlodasKapcsolo() {
+    var T = KB.torlodas || {};
+    var be = !torlodasAktiv();
+    overlayMutat(be ? 'Torlódási eljárásrend — nézet bekapcsolása' : 'Torlódási eljárásrend — nézet kikapcsolása', function (panel, bezar) {
+      var fig = el('div', 'tek-vedokorlat');
+      fig.innerHTML = ikonSvg('warn') + '<span><b>' + ((T.hatalybaLepes || {}).kiRendeliEl || 'Az életbe lépést a műszakvezető orvos rendeli el.') +
+        '</b> Ez a kapcsoló csak az alkalmazás nézetét állítja át — nem rendeli el és nem szünteti meg az eljárásrendet.</span>';
+      panel.appendChild(fig);
+      var mikor = el('div'); mikor.style.cssText = 'font-size:12.5px;line-height:1.5;color:var(--text);margin-bottom:10px';
+      mikor.textContent = (T.hatalybaLepes || {}).mikor || '';
+      panel.appendChild(mikor);
+
+      var nevInp = null;
+      if (be) {
+        panel.appendChild(elLabel('Ki rendelte el? (műszakvezető orvos — opcionális)'));
+        nevInp = el('input', 'search-box'); nevInp.type = 'text'; nevInp.placeholder = 'pl. Dr. Kovács Péter';
+        panel.appendChild(nevInp);
+      }
+      var teendo = el('div', 'warn'); teendo.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+      teendo.innerHTML = ikonSvg('bulb') + ' <b>Emlékeztető:</b> ' + ((T.hatalybaLepes || {}).teendok || []).join(' ') +
+        (be ? '' : ' ' + ((T.hatalybaLepes || {}).megszunes || ''));
+      panel.appendChild(teendo);
+
+      var sor = el('div', 'nav-row'); sor.style.marginTop = '12px';
+      var megse = el('button', 'btn btn-ghost', 'Mégse'); megse.type = 'button'; megse.onclick = bezar;
+      sor.appendChild(megse); sor.appendChild(el('span', 'spacer'));
+      var ok = el('button', 'btn', be ? 'Nézet bekapcsolása' : 'Nézet kikapcsolása'); ok.type = 'button';
+      ok.onclick = function () {
+        if (be) torlodasMent({ aktiv: true, elrendelo: (nevInp && nevInp.value.trim()) || '', ido: Date.now() });
+        else torlodasMent(null);
+        naplo('Torlódási eljárásrend', be ? ('nézet bekapcsolva' + (nevInp && nevInp.value.trim() ? ' — elrendelte: ' + nevInp.value.trim() : '')) : 'nézet kikapcsolva');
+        bezar(); render();
+      };
+      sor.appendChild(ok); panel.appendChild(sor);
+    });
+  }
+
+  // ---- re-triage várólista (KÜLÖN a „függő betegek" sávtól!) -----------------
+  // Szándékosan NEM a parkolt chip-sáv: a parkoltBetolt() visszatöltéskor vissza-parkolja
+  // az éppen felvett beteget (egy téves koppintás kicserélné az aktuális felvételt), a
+  // chip-sáv pedig érkezési sorrendben tárol — amit az utasítás kifejezetten tilt.
+  function varolista() { try { return JSON.parse(localStorage.getItem(STORE_VARO) || '[]'); } catch (e) { return []; } }
+  function varolistaMent(a) { try { localStorage.setItem(STORE_VARO, JSON.stringify(a)); } catch (e) {} }
+  function varolistaraTesz(ut) {
+    var er = S.utolso || {};
+    var most = Date.now();
+    var a = varolista();
+    a.push({
+      id: ujId(), cimke: betegCimke(), szint: er.szint != null ? er.szint : null,
+      panasz: panaszNeve() || '', ut: ut || 'fekvo_var',
+      erkezes: most, utolso: most, lanc: [{ ido: most, szint: er.szint != null ? er.szint : null, tipus: 'alaptriázs' }],
+    });
+    varolistaMent(a);
+    naplo('Torlódás', 'várólistára helyezve (' + (ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') + ')');
+  }
+  function varolistaSzint(v) { return v.szint == null ? 9 : v.szint; }
+  function retriagePerc(szint) {
+    var l = (KB.levels || []).filter(function (x) { return x.level === szint; })[0];
+    return l ? l.reassessMin : null;   // orvosi időköz KIZÁRÓLAG a KB-ből
+  }
+  function retriageAllapot(v) {
+    var p = retriagePerc(v.szint);
+    if (p == null) return null;                       // MSTR 1: folyamatos ellátás, nincs időszakos újraértékelés
+    var eltelt = percTol(v.utolso);
+    return { intervallum: p, eltelt: eltelt, hatra: p - eltelt, lejart: eltelt >= p };
+  }
+
+  RENDER.varolista = function (fo) {
+    var T = KB.torlodas || {};
+    var c = kartya('Torlódás', 'Mentőágyon vár — re-triage', (T.sorrend || {}).kiemelt || '');
+    var lista = varolista();
+
+    var info = el('div', 'warn'); info.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+    info.innerHTML = ikonSvg('bulb') + ' <b>Emlékeztető, nem riasztás</b> — az app nem figyeli a beteget, és nem ad hangjelzést. A lista <b>csak ezen a készüléken</b> él, a másik triázs-állomás nem látja.';
+    c.appendChild(info);
+
+    if (!lista.length) {
+      c.appendChild(el('div', 'result-none', 'A várólista üres. A betegút képernyőn, torlódás módban helyezhetsz ide beteget.'));
+    } else {
+      var kritikus = lista.filter(function (v) { return v.szint === 1 || v.szint === 2; });
+      if (kritikus.length) {
+        var kr = el('div', 'warn');
+        kr.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t);font-weight:700';
+        kr.innerHTML = ikonSvg('warn') + ' <b>MSTR 1–2 nem várakozhat</b> — kapacitástól függetlenül azonnal az ellátótérbe, a tartalék ágyra. (' + kritikus.length + ' beteg a listán.)';
+        c.appendChild(kr);
+      }
+      // Kategória szerint CSOPORTOSÍTVA — de sem számozás, sem „következő beteg" kijelölés:
+      // a sorrendet az utasítás a nővérre és a kollégákkal való egyeztetésre bízza.
+      var szintek = [1, 2, 3, 4, 5, 9];
+      szintek.forEach(function (sz) {
+        var cs = lista.filter(function (v) { return varolistaSzint(v) === sz; });
+        if (!cs.length) return;
+        cs.sort(function (a, b) { return a.erkezes - b.erkezes; });
+        var fej = el('div', 'varo-csoport');
+        var bd = el('span', 'varo-badge'); bd.textContent = sz === 9 ? '?' : sz;
+        if (sz !== 9) bd.style.background = szinSzint(sz);
+        fej.appendChild(bd);
+        fej.appendChild(el('span', null, sz === 9 ? 'Nincs automatikus szint (kézi döntés)' : 'MSTR ' + sz + ' — ' + cs.length + ' beteg'));
+        c.appendChild(fej);
+        cs.forEach(function (v) {
+          var sor = el('div', 'varo-sor');
+          var bal = el('div', 'varo-bal');
+          bal.appendChild(el('div', 'varo-nev', v.cimke + (v.panasz ? ' · ' + v.panasz : '')));
+          var meta = el('div', 'varo-meta');
+          meta.textContent = 'érkezett ' + oraPerc(v.erkezes) + ' (' + idoSzoveg(percTol(v.erkezes)) + ')' +
+            ' · ' + (v.ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') +
+            (v.lanc && v.lanc.length > 1 ? ' · ' + (v.lanc.length - 1) + 'x re-triage' : '');
+          bal.appendChild(meta);
+          var ra = retriageAllapot(v);
+          if (ra) {
+            var r = el('div', 'varo-retri' + (ra.lejart ? ' lejart' : ''));
+            r.textContent = ra.lejart
+              ? ('RE-TRIAGE ESEDÉKES — ' + ra.eltelt + ' perce (' + ra.intervallum + ' percenként)')
+              : ('következő re-triage ' + ra.hatra + ' perc múlva (' + ra.intervallum + ' percenként)');
+            bal.appendChild(r);
+          } else if (v.szint === 1) {
+            var r1 = el('div', 'varo-retri lejart'); r1.textContent = 'MSTR 1 — folyamatos ellátás, nem várakoztatható';
+            bal.appendChild(r1);
+          }
+          sor.appendChild(bal);
+          var jobb = el('div', 'varo-akciok');
+          var rt = el('button', 'btn btn-ghost', 'Re-triage kész'); rt.type = 'button';
+          rt.onclick = function () {
+            var a = varolista();
+            a.forEach(function (x) {
+              if (x.id !== v.id) return;
+              x.utolso = Date.now();
+              x.lanc = (x.lanc || []).concat([{ ido: x.utolso, szint: x.szint, tipus: 're-triage' }]);
+            });
+            varolistaMent(a); render();
+          };
+          jobb.appendChild(rt);
+          var le = el('button', 'btn btn-ghost', 'Ágyra került'); le.type = 'button';
+          le.onclick = function () { varolistaMent(varolista().filter(function (x) { return x.id !== v.id; })); render(); };
+          jobb.appendChild(le);
+          sor.appendChild(jobb);
+          c.appendChild(sor);
+        });
+      });
+      var dok = el('div', 'nav-row'); dok.style.marginTop = '10px';
+      var cp = elIko('button', 'btn btn-ghost', 'complaint', 'Várólista vágólapra'); cp.type = 'button';
+      cp.onclick = function () { vagolapra(varolistaSzoveg(), cp); };
+      dok.appendChild(cp);
+      var ur = el('button', 'btn btn-ghost', 'Műszak zárása — lista ürítése'); ur.type = 'button';
+      ur.onclick = function () {
+        overlayMutat('Várólista ürítése', function (p2, bz) {
+          p2.appendChild(el('div', null, 'Biztosan törlöd mind a ' + varolista().length + ' tételt? Ez nem vonható vissza.'));
+          var s2 = el('div', 'nav-row'); s2.style.marginTop = '12px';
+          var m2 = el('button', 'btn btn-ghost', 'Mégse'); m2.type = 'button'; m2.onclick = bz; s2.appendChild(m2);
+          s2.appendChild(el('span', 'spacer'));
+          var o2 = el('button', 'btn', 'Ürítés'); o2.type = 'button';
+          o2.onclick = function () { varolistaMent([]); bz(); render(); };
+          s2.appendChild(o2); p2.appendChild(s2);
+        });
+      };
+      dok.appendChild(ur);
+      c.appendChild(dok);
+    }
+
+    var row = el('div', 'nav-row');
+    var back = el('button', 'btn btn-ghost', '← Vissza'); back.type = 'button';
+    back.onclick = function () { S.step = S.varolistaElozoStep || 'eredmeny'; render(); };
+    row.appendChild(back);
+    c.appendChild(row);
+    fo.appendChild(c);
+  };
+
+  // Az utasítás 4. pontja fast tracknél ambuláns lapot ír elő, MINIMUM státusszal és
+  // epikrízissel. Szándékosan MÁSOLHATÓ VÁZ, nem pipálható checkbox: az app nem könyvelheti
+  // el „elkészültnek" azt a dokumentációt, ami a MedSolban készül.
+  function ambulansLapVaz() {
+    var er = S.utolso || {}, L = [];
+    L.push('AMBULÁNS LAP (fast track) — ' + oraPerc(Date.now()));
+    L.push('Forrás: 4/2026. Igazgatói Utasítás 4. pont — minimálisan státusz és epikrízis.');
+    L.push('');
+    L.push(osszegzoSzoveg(er));
+    L.push('');
+    L.push('STÁTUSZ:');
+    L.push('');
+    L.push('EPIKRÍZIS:');
+    L.push('');
+    L.push('Továbbküldés (a műszakvezető orvos döntése): célintézmény ................  (NEM lehet másik SBO)');
+    L.push('MedSolban rögzítve: ....');
+    return L.join('\n');
+  }
+
+  function varolistaSzoveg() {
+    var L = ['MENTŐÁGYON VÁRÓ BETEGEK — re-triage lista (' + oraPerc(Date.now()) + ')'];
+    var t = torlodas();
+    if (t) L.push('Torlódási nézet bekapcsolva: ' + oraPerc(t.ido) + (t.elrendelo ? ' · elrendelte: ' + t.elrendelo : ''));
+    L.push('FIGYELEM: a sorrendet a beteg állapota és triázs-kategóriája dönti el, NEM az érkezési idő.');
+    varolista().slice().sort(function (a, b) { return varolistaSzint(a) - varolistaSzint(b) || a.erkezes - b.erkezes; })
+      .forEach(function (v) {
+        var ra = retriageAllapot(v);
+        L.push('- MSTR ' + (v.szint == null ? '?' : v.szint) + ' · ' + v.cimke + (v.panasz ? ' (' + v.panasz + ')' : '') +
+          ' · érkezett ' + oraPerc(v.erkezes) +
+          ' · ' + (v.ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') +
+          (ra ? (ra.lejart ? ' · RE-TRIAGE ESEDÉKES' : ' · re-triage ' + ra.hatra + ' perc múlva') : ''));
+        (v.lanc || []).forEach(function (e) { L.push('    ' + oraPerc(e.ido) + ' ' + e.tipus + (e.szint != null ? ' — MSTR ' + e.szint : '')); });
+      });
+    return L.join('\n');
+  }
 
   function betegutSzoveg() {
     var BU = KB.betegut || {}, er = S.utolso || {}, L = [];
@@ -24896,12 +26686,17 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     tetraBtn.style.cssText = 'padding:10px 12px;font-size:13px';
     tetraBtn.onclick = function () { if (S.step !== 'tetra') { S.tetraElozoStep = S.step; S.step = 'tetra'; render(); } };
     hdr.appendChild(tetraBtn);
+    var torlBtn = elIko('button', 'btn btn-ghost', 'bolt', 'Torlódás'); torlBtn.id = 'torl-hdr'; torlBtn.type = 'button';
+    torlBtn.title = 'Torlódási eljárásrend (4/2026. Igazgatói Utasítás) — a nézet be-/kikapcsolása. Az elrendelés a műszakvezető orvos hatásköre.';
+    torlBtn.style.cssText = 'padding:10px 12px;font-size:13px';
+    torlBtn.onclick = torlodasKapcsolo;
+    hdr.appendChild(torlBtn);
     var tort = elIko('button', 'btn btn-ghost', 'history', 'Előzmények'); tort.id = 'tort-hdr'; tort.type = 'button';
     tort.style.cssText = 'padding:10px 12px;font-size:13px';
     tort.onclick = elozmenyekMutat;
     hdr.appendChild(tort);
     var b = elIko('button', 'btn btn-ghost', 'refresh', 'Új beteg'); b.id = 'uj-beteg-hdr'; b.type = 'button';
-    b.title = 'Befejezett beteg → Előzményekbe; folyamatban lévő → Függő betegek közé (nem vész el); majd üres lap.';
+    b.title = 'Befejezett beteg → Előzményekbe; folyamatban lévő → Félbehagyott felvétel közé (nem vész el); majd üres lap.';
     b.onclick = function () {
       if (S.step === 'azonositas' && !vanErdemiKitoltes()) return; // már üres
       ujBeteg();
@@ -24925,6 +26720,12 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   // ---- indítás ----------------------------------------------------------------
   function indit() {
     fejlecGombok(); billentyuk(); disclaimerKapu();
+    // A re-triage esedékesség MINDEN rendereléskor az eltárolt abszolút időből számolódik,
+    // nem setInterval-ból: altatott mobil-lapon a timer nem tickel, hónapokig nyitva tartott
+    // AiO-fülön pedig elcsúszna. Visszatéréskor újrarajzolunk, hogy az idők frissek legyenek.
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && torlodasAktiv()) render();
+    });
     // Adatvesztés-védelem: ha egy félbehagyott (nem lezárt) triázs volt mentve, visszatöltjük.
     try {
       var mentett = localStorage.getItem(STORE_AKTIV);

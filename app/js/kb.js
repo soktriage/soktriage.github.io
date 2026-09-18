@@ -14,7 +14,9 @@
       "tankonyv": "Triázs tankönyv 2.0 (MSOTKE, 2016)",
       "jegyzet": "MSTR oktatói jegyzet (2022)",
       "ctas": "CTAS COT-2008 (kanonikus, döntőbíró)",
-      "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)"
+      "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)",
+      "tek": "SE Területi Ellátás Segédlet — OMSZ Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK (2026.08.04.)",
+      "utasitas": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend (SE SOK, 2026.09.15.)"
     },
     "counts": {
       "levels": 5,
@@ -36,6 +38,7 @@
       "targetTime": "azonnal",
       "nurseTime": "azonnal",
       "reassess": "folyamatos ellátás, nincs időszakos újraértékelés",
+      "reassessMin": null,
       "description": "Az élet vagy a végtag elvesztésének veszélyével járó állapotok. Halaszthatatlan, invazív beavatkozások szükségesek; az állapotromlás veszélye azonnali. A betegek nyilvánvaló vitális disztresszben és instabilitásban vannak, azonnali és agresszív beavatkozásra szorulnak. Ilyenkor a triázsnál nem kell időt vesztegetni a vitális paraméterekre és az anamnézisre, további triázs értékelésre nincs szükség.",
       "typical": [
         "keringésmegállás",
@@ -83,6 +86,7 @@
       "targetTime": "orvosi értékelés 15 percen belül",
       "nurseTime": "azonnal",
       "reassess": "15 percenként",
+      "reassessMin": 15,
       "description": "A beteg állapota potenciálisan életveszélyes, vagy a végtag potenciálisan veszélyben van. Orvos által vagy orvos irányításával végzett gyors beavatkozás(ok) szükséges(ek). Gyors orvosi értékelés kell, mert a beteg állapota a reszuszcitáció/azonnali kategóriába súlyosbodhat. A vitális paraméterek általában abnormálisak.",
       "typical": [
         "közepes fokú nehézlégzés",
@@ -135,6 +139,7 @@
       "targetTime": "orvosi értékelés 30 percen belül",
       "nurseTime": "30 percen belül",
       "reassess": "30 percenként",
+      "reassessMin": 30,
       "description": "Az állapot sürgősségi beavatkozást igénylő, súlyos egészségügyi probléma irányába haladhat. Jelentős tünetekkel járhat, ami a munkavégzést vagy a mindennapi élettevékenységhez szükséges képességeket befolyásolhatja. A vitális paraméterek rendszerint normálisak, vagy a normális alsó vagy felső határán vannak. Egyértelmű az állapotromlás lehetősége, a túlzsúfoltság miatt e betegek mégis gyakran várakozni kényszerülnek.",
       "typical": [
         "enyhe fokú nehézlégzés",
@@ -187,6 +192,7 @@
       "targetTime": "orvosi értékelés 60 percen belül",
       "nurseTime": "60 percen belül",
       "reassess": "60 percenként",
+      "reassessMin": 60,
       "description": "A panaszok visszavezethetőek a beteg előrehaladott életkorára vagy állapotára; a lehetséges állapotromlás várhatóan megelőzhető 1 vagy 2 órán belüli beavatkozással.",
       "typical": [
         "időskori demenciához társuló zavartság (krónikus, a szokásos tudatállapottól el nem tér)",
@@ -236,6 +242,7 @@
       "targetTime": "orvosi értékelés 120 percen belül",
       "nurseTime": "120 percen belül",
       "reassess": "120 percenként",
+      "reassessMin": 120,
       "description": "A panaszok akutak, de nem sürgősek, vagy egy krónikus állapot részei lehetnek (bizonytalan állapotromlással vagy anélkül). A betegség vagy sérülés vizsgálata halasztható, vagy a triázst követő elsődleges orvosi megítélés alapján a kórház/egészségügyi intézmény más területére átirányítható.",
       "typical": [
         "enyhe hasmenés jelentős folyadékvesztés/kiszáradás nélkül",
@@ -21995,6 +22002,1171 @@
         "megjegyzes": "publikus"
       }
     ]
+  },
+  "tek": {
+    "cim": "SE területi ellátás (TEK)",
+    "forras": "SE Területi Ellátás Segédlet — OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK-nyilvántartás (2026.08.04.)",
+    "fejlec": "SEMMELWEIS EGYETEM SÜRGŐSSÉGI ORVOSTANI KLINIKA SE TERÜLETI ELLÁTÁS SEGÉDLET A 2026. évi OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) és az NNGYK ESZENY TEK-nyilvántartás (2026.08.04.) alapján.",
+    "hasznalat": "Írd be a kerületet (pl. „IX”) vagy a település nevét (pl. „Dunaharaszti”) — ékezet nélkül is működik.",
+    "korlat": "A tábla a beteg LAKCÍME szerinti területi ellátást mutatja. Trauma esetén a sérülés helyszíne, stroke-nál a feltalálási hely dönt. A találat tájékoztató: nem elküldési indok, és nem helyettesíti a műszakvezető orvos döntését.",
+    "keruletek": [
+      {
+        "ker": "I.",
+        "ellatas": [
+          "VSZÉK (AMI)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "budavar var"
+      },
+      {
+        "ker": "II.",
+        "ellatas": [
+          "VSZÉK (csak AMI <12h, BIK-terület kivétel*)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "rozsadomb",
+        "megjegyzesek": [
+          "Csak STEMI-nél: a Margit krt. – Keleti Károly u. – Bimbó út – Alsó Törökvész út – Törökvész út – Pusztaszeri út által határolt terület a Budai Irgalmasrendi Kórházhoz (BIK) tartozik."
+        ]
+      },
+      {
+        "ker": "III.",
+        "ellatas": [
+          "INK (stroke <24h)",
+          "Pszi",
+          "Érseb"
+        ],
+        "aliasok": "obuda bekasmegyer"
+      },
+      {
+        "ker": "V.",
+        "ellatas": [
+          "Neu (>24h)",
+          "Szem"
+        ],
+        "aliasok": "belvaros lipotvaros"
+      },
+      {
+        "ker": "VIII.",
+        "ellatas": [
+          "FOG",
+          "Neu (>24h)",
+          "StrN (stroke <24h)",
+          "Uro",
+          "Pszi",
+          "Pul"
+        ],
+        "aliasok": "jozsefvaros"
+      },
+      {
+        "ker": "IX.",
+        "ellatas": [
+          "Uro",
+          "Pul",
+          "StrN (stroke <24h, egyébként DPC-Szt. István)",
+          "Szem",
+          "Tra"
+        ],
+        "aliasok": "ferencvaros",
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "ker": "XI.",
+        "ellatas": [
+          "Uro",
+          "VSZÉK (AMI)"
+        ],
+        "aliasok": "ujbuda lagymanyos kelenfold"
+      },
+      {
+        "ker": "XII.",
+        "ellatas": [
+          "VSZÉK (AMI)",
+          "Hema",
+          "Érseb"
+        ],
+        "aliasok": "hegyvidek"
+      },
+      {
+        "ker": "XV.",
+        "ellatas": [
+          "INK (stroke <24h)"
+        ],
+        "aliasok": "rakospalota pestujhely ujpalota"
+      },
+      {
+        "ker": "XVI.",
+        "ellatas": [
+          "Pul"
+        ],
+        "aliasok": "matyasfold cinkota sashalom arpadfold rakosszentmihaly",
+        "megjegyzesek": [
+          "Belgyógyászat irányítószám szerint: 1161, 1163, 1164 → BOK; 1162, 1165 → BHK. Egyéb (pl. hajléktalan): vezetéknév A-I → BOK, J-Z → BHK.",
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "ker": "XIX.",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ],
+        "aliasok": "kispest"
+      },
+      {
+        "ker": "XX.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "pesterzsebet"
+      },
+      {
+        "ker": "XXI.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "csepel"
+      },
+      {
+        "ker": "XXII.",
+        "ellatas": [
+          "Tra",
+          "VSZÉK (AMI)"
+        ],
+        "aliasok": "budafok teteny budateteny nagyteteny"
+      },
+      {
+        "ker": "XXIII.",
+        "ellatas": [
+          "Tra"
+        ],
+        "aliasok": "soroksar"
+      }
+    ],
+    "telepulesek": [
+      {
+        "telepules": "Alsónémedi",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Lórév",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetszentmárton",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Apaj",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Majosháza",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetújfalu",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Biatorbágy",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Makád",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Százhalombatta",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pszi",
+          "Szem",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budajenő",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Nagykovácsi",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Sóskút",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budakalász",
+        "ellatas": [
+          "Pszi",
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Perbál",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Tahitótfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Budakeszi",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisborosjenő",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Taksony",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Budaörs",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Piliscsaba",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tatárszentgyörgy",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Bugyi",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Pilisjászfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Telki",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Csobánka",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Pilisszentkereszt",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tinnye",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Dabas",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisszentlászló",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Táborfalva",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Diósd",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pilisszántó",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tárnok",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunabogdány",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Pilisvörösvár",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tök",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunaharaszti",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pomáz",
+        "ellatas": [
+          "Pszi",
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Tököl",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Pszi",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Dunavarsány",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pusztavacs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Törökbálint",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Délegyháza",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Pusztazámor",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Vecsés",
+        "ellatas": [
+          "Tra"
+        ],
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      },
+      {
+        "telepules": "Dömsöd",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Páty",
+        "ellatas": [
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Visegrád",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Felsőpakony",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Pócsmegyer",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Zsámbék",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Gyál",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Remeteszőlős",
+        "ellatas": [
+          "Pszi",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Áporka",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Halásztelek",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ],
+        "megjegyzesek": [
+          "Nefrológia: DPC-Szt. István Kh."
+        ]
+      },
+      {
+        "telepules": "Ráckeve",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Érd",
+        "ellatas": [
+          "BOK",
+          "Uro",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Herceghalom",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "Neu",
+          "Pszi",
+          "Szül",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Solymár",
+        "ellatas": [
+          "Pszi"
+        ]
+      },
+      {
+        "telepules": "Ócsa",
+        "ellatas": [
+          "Pul",
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Hernád",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szentendre",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Örkény",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Inárcs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetbecse",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Újhartyán",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Kakucs",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigetcsép",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Újlengyel",
+        "ellatas": [
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Kiskunlacháza",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "StrN",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Szigethalom",
+        "ellatas": [
+          "BOK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ]
+      },
+      {
+        "telepules": "Üllő",
+        "ellatas": [
+          "Tra"
+        ]
+      },
+      {
+        "telepules": "Kisoroszi",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Szigetmonostor",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Üröm",
+        "ellatas": [
+          "Pszi"
+        ]
+      },
+      {
+        "telepules": "Leányfalu",
+        "ellatas": [
+          "INK"
+        ]
+      },
+      {
+        "telepules": "Szigetszentmiklós",
+        "ellatas": [
+          "BHK",
+          "Seb",
+          "FOG",
+          "Neu",
+          "Uro",
+          "Pul",
+          "Szem",
+          "Szül",
+          "Tra",
+          "VSZÉK"
+        ],
+        "megjegyzesek": [
+          "Tartós (krónikus) fekvő kijelölés belgyógyászatra az SE-nél."
+        ]
+      }
+    ],
+    "rovidites": [
+      {
+        "kod": "BHK",
+        "nev": "SE Belgyógyászati és Hematológiai Klinika",
+        "megjegyzes": "belgyógyászat",
+        "rovid": "belgyógyászat / hematológia"
+      },
+      {
+        "kod": "BOK",
+        "nev": "SE Belgyógyászati és Onkológiai Klinika",
+        "megjegyzes": "belgyógyászat",
+        "rovid": "belgyógyászat / onkológia"
+      },
+      {
+        "kod": "Hema",
+        "nev": "hematológia",
+        "megjegyzes": "BHK",
+        "rovid": "hematológia"
+      },
+      {
+        "kod": "Seb",
+        "nev": "SE Sebészeti, Transzplantációs és Gasztroenterológiai Klinika",
+        "megjegyzes": "az akut gasztroenterológia is",
+        "rovid": "sebészet (akut gasztroenterológia is)"
+      },
+      {
+        "kod": "Érseb",
+        "nev": "érsebészet",
+        "megjegyzes": "VSZÉK",
+        "rovid": "érsebészet"
+      },
+      {
+        "kod": "FOG",
+        "nev": "SE Fül-, Orr-, Gégészeti és Fej-Nyaksebészeti Klinika",
+        "megjegyzes": "",
+        "rovid": "fül-orr-gégészet"
+      },
+      {
+        "kod": "Neu",
+        "nev": "SE Neurológiai Klinika",
+        "megjegyzes": "általános neurológia (SOK-on keresztül)",
+        "rovid": "neurológia"
+      },
+      {
+        "kod": "StrN",
+        "nev": "SE Neurológiai Klinika",
+        "megjegyzes": "akut stroke <24h (SOK-on keresztül)",
+        "rovid": "stroke <24h (neurológia)"
+      },
+      {
+        "kod": "INK",
+        "nev": "SE Idegsebészeti és Neurointervenciós Klinika",
+        "megjegyzes": "stroke <24h",
+        "rovid": "idegsebészet / neurointervenció"
+      },
+      {
+        "kod": "Uro",
+        "nev": "SE Urológiai Klinika",
+        "megjegyzes": "SOK-on keresztül",
+        "rovid": "urológia"
+      },
+      {
+        "kod": "Pul",
+        "nev": "SE Pulmonológiai Klinika",
+        "megjegyzes": "",
+        "rovid": "tüdőgyógyászat"
+      },
+      {
+        "kod": "Pszi",
+        "nev": "SE Pszichiátriai és Pszichoterápiás Klinika",
+        "megjegyzes": "",
+        "rovid": "pszichiátria"
+      },
+      {
+        "kod": "Szem",
+        "nev": "SE Szemészeti Klinika",
+        "megjegyzes": "",
+        "rovid": "szemészet"
+      },
+      {
+        "kod": "Szül",
+        "nev": "SE Szülészeti és Nőgyógyászati Klinika",
+        "megjegyzes": "",
+        "rovid": "szülészet-nőgyógyászat"
+      },
+      {
+        "kod": "Tra",
+        "nev": "SE Traumatológiai Klinika",
+        "megjegyzes": "",
+        "rovid": "traumatológia"
+      },
+      {
+        "kod": "VSZÉK",
+        "nev": "SE Városmajori Szív- és Érgyógyászati Klinika",
+        "megjegyzes": "",
+        "rovid": "szív- és érgyógyászat"
+      },
+      {
+        "kod": "BIK",
+        "nev": "Budai Irgalmasrendi Kórház",
+        "megjegyzes": "nem a RÖVIDÍTÉSEK sorban, hanem a II. kerületi STEMI-lábjegyzetben feloldva",
+        "rovid": "Budai Irgalmasrendi Kórház"
+      },
+      {
+        "kod": "DPC-Szt. István",
+        "nev": "DPC-Szt. István Kh.",
+        "megjegyzes": "nem a RÖVIDÍTÉSEK sorban; a IX. kerületi stroke-kitételben és a Halásztelek nefrológia szabályban szerepel",
+        "rovid": "DPC-Szt. István Kórház"
+      }
+    ],
+    "szabalyok": [
+      {
+        "cim": "Trauma",
+        "szoveg": "Trauma: mindig a sérülés helyszíne (feltalálási hely) dönt, nem a beteg lakcíme.",
+        "kiemelt": true
+      },
+      {
+        "cim": "Stroke (<24h)",
+        "szoveg": "Stroke (<24h): a beutalás feltalálási hely szerinti, az időablak miatt a mentő ettől eltérhet. Mechanikus thrombectomiára az INK a régió teljes területéről folyamatosan fogad.",
+        "kiemelt": true
+      },
+      {
+        "cim": "Kardiológia (AMI)",
+        "szoveg": "Kardiológia (AMI): a területi elv munkanapokon 8 és 18 óra között érvényes. Éjjel, hétvégén és ünnepnapokon a STEMI a fővárosi napi ügyeleti beosztás szerint megy, a VSZÉK ügyeleti napjain egész Budapestről érkezhet beteg.",
+        "kiemelt": true
+      },
+      {
+        "cim": "* II. kerületi BIK-kivétel (csak STEMI-nél)",
+        "szoveg": "* II. kerületi BIK-kivétel (csak STEMI-nél): a Margit krt. – Keleti Károly u. – Bimbó út – Alsó Törökvész út – Törökvész út – Pusztaszeri út által határolt terület a Budai Irgalmasrendi Kórházhoz tartozik.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Érseb (VSZÉK, TEK szerint)",
+        "szoveg": "Érseb (VSZÉK, TEK szerint): I., II., III., XII. kerület, továbbá a Zsámbéki-medence, a Pilis és a Szentendrei-sziget települései, valamint Esztergom, Dorog, Tata és Komárom térsége.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Hema (BHK, II. szint)",
+        "szoveg": "Hema (BHK, II. szint): I., II., XII. kerület és az északnyugati agglomeráció.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Nem kizárólagos, ügyeleti napokon egész Budapestről az SE-re kerülő ellátások",
+        "szoveg": "Nem kizárólagos, ügyeleti napokon egész Budapestről az SE-re kerülő ellátások: szemészet, GI-vérzés, arc-állcsont-szájsebészet, detoxikálás, nem traumás idegsebészet, bronchológia, pulmonológiai intenzív.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Instabil beteg",
+        "szoveg": "Instabil beteg mindig a legközelebbi SBO-ra kerül.",
+        "kiemelt": true
+      },
+      {
+        "cim": "** XVI. kerület belgyógyászat irányítószám szerint",
+        "szoveg": "** XVI. kerület belgyógyászat irányítószám szerint: 1161, 1163, 1164 BOK, 1162, 1165 BHK. Egyéb (pl. hajléktalan): vezetéknév A-I BOK, J-Z BHK.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Halásztelek nefrológia",
+        "szoveg": "Halásztelek nefrológia: DPC-Szt. István Kh.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Tartós (krónikus) fekvő kijelölés az SE-nél belgyógyászatra",
+        "szoveg": "Tartós (krónikus) fekvő kijelölés az SE-nél belgyógyászatra: IX. és XVI. kerület, Szigetszentmiklós, Tápióság, Vecsés.",
+        "kiemelt": false
+      },
+      {
+        "cim": "Pszichiátriai rehabilitáció",
+        "szoveg": "Pszichiátriai rehabilitáció: a Csepel-sziget és a Ráckevei járás települései.",
+        "kiemelt": false
+      }
+    ],
+    "amiIdoablak": {
+      "munkanapKezd": 8,
+      "munkanapVeg": 18,
+      "ervenyes": "A területi elv érvényes: munkanap 8–18 óra között.",
+      "nemErvenyes": "A területi elv MOST NEM érvényes: a STEMI a fővárosi napi ügyeleti beosztás szerint megy, a VSZÉK ügyeleti napjain egész Budapestről érkezhet beteg.",
+      "figyelem": "A készülék órája alapján számolva; az ünnepnapokat nem ismeri.",
+      "erintettKodok": [
+        "VSZÉK"
+      ]
+    },
+    "nincsTalalat": "Ehhez a kerülethez/településhez ez a segédlet nem sorol fel SE-kötelezettséget. Ez NEM jelenti, hogy a beteg elutasítható vagy elküldhető — a betegfelvételi alapelv 6. pontja szerint területi illetékességre hivatkozva más SBO-ra beteget továbbküldeni TILOS. A segédlet csak a 15 felsorolt budapesti kerületet és a Pest vármegyei / agglomerációs településeket tartalmazza.",
+    "vedokorlat": "Ez a lista a DEFINITÍV ellátó szakma/klinika azonosítására szolgál — nem a felvétel eldöntésére. Területi illetékességre hivatkozva beteget más SBO-ra továbbküldeni TILOS. Instabil beteg mindig a legközelebbi SBO-ra kerül.",
+    "felulvizsgalat": "A beutalási rend évente változik — a hatályos forrást (XTEK / NNGYK) ellenőrizd. Adat: OMSZ 2025.12.03. + NNGYK ESZENY 2026.08.04."
+  },
+  "torlodas": {
+    "cim": "Torlódási eljárásrend",
+    "forras": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend",
+    "forrasReszlet": "SE Sürgősségi Orvostani Klinika, Dr. Fenyves Bánk Gábor klinikaigazgató, Budapest, 2026.09.15.",
+    "alapelv": "Amíg a klinikán rendelkezésre áll szabad ágy, a mentőszolgálat által beszállított betegeket át kell venni.",
+    "hatalybaLepes": {
+      "mikor": "Az eljárásrend akkor lép életbe, amikor (1 „reanimációs” ágy kivételével) minden ellátóhely megtelt, és a beszállító mentőegységek torlódnak.",
+      "kiRendeliEl": "Az életbe lépést a műszakvezető orvos rendeli el.",
+      "teendok": [
+        "A flow manager ezt dokumentálja.",
+        "A flow manager tájékoztatja az OMSZ mentésirányítását arról, hogy a klinika fogadóképessége korlátozott."
+      ],
+      "megszunes": "Az eljárásrend megszűnésekor ugyanígy kell eljárni (dokumentálás + az OMSZ mentésirányításának tájékoztatása)."
+    },
+    "orzo": {
+      "cim": "Az őrző/sokktalanító kapacitásának használata",
+      "szoveg": "Ha a fekvőbeteg részleg megtelt, az őrző/sokktalanító szabad ágyait olyan beteggel is fel kell tölteni, aki egyébként nem igényel őrző/sokktalanító-szintű ellátást. Egy ágyat a műszakvezető orvos reanimációs célra tart fenn, kiadása után a legelső felszabaduló ágyból pótolni kell."
+    },
+    "triazsHely": "Torlódás idején a triage ápoló minden érkező mentőegység betegét a mentőágyon triázsolja, az eMedSolba történő felvétellel párhuzamosan.",
+    "kritikus": {
+      "szintek": [
+        1,
+        2
+      ],
+      "cim": "MSTR 1–2 — kapacitástól függetlenül azonnal",
+      "szoveg": "Életveszélyes vagy kritikus állapotú beteg (MSTR I–II): kapacitástól függetlenül azonnal be kell vinni az ellátótérbe, a tartalék ágyra át kell helyezni. Az ellátást akár a mentőhordágyon meg kell kezdeni.",
+      "kiemelt": "Ezt a beteget NEM sorolhatja várólistára — a torlódás nem ok a késleltetésre."
+    },
+    "utakBevezeto": "Minden más (MSTR 3–5) beteg a következő három út egyikére kerül.",
+    "utak": [
+      {
+        "id": "ut_nem_igenyel_agyat",
+        "sorszam": 1,
+        "cim": "Ágyat nem igénylő beteg",
+        "szoveg": "A triage ápoló a járóbeteg-ellenőrzőlista alapján dönt a járóbeteg részlegre irányításról. Ha nem irányítható a járóbeteg részlegre, de ágyat sem igényel, a fekvőbeteg-részen ülő helyet kap egy kezelőszékben.",
+        "dontesHozo": "triage ápoló",
+        "eszkoz": "A járóbeteg-ellenőrzőlista = a Betegút képernyő 7 pontos járó-checklistje.",
+        "kimenetek": [
+          {
+            "ha": "a járó-checklist minden pontja teljesül",
+            "akkor": "járóbeteg részlegre irányítható"
+          },
+          {
+            "ha": "járóbeteg részlegre nem irányítható, de ágyat sem igényel",
+            "akkor": "ülő hely kezelőszékben, a fekvőbeteg-részen"
+          }
+        ]
+      },
+      {
+        "id": "ut_fast_track",
+        "sorszam": 2,
+        "cim": "Fast track beteg",
+        "szoveg": "A triage ápoló felismeri a potenciális át-/továbbirányíthatóságot és jelzi a műszakvezető orvosnak, aki maga vagy az általa kijelölt ellátó értékeli a beteget és a lehető leghamarabb dönt a további betegútról.",
+        "dontesHozo": "műszakvezető orvos (vagy az általa kijelölt ellátó) — a triage ápoló csak JELEZ, nem dönt",
+        "feltetelekCim": "Területen kívüli beteg más intézménybe CSAK akkor küldhető, ha MINDEN alábbi teljesül:",
+        "feltetelek": [
+          {
+            "id": "ft_iranydiagnozis",
+            "szoveg": "Az iránydiagnózis felállítható."
+          },
+          {
+            "id": "ft_celintezmeny",
+            "szoveg": "A célintézmény kijelölhető — és az NEM lehet másik SBO."
+          },
+          {
+            "id": "ft_szallithato",
+            "szoveg": "A beteg biztonsággal továbbszállítható."
+          },
+          {
+            "id": "ft_medsol",
+            "szoveg": "A továbbküldés a MedSolban rögzítésre került."
+          }
+        ],
+        "tilalom": "Más SBO-ra beteget területi illetékességre hivatkozva továbbküldeni TILOS (SE SOK betegfelvételi alapelv 6.). A területi adat itt a műszakvezetői döntés alapja, nem elküldési indok."
+      },
+      {
+        "id": "ut_agyat_igenyel",
+        "sorszam": 3,
+        "cim": "Ágyat igénylő, nem kritikus beteg",
+        "szoveg": "A triage ápoló a mentőágyon triázsol, majd a beteg a mentőhordágyon várakozik szabad ágyra. Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges. A további ellátást a rendelkezésre álló kapacitás szerint mielőbb el kell kezdeni.",
+        "dontesHozo": "triage ápoló",
+        "retriage": "Az ágyra kerülésig az MSTR-kategória szerinti időközönként re-triage szükséges.",
+        "retriageForras": "Az időközöket az MSTR-szintek újraértékelési előírása adja (KB.levels[].reassess): MSTR 2 – 15 percenként, MSTR 3 – 30 percenként, MSTR 4 – 60 percenként, MSTR 5 – 120 percenként."
+      }
+    ],
+    "sorrend": {
+      "cim": "A fekvőbeteg-részre kerülés sorrendje",
+      "szoveg": "A fekvőbeteg-részre kerülés sorrendjét a triage ápoló a betegek állapota és triage-kategóriája alapján határozza meg, nem az érkezési idő szerint. A következő felszabaduló ágyra kijelölt mentőegység a fekvőbeteg-részen, a többi a triage váróban várakozik. A triage ápolók folyamatosan egyeztetnek, szükség esetén a műszakvezető ápoló is részt vesz a koordinációban.",
+      "kiemelt": "NEM érkezési sorrend — állapot és triázs-kategória dönt."
+    },
+    "dokumentacio": {
+      "cim": "Kötelező dokumentáció",
+      "pontok": [
+        "Triage és re-triage dokumentáció minden betegnél szükséges.",
+        "Fast-track ellátás esetén ambuláns lap készítendő, amely minimálisan a státuszt és az epikrízist tartalmazza."
+      ]
+    }
   }
 };
   if (typeof module !== 'undefined' && module.exports) module.exports = KB;
