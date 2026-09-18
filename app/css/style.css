@@ -487,3 +487,34 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 }
 .nincs-mod-btn-ovatos .ico { flex: 0 0 auto; }
 .nincs-mod-btn-ovatos .nm-arrow { margin-left: auto; }
+
+/* Lejárati értesítés — az automatikus adattörlés sosem csendes. Szándékosan
+   semleges (pala) szín: nem MSTR-szint, nem parkolt-sáv, nem torlódás. */
+.lejarat-sav {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px; font-size: 13px;
+  background: #EEF2F7; color: #33415C; border-bottom: 1px solid #D5DEE9;
+}
+.lejarat-sav[hidden] { display: none; }
+.lejarat-sav .ico { width: 16px; height: 16px; flex: 0 0 auto; }
+.lejarat-bezar {
+  margin-left: auto; background: none; border: 0; cursor: pointer;
+  color: inherit; opacity: .6; padding: 2px; line-height: 0;
+}
+.lejarat-bezar:hover { opacity: 1; }
+
+/* Adatleltár az Előzmények panel alján — átláthatóság: mi van tárolva, meddig. */
+.adat-doboz {
+  margin-top: 18px; padding: 14px; border: 1px solid var(--line);
+  border-radius: 10px; background: #F8FAFC;
+}
+.adat-cim { margin: 0 0 6px; font-size: 14px; display: flex; align-items: center; gap: 7px; }
+.adat-magyarazat { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.adat-sor {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 5px 0; border-top: 1px dashed var(--line); font-size: 13px;
+}
+.adat-sor-cimke { flex: 1; }
+.adat-sor-db { font-variant-numeric: tabular-nums; font-weight: 600; }
+.adat-figyelem { margin-top: 10px; font-size: 12.5px; color: var(--l3t); }
+.adat-torol { margin-top: 12px; width: 100%; }

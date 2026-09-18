@@ -22241,11 +22241,15 @@
           "vanErtek": true
         }
       ],
-      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa — azonnal irányítsa aktív kezelőhelyiségbe, a mért vérnyomástól függetlenül. (Ezért nincs gyermekre számszerű vérnyomás-padló: a forrás ilyet nem ad meg.)",
+      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. TEENDŐ: a besorolást ne a mért értékre alapozza, hanem töltse ki a „Hemodinamikai státusz (C)” kérdést — az minden korban ad szintet (sokk → MSTR 1, instabilitás → MSTR 2). Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa, a mért vérnyomástól függetlenül. (Számszerű gyermek-vérnyomás padló azért nincs, mert a forrás ilyet nem ad meg: a függelékben csak gyermekkori HIPERTÓNIA-grafikon szerepel, hipotenziós küszöb nem.)",
       "source": [
         {
           "doc": "tankonyv",
           "page": 79
+        },
+        {
+          "doc": "tankonyv",
+          "page": 98
         }
       ]
     },

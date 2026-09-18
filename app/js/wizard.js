@@ -361,9 +361,16 @@
     S = { step: o.step || 'azonositas', history: [], beteg: o.beteg || {}, azon: o.azon || {}, catKey: o.catKey || null, pathLog: o.pathLog || [], utolso: null, autoMezo: {}, keziMezo: o.keziMezo || {}, panaszKereso: o.panaszKereso || '', leletRaw: o.leletRaw || '', leletMsg: o.leletMsg || '', tetra: o.tetra || {}, betegut: o.betegut || {} };
     ertekel();
   }
-  function perzisztal() { try { localStorage.setItem(STORE_AKTIV, JSON.stringify(sMentheto())); } catch (e) {} }
+  function perzisztal() { try { localStorage.setItem(STORE_AKTIV, JSON.stringify(idobelyeggel(sMentheto()))); } catch (e) {} }
   function aktivTorol() { try { localStorage.removeItem(STORE_AKTIV); } catch (e) {} }
-  function vanErdemiKitoltes() { return (S.beteg && Object.keys(S.beteg).length > 0) || (S.azon && S.azon.raw) || !!S.beteg.vezetoPanaszId; }
+  function vanErdemiKitoltes() {
+    // A TETRA-lap is érdemi tartalom: élő rádiós riasztás közben töltik, és eddig az
+    // "Új beteg" gomb megerősítés és parkolás nélkül eldobta (betegbiztonsági lektor).
+    var vanTetra = S.tetra && Object.keys(S.tetra).some(function (k) {
+      var v = S.tetra[k]; return v !== '' && v != null && v !== false;
+    });
+    return (S.beteg && Object.keys(S.beteg).length > 0) || (S.azon && S.azon.raw) || !!S.beteg.vezetoPanaszId || vanTetra;
+  }
   function parkoltak() { try { return JSON.parse(localStorage.getItem(STORE_PARK) || '[]'); } catch (e) { return []; } }
   function parkoltakMent(arr) { try { localStorage.setItem(STORE_PARK, JSON.stringify(arr)); } catch (e) {} }
   function ujId() { return 'p' + Date.now() + Math.floor(Math.random() * 1000); }
@@ -378,7 +385,7 @@
   function parkol() {
     if (!vanErdemiKitoltes()) return false;
     var arr = parkoltak();
-    arr.push({ id: ujId(), cimke: betegCimke(), lepesCim: (LEPESEK[lepesIndex(S.step)] || {}).cim || '', szint: (S.utolso && S.utolso.szint) || null, S: sMentheto() });
+    arr.push({ id: ujId(), mentveTs: Date.now(), cimke: betegCimke(), lepesCim: (LEPESEK[lepesIndex(S.step)] || {}).cim || '', szint: (S.utolso && S.utolso.szint) || null, S: sMentheto() });
     parkoltakMent(arr); return true;
   }
   function parkoltBetolt(id) {
@@ -386,7 +393,7 @@
     for (var i = 0; i < arr.length; i++) if (arr[i].id === id) { idx = i; break; }
     if (idx < 0) return;
     var cel = arr[idx]; arr.splice(idx, 1);
-    if (vanErdemiKitoltes() && S.step !== 'eredmeny') arr.push({ id: ujId(), cimke: betegCimke(), lepesCim: (LEPESEK[lepesIndex(S.step)] || {}).cim || '', szint: (S.utolso && S.utolso.szint) || null, S: sMentheto() });
+    if (vanErdemiKitoltes() && S.step !== 'eredmeny') arr.push({ id: ujId(), mentveTs: Date.now(), cimke: betegCimke(), lepesCim: (LEPESEK[lepesIndex(S.step)] || {}).cim || '', szint: (S.utolso && S.utolso.szint) || null, S: sMentheto() });
     parkoltakMent(arr);
     sVisszaallit(cel.S); render();
   }
@@ -394,6 +401,85 @@
     var arr = parkoltak().filter(function (x) { return x.id !== id; });
     parkoltakMent(arr); render();
   }
+
+  // ---- ADATMEGŐRZÉS: automatikus lejárat + átlátható törlés ---------------------
+  // A készüléken tárolt betegadat (név, KBA, életkor, panasz, vitálértékek) eddig
+  // KORLÁTLAN ideig megmaradt: lapfrissítés, böngészőzárás és a tablet újraindítása
+  // után is. A mentés célja a munkavédelem (a félbehagyott felvétel ne vesszen el),
+  // ezért kikapcsolni nem lehet — de a megőrzésnek van funkcionális határa: a műszak.
+  // MEGOLDÁS: minden betegadatot tartalmazó rekord időbélyeget kap, és a megőrzési
+  // időn túli rekordok betöltéskor automatikusan törlődnek. A törlés SOSEM csendes:
+  // az ápoló értesítést kap róla, és bármikor meg tudja nézni és törölni az egészet.
+  var MEGORZES_ORA = 12;                       // egy műszak + átadás
+  var MEGORZES_MS = MEGORZES_ORA * 60 * 60 * 1000;
+  var STORE_TISZTITVA = 'mstr_utolso_tisztitas_v1';
+  var lejartJelentes = null;                   // {kulcsok: [...], db: n} — egyszer megjelenítendő
+
+  function most() { return Date.now(); }
+  function idobelyeggel(o) { o = o || {}; o.mentveTs = most(); return o; }
+  function lejart(ts) { return ts == null || (most() - ts) > MEGORZES_MS; }
+
+  // Betöltéskor egyszer lefut: minden betegadatot tartalmazó tárolót megtisztít.
+  // A jelenleg NYITOTT felvételt is csak akkor dobja el, ha az időbélyege lejárt —
+  // a kéz alatt lévő munka soha nem tűnhet el.
+  function lejartAdatTisztitas() {
+    var torolt = [], db = 0;
+    function biztos(fn) { try { return fn(); } catch (e) { return null; } }
+    // 1) folyamatban lévő felvétel
+    biztos(function () {
+      var raw = localStorage.getItem(STORE_AKTIV); if (!raw) return;
+      var o = JSON.parse(raw);
+      if (lejart(o && o.mentveTs)) { localStorage.removeItem(STORE_AKTIV); torolt.push('félbehagyott felvétel'); db++; }
+    });
+    // 2) parkolt (félbehagyott) betegek
+    biztos(function () {
+      var a = JSON.parse(localStorage.getItem(STORE_PARK) || '[]');
+      var maradt = a.filter(function (x) { return !lejart(x && x.mentveTs); });
+      if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('parkolt beteg'); localStorage.setItem(STORE_PARK, JSON.stringify(maradt)); }
+    });
+    // 3) lezárt betegek előzménylistája
+    biztos(function () {
+      var a = JSON.parse(localStorage.getItem(STORE_HISTORY) || '[]');
+      var maradt = a.filter(function (x) { return !lejart(x && x.ts); });
+      if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('lezárt beteg az előzményekben'); localStorage.setItem(STORE_HISTORY, JSON.stringify(maradt)); }
+    });
+    // 4) torlódási várólista
+    biztos(function () {
+      var a = JSON.parse(localStorage.getItem(STORE_VARO) || '[]');
+      var maradt = a.filter(function (x) { return !lejart(x && (x.mentveTs || x.felvettTs)); });
+      if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('várólistás beteg'); localStorage.setItem(STORE_VARO, JSON.stringify(maradt)); }
+    });
+    // 5) az aktív ápoló neve is műszakhoz kötött
+    biztos(function () {
+      var t = parseInt(localStorage.getItem(STORE_TISZTITVA) || '0', 10);
+      if (t && (most() - t) > MEGORZES_MS) localStorage.removeItem(STORE_STAFF_AKTIV);
+    });
+    biztos(function () { localStorage.setItem(STORE_TISZTITVA, String(most())); });
+    if (db > 0) lejartJelentes = { db: db, mik: torolt };
+  }
+
+  // Leltár a felhasználónak: mi van most a készüléken tárolva.
+  function adatLeltar() {
+    function n(kulcs, fallback) { try { var v = JSON.parse(localStorage.getItem(kulcs) || fallback); return v; } catch (e) { return JSON.parse(fallback); } }
+    var akt = null; try { akt = JSON.parse(localStorage.getItem(STORE_AKTIV) || 'null'); } catch (e) {}
+    return [
+      { cimke: 'Folyamatban lévő felvétel', db: akt ? 1 : 0, szemelyes: true, ts: akt && akt.mentveTs },
+      { cimke: 'Parkolt (félbehagyott) betegek', db: n(STORE_PARK, '[]').length, szemelyes: true },
+      { cimke: 'Lezárt betegek az Előzményekben', db: n(STORE_HISTORY, '[]').length, szemelyes: true },
+      { cimke: 'Torlódási várólista', db: n(STORE_VARO, '[]').length, szemelyes: true },
+      { cimke: 'Korábbi ápolónevek (gyorsválasztó)', db: n(STORE_STAFF, '[]').length, szemelyes: false }
+    ];
+  }
+
+  // Mindent töröl, ami beteg- vagy személyazonosító adat. A pilot-tájékoztató
+  // elfogadását és a torlódási nézet állapotát szándékosan MEGHAGYJA: ezek nem
+  // személyes adatok, és a törlésük csak zavart okozna a műszak közepén.
+  function osszesAdatTorles() {
+    [STORE_AKTIV, STORE_PARK, STORE_HISTORY, STORE_VARO, STORE_STAFF, STORE_STAFF_AKTIV].forEach(function (k) {
+      try { localStorage.removeItem(k); } catch (e) {}
+    });
+  }
+
   // ---- ELŐZMÉNYEK (befejezett triázsok) + ÁPOLÓ-lista ------------------------
   var STORE_HISTORY = 'mstr_history_v1', STORE_STAFF = 'mstr_staff_v1';
   function elozmenyek() { try { return JSON.parse(localStorage.getItem(STORE_HISTORY) || '[]'); } catch (e) { return []; } }
@@ -416,7 +502,13 @@
   // ---- Pilot/teszt figyelmeztető kapu (első betöltéskor, amíg el nem fogadja) ------
   // Csak a gombbal zárható (háttérre kattintás szándékosan nem dobja el).
   var STORE_DISCLAIMER = 'mstr_disclaimer_ack_v2';
-  function disclaimerElfogadva() { try { return localStorage.getItem(STORE_DISCLAIMER) === '1'; } catch (e) { return true; } }
+  function disclaimerElfogadva() {
+    // FAIL-CLOSED: ha a tároló nem elérhető (privát ablak, tiltott sütik), inkább
+    // MINDIG mutassuk a pilot-tájékoztatót, mint hogy csendben kimaradjon. Korábban
+    // itt 'true' állt, ami pont a figyelmeztetést kapcsolta ki ott, ahol nem tudjuk,
+    // hogy a felhasználó látta-e már.
+    try { return localStorage.getItem(STORE_DISCLAIMER) === '1'; } catch (e) { return false; }
+  }
   function disclaimerKapu() {
     if (disclaimerElfogadva()) return;
     var tarto = $('reszlet-tarto');
@@ -476,6 +568,36 @@
       torol.onclick = function () { if (confirm('Az összes tárolt előzmény törlése?')) { elozmenyekMent([]); tarto.innerHTML = ''; } };
       panel.appendChild(torol);
     }
+
+    // ---- Átláthatóság: mi van ebben a böngészőben tárolva, és meddig ----
+    var ad = el('div', 'adat-doboz');
+    ad.appendChild(elIko('h4', 'adat-cim', 'shield', 'Ezen a készüléken tárolt adatok'));
+    ad.appendChild(el('div', 'adat-magyarazat',
+      'A felület a félbehagyott munka védelmére a böngészőben tárol adatokat. Szerverre semmi nem megy. ' +
+      'A betegadatot tartalmazó tételek ' + MEGORZES_ORA + ' óra után a következő megnyitáskor automatikusan törlődnek.'));
+    var vanSzemelyes = false;
+    adatLeltar().forEach(function (t) {
+      if (t.szemelyes && t.db > 0) vanSzemelyes = true;
+      var sor = el('div', 'adat-sor');
+      sor.appendChild(el('span', 'adat-sor-cimke', t.cimke + (t.szemelyes ? '' : ' (nem betegadat)')));
+      sor.appendChild(el('span', 'adat-sor-db', String(t.db)));
+      ad.appendChild(sor);
+    });
+    if (vanSzemelyes) {
+      ad.appendChild(el('div', 'adat-figyelem',
+        'Közös (megosztott) gépen műszak végén érdemes törölni — a lenti gombbal azonnal megteheti.'));
+    }
+    var mindTorol = elIko('button', 'btn btn-ghost adat-torol', 'close', 'Minden betegadat törlése most');
+    mindTorol.type = 'button';
+    mindTorol.onclick = function () {
+      if (!confirm('Törli a készüléken tárolt ÖSSZES betegadatot?\n\nEz a folyamatban lévő felvételt, a parkolt betegeket, az előzményeket és a várólistát is törli. A művelet nem vonható vissza.')) return;
+      osszesAdatTorles();
+      tarto.innerHTML = '';
+      ujra();
+    };
+    ad.appendChild(mindTorol);
+    panel.appendChild(ad);
+
     hatter.appendChild(panel); tarto.innerHTML = ''; tarto.appendChild(hatter);
   }
 
@@ -730,12 +852,28 @@
   // ---- egyes lépések ----------------------------------------------------------
   function render() {
     var fo = $('fo'); fo.innerHTML = '';
+    lejaratSavRajzol();
     (RENDER[S.step] || RENDER.kritikus)(fo);
     fejlecFrissit();
     kritikusBanner();
     torlodasSavRajzol();
     parkoltSavRajzol();
     perzisztal();
+  }
+
+  // Lejárati értesítés — az automatikus adattörlés SOSEM történhet csendben.
+  // Egyszer jelenik meg, a felhasználó elbocsáthatja; a következő megnyitásig nem tér vissza.
+  function lejaratSavRajzol() {
+    var tarto = $('lejarat-sav'); if (!tarto) return;
+    if (!lejartJelentes) { tarto.hidden = true; tarto.innerHTML = ''; return; }
+    tarto.hidden = false; tarto.innerHTML = '';
+    var sz = el('span', '', lejartJelentes.db + ' tárolt tétel törlődött a ' + MEGORZES_ORA +
+      ' órás megőrzési idő lejárta miatt (' + lejartJelentes.mik.join(', ') + ').');
+    var ikon = el('span'); ikon.innerHTML = ikonSvg('shield');
+    tarto.appendChild(ikon); tarto.appendChild(sz);
+    var bez = ikonBtnEl('lejarat-bezar', 'close');
+    bez.onclick = function () { lejartJelentes = null; lejaratSavRajzol(); };
+    tarto.appendChild(bez);
   }
 
   // Torlódási státuszsáv — EGY sor: mód + ki rendelte el + mióta + várakozók + lejárt re-triage.
@@ -1554,7 +1692,12 @@
     if (S.beteg.hr != null) vit.push('HR ' + S.beteg.hr + '/min');
     if (S.beteg.rr != null) vit.push('Légzés ' + S.beteg.rr + '/min');
     if (S.beteg.spo2 != null) vit.push('SpO2 ' + S.beteg.spo2 + '%');
-    if (S.beteg.sys != null && S.beteg.dia != null) vit.push('RR ' + S.beteg.sys + '/' + S.beteg.dia + ' Hgmm');
+    if (S.beteg.sys != null || S.beteg.dia != null) {
+      // Ha csak az egyik érték van meg, azt is ki kell írni — a triázs-döntést a
+      // szisztolés érték hordozza, és eddig kimaradt az összegzésből, ha nem volt diasztolés.
+      vit.push('RR ' + (S.beteg.sys != null ? S.beteg.sys : '?') + '/' +
+               (S.beteg.dia != null ? S.beteg.dia : '?') + ' Hgmm');
+    }
     if (S.beteg.temp != null) vit.push('T ' + S.beteg.temp + '°C');
     var gcs = TriazsMotor.gcsOsszeg(S.beteg); if (gcs != null) vit.push('GCS ' + gcs);
     if (S.beteg.fajdalomPont != null) vit.push('VAS ' + S.beteg.fajdalomPont + '/10');
@@ -2123,8 +2266,13 @@
       sor.onclick = function () { reszl.hidden = !reszl.hidden; };
       box.appendChild(sor); box.appendChild(reszl);
       // AMI időfüggés közvetlenül az érintett sornál
+      // Az érintett kódot a TUDÁSBÁZIS mondja meg (amiIdoablak.erintettKodok = ["VSZÉK"]),
+      // nem a felület. Korábban itt egy beégetett /VSZÉK/ ÉS /AMI/ minta állt, ami csak az
+      // "(AMI)" utótagú 5 sorra illeszkedett — a 49 sima "VSZÉK" soron az időablak
+      // figyelmeztetése sosem jelent meg, pedig a KB szerint azokra is vonatkozik.
       var ami = tekAmiAllapot();
-      if (ami && /VSZÉK/.test(kod) && /AMI/.test(kod)) {
+      var amiErintett = ((KB.tek || {}).amiIdoablak || {}).erintettKodok || [];
+      if (ami && amiErintett.some(function (k) { return kod.indexOf(k) !== -1; })) {
         var a = el('div', 'tek-ido' + (ami.ervenyes ? ' ok' : ' nem'));
         a.textContent = ami.szoveg + ' (' + ami.figyelem + ')';
         box.appendChild(a);
@@ -2150,7 +2298,10 @@
       inp.value = S.tekQuery || '';
       panel.appendChild(inp);
       var cimke = el('div', 'skip-hint');
-      cimke.textContent = 'Traumánál a SÉRÜLÉS HELYSZÍNE, stroke-nál a feltalálási hely dönt — nem a lakcím.';
+      // A szöveg a TUDÁSBÁZISBÓL jön (KB.tek.korlat), nem a felületről — eddig ez a mező
+      // sehol nem jelent meg, így a "nem helyettesíti a műszakvezető orvos döntését"
+      // kikötés is láthatatlan maradt.
+      cimke.textContent = T.korlat || 'Traumánál a SÉRÜLÉS HELYSZÍNE, stroke-nál a feltalálási hely dönt — nem a lakcím.';
       panel.appendChild(cimke);
       var lista = el('div'); lista.style.marginTop = '8px'; panel.appendChild(lista);
 
@@ -2159,14 +2310,28 @@
         var q = (S.tekQuery || '').trim();
         if (!q) {
           var tipp = el('div', 'skip-hint'); tipp.style.marginTop = '10px';
-          tipp.textContent = 'Kezdj el gépelni. Az ékezet és a pont elhagyható; a kerület római (IX) és arab (9) számmal, valamint budapesti irányítószámmal (1097) is kereshető.';
+          tipp.textContent = (T.hasznalat ? T.hasznalat + ' ' : '') +
+            'A kerület római (IX) és arab (9) számmal, valamint BUDAPESTI irányítószámmal (1097) is kereshető; ' +
+            'Pest vármegyei irányítószámra a kereső nem tud keresni — ott a település nevét írja be.';
           lista.appendChild(tipp); return;
         }
         var tal = tekKereses(q);
         if (!tal.length) {
+          // Nem budapesti (nem 1-gyel kezdődő) négyjegyű irányítószám: a kereső ilyet NEM
+          // ismer, tehát a találat hiánya NEM jelenti, hogy a település nincs a segédletben.
+          // Korábban ilyenkor is a "nincs SE-kötelezettség" szöveg jelent meg, ami valótlan.
+          var videkiIrsz = /^[2-9]\d{3}$/.test(q.replace(/\s+/g, ''));
           var nincs = el('div', 'warn');
-          nincs.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t)';
-          nincs.innerHTML = ikonSvg('warn') + ' ' + (T.nincsTalalat || 'Nincs találat.');
+          if (videkiIrsz) {
+            nincs.style.cssText = 'background:#FEF9E7;border-color:var(--l3s);color:var(--l3t)';
+            nincs.innerHTML = ikonSvg('warn') +
+              ' <b>Ez nem budapesti irányítószám.</b> A kereső csak a budapesti irányítószámokat ismeri ' +
+              '(1xxx). Ez NEM jelenti, hogy a település hiányzik a segédletből — kérjük, a település ' +
+              'NEVÉT írja be (pl. „Dunaharaszti”).';
+          } else {
+            nincs.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t)';
+            nincs.innerHTML = ikonSvg('warn') + ' ' + (T.nincsTalalat || 'Nincs találat.');
+          }
           lista.appendChild(nincs); return;
         }
         if (tal.length === 1) { lista.appendChild(tekTalalatDoboz(tal[0])); return; }
@@ -2924,6 +3089,7 @@
     document.addEventListener('visibilitychange', function () {
       if (!document.hidden && torlodasAktiv()) render();
     });
+    lejartAdatTisztitas();   // a lejárt betegadat törlése MÉG a visszatöltés előtt
     // Adatvesztés-védelem: ha egy félbehagyott (nem lezárt) triázs volt mentve, visszatöltjük.
     try {
       var mentett = localStorage.getItem(STORE_AKTIV);
