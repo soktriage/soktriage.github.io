@@ -21,7 +21,7 @@
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 422,
+      "rules": 415,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -4496,40 +4496,6 @@
       "group": "temperature"
     },
     {
-      "id": "elsodleges_felnott_19",
-      "name": "Láz – automatikus MSTR 2 fertőzésgyanús betegnél",
-      "applies_to": "felnott",
-      "condition_text": "Feltételezett fertőzéses állapotban érkező lázas beteg, akinél mérsékelt nehézlégzés VAGY hemodinamikai instabilitás VAGY módosult tudatállapot észlelhető, automatikusan MSTR 2 (kritikus). Bizonyított központi idegrendszeri/keringési/légzési zavar esetén súlyos szepszisként, késedelem nélkül kell kezelni.",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "tankonyv",
-          "page": 36
-        }
-      ],
-      "notes": "",
-      "conflicts": [],
-      "group": "temperature"
-    },
-    {
-      "id": "elsodleges_felnott_20",
-      "name": "Immunszupprimált lázas beteg → MSTR 2",
-      "applies_to": "felnott",
-      "condition_text": "Ha a beteg lázas ÉS fennáll immunszuppresszív állapot (daganatos beteg; ISU/szteroid kezelés; radio-/kemoterápia; 75 év feletti életkor; súlyos alapbetegség pl. COPD/KVE/szívelégtelenség; veleszületett vagy szerzett immunhiány pl. HIV; szisztémás autoimmun betegség pl. SLE/RA; általános leromlott állapot): MSTR 2.",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 86
-        }
-      ],
-      "notes": "Az immunszuppresszív állapotok listája kézi megítélést igényel; összekapcsolható a lazKullem=immunszupprimalt kategóriával.",
-      "conflicts": [],
-      "group": "temperature"
-    },
-    {
       "id": "elsodleges_felnott_24",
       "name": "Fájdalom (E) – centrális / heveny (akut) / súlyos (8-10) → MSTR 2",
       "applies_to": "felnott",
@@ -5091,64 +5057,6 @@
       "group": "mechanism"
     },
     {
-      "id": "elsodleges_felnott_42",
-      "name": "Sérülési mechanizmus + kritikus vitál → MSTR 1",
-      "applies_to": "mind",
-      "condition_text": "Ha a magas rizikójú mechanizmusú beteg súlyos légzési elégtelenséggel, hemodinamikai instabilitással vagy eszméletlen állapotban érkezik, MSTR 1 (nem MSTR 2). Az MSTR szintet a beteg jelenlegi állapota határozza meg, nem a prehospitális beavatkozás vagy az intézeti protokoll.",
-      "condition": [],
-      "level": 1,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 94
-        },
-        {
-          "doc": "jegyzet",
-          "page": 141
-        },
-        {
-          "doc": "jegyzet",
-          "page": 142
-        },
-        {
-          "doc": "jegyzet",
-          "page": 248
-        }
-      ],
-      "notes": "applies_to felnott->mind: a mechanizmus gyermekre is vonatkozik (jegyzet 248. o. eset: 13é elgázolt, mechanizmus felülír; tankönyv 70. o. gyermek-fejezet felsorolja).",
-      "conflicts": [],
-      "group": "mechanism"
-    },
-    {
-      "id": "elsodleges_felnott_43",
-      "name": "Penetráló trauma – proximális lokalizáció → MSTR 2",
-      "applies_to": "mind",
-      "condition_text": "Penetráló (áthatoló) trauma magas rizikójú lokalizációnál → MSTR 2: fej, nyak, torzó, vagy a végtagok könyök, illetve térd feletti proximális része. A mellkasi penetráló sérülés (különösen a lapockák és mellbimbók között, valamint a felhason) veszélyes (perikardium-sérülés és/vagy légmell).",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 139
-        },
-        {
-          "doc": "jegyzet",
-          "page": 95
-        },
-        {
-          "doc": "tankonyv",
-          "page": 42
-        },
-        {
-          "doc": "jegyzet",
-          "page": 248
-        }
-      ],
-      "notes": "applies_to felnott->mind: a mechanizmus gyermekre is vonatkozik (jegyzet 248. o. eset: 13é elgázolt, mechanizmus felülír; tankönyv 70. o. gyermek-fejezet felsorolja).",
-      "conflicts": [],
-      "group": "mechanism"
-    },
-    {
       "id": "gyermek_05",
       "name": "Súlyos légzési elégtelenség (gyermek) -> MSTR 1",
       "applies_to": "gyermek",
@@ -5402,27 +5310,6 @@
       "group": "temperature"
     },
     {
-      "id": "gyermek_laz_03",
-      "name": "Immunszupprimált gyermek (bármely kor), láz >38.0°C vagy <36.0°C -> MSTR 2",
-      "applies_to": "gyermek",
-      "condition_text": "Immunszupprimált gyermek (pl. neutropenia, transzplantált, szteroidok, onkológiai beteg, sarlósejtes anémia, VP shunt) testhőmérséklete > 38.0°C vagy < 36.0°C. Enyhe láz is szepszis jele lehet egyébként tünetmentes immunszupprimált gyermeknél.",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 236
-        },
-        {
-          "doc": "tankonyv",
-          "page": 70
-        }
-      ],
-      "notes": "Az 'immunszupprimalt' jelölőmezőtől függ (inputFields). Immunszupprimált betegnél rektális mérés NEM ajánlott, hónaljban mérjünk.",
-      "conflicts": [],
-      "group": "temperature"
-    },
-    {
       "id": "gyermek_laz_04",
       "name": "3 hónap - 3 év, láz >38.5°C, betegnek tűnik -> MSTR 2",
       "applies_to": "gyermek",
@@ -5565,25 +5452,6 @@
       "conflicts": [],
       "korMinHonap": 36,
       "group": "temperature"
-    },
-    {
-      "id": "gyermek_laz_08",
-      "name": "Nem szülőszobán született / újszülött 38°C felett -> MSTR 2",
-      "applies_to": "gyermek",
-      "condition_text": "Az újszülött 38°C fok feletti hője automatikusan MSTR 2. A vitális paramétereket ellenőrizni kell, de önmagukban nem viszik magasabb szintre (esettanulmány: 11 hetes csecsemő, T 38,2°C -> MSTR 2).",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 262
-        }
-      ],
-      "notes": "Átfed a gyermek_laz_01 szabállyal (0-3 hó >38.0°C -> MSTR 2). Külön rögzítve a jegyzet explicit szabálya miatt.",
-      "conflicts": [],
-      "korMinHonap": 0,
-      "korMaxHonap": 3,
-      "group": "pediatric"
     },
     {
       "id": "gyermek_dehid_01",
@@ -6313,27 +6181,6 @@
         }
       ],
       "notes": "",
-      "conflicts": [],
-      "group": "pediatric"
-    },
-    {
-      "id": "gyermek_16",
-      "name": "Nem szülőszobán született újszülött -> automatikus MSTR 2",
-      "applies_to": "gyermek",
-      "condition_text": "Nem szülőszobán született újszülött (otthon, mentőautóban vagy a sürgősségi osztályon hirtelen meginduló szüléssel született) automatikusan MSTR 2. szintű. A vitális meghatározók alapján felfelé triázsolható, lefelé nem.",
-      "condition": [],
-      "level": 2,
-      "source": [
-        {
-          "doc": "tankonyv",
-          "page": 59
-        },
-        {
-          "doc": "jegyzet",
-          "page": 209
-        }
-      ],
-      "notes": "Felfelé triázsolható (súlyosabb szint), lefelé nem. Gyermek-specifikus vezető panasz.",
       "conflicts": [],
       "group": "pediatric"
     },
@@ -8449,36 +8296,6 @@
       ],
       "csakPanaszok": [
         "nemi-eroszak"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "masodlagos_83",
-      "name": "Necrotizáló fasciitis / perineális panasz: látható bőrelfeketedés → min. MSTR 2",
-      "applies_to": "mind",
-      "condition_text": "Perineális panasznál vagy necrotizáló fasciitis (Fournier-kór) gyanújánál: ha a fekete/elfeketedett bőrterület megfigyelhető, a beteg legalább MSTR 2. szintre triázsolandó (a 'láz vagy immunszupprimált' módosítóval). A súlyos fájdalom akut, centrális fájdalomnak minősítendő akkor is, ha a beteg 7 pont vagy kevesebbre értékeli. Orvosi ellátásnak 15 percen belül meg kell kezdődnie: stabil betegnél is 1 óra várakozás a gyulladt felület 5-6(-8)-szoros növekedéséhez vezethet.",
-      "condition": [
-        {
-          "mezo": "necrotizaloFasciitisBoreflektedes",
-          "egyenlo": "igen"
-        }
-      ],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 309
-        },
-        {
-          "doc": "tankonyv",
-          "page": 83
-        }
-      ],
-      "notes": "A fekete bőrterület megfigyelhetősége esetén MINIMUM MSTR 2 (feltriázsolás lehetséges). Ha a terület nem látható, a triázs nagy rizikót hordoz.",
-      "conflicts": [],
-      "csakPanaszok": [
-        "vegbel-vegbel-kornyeki-fajdalom",
-        "herefajdalom-vagy-duzzanat"
       ],
       "group": "secondary"
     },
@@ -12682,6 +12499,10 @@
         {
           "mezo": "immunszupprimalt",
           "egyenlo": true
+        },
+        {
+          "mezo": "temp",
+          "nagyobb": 38
         }
       ],
       "level": 2,
@@ -12698,11 +12519,8 @@
           "doc": "ctas"
         }
       ],
-      "notes": "Tankönyv o.69: »enyhe láz is szepszis jele lehet immunszupprimált gyermekeknél«; o.35 immunhiányos beteg. CTAS Fever: »2 | Immunocompromised: neutropenia, chemotherapy or immunosuppressive drugs«. Eddig a mező be volt vezetve, de EGYETLEN szabály sem használta (alá-triázs) — most bekötve a Láz panaszhoz.",
+      "notes": "Tankönyv o.69: »enyhe láz is szepszis jele lehet immunszupprimált gyermekeknél«; o.35 immunhiányos beteg. CTAS Fever: »2 | Immunocompromised: neutropenia, chemotherapy or immunosuppressive drugs«. Eddig a mező be volt vezetve, de EGYETLEN szabály sem használta (alá-triázs) — most bekötve a Láz panaszhoz. HATÓKÖR-BŐVÍTÉS: a mező eddig CSAK a „Láz” vezető panasznál jelent meg, így a lázas, de más panasszal érkező immunszupprimált beteg (pl. hasi fájdalom) kimaradt. A szabály mostantól a mért lázhoz kötött, ezért a kérdés is csak akkor jelenik meg, ha a láz nincs kizárva.",
       "conflicts": [],
-      "csakPanaszok": [
-        "laz"
-      ],
       "group": "secondary"
     },
     {
@@ -15240,6 +15058,32 @@
       "notes": "KÜLLEM-FÜGGETLEN LÁZ-PADLÓ. A szint pontosan a láz-létra SAJÁT LEGENYHÉBB kimenete erre a korsávra, ezért a létrával nem ütközhet: ha az ápoló megítéli a küllemet, az csak SÚLYOSBÍTHAT (min-logika), enyhíteni nem tud. A padló azt a lyukat zárja be, hogy küllem-válasz nélkül a lázas beteg a panasz alapszintjén (akár MSTR 5-ön) maradt. Előzmény: a korábbi esc_temp_felnott_magas_onallo szabály MSTR 3-at adott ≥38,61 °C-ra, ami ELLENTMONDOTT a létra „jó általános állapot → MSTR 4\" sorának (klinikai lektor, 2026-09-18); a törlése viszont visszanyitotta az alultriázst (adversariális verifikátor ugyanaznap). A helyes megoldás a létra legenyhébb kimenete padlóként.",
       "conflicts": [],
       "korMinHonap": 36,
+      "group": "secondary"
+    },
+    {
+      "id": "esc_idos_lazas_immunszupprimalt",
+      "name": "75 év feletti lázas beteg → MSTR 2 (a forrás az életkort immunszuppresszív állapotként sorolja fel)",
+      "applies_to": "felnott",
+      "condition_text": "75 év feletti életkor + láz (>38 °C). A forrás az immunszuppresszív állapotok között NEVESÍTI a 75 év feletti életkort, és kimondja: „Ha a beteg lázas és fennáll az immunszuppresszív állapot, akkor a MSTR 2 szintre kell triázsolni.”",
+      "condition": [
+        {
+          "mezo": "eletkorEv",
+          "nagyobb": 75
+        },
+        {
+          "mezo": "temp",
+          "nagyobb": 38
+        }
+      ],
+      "level": 2,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 86
+        }
+      ],
+      "notes": "A forrás immunszuppresszív-listája szó szerint tartalmazza a „75 év feletti életkor” tételt a daganatos betegség, a szteroid/kemoterápia, a HIV és a súlyos alapbetegség mellett. A projekt korábbi munkanaplója tévesen azt rögzítette, hogy az „idős = immunszupprimált” megfeleltetés nincs a forrásban — a jegyzet 86. oldala cáfolja. E szabály nélkül a legsérülékenyebb csoport lázas betege a panasz alapszintjén maradt (pl. 80 éves, 38,5 °C, jó általános állapot → MSTR 4). ELLENŐRZÉS: a forrás VAGY-kapcsolatú felsorolásának többi tagja már lefedett — a közepes légzési distresszt a nehezlegzesFok számított mezőn át az elsodleges_felnott_03 (MSTR 2), a hemodinamikai instabilitást az elsodleges_felnott_08 (MSTR 2) adja. Ezért csak az eddig hiányzó életkori tag került be új szabályként, hogy a szabálykészlet ne duzzadjon redundáns tételekkel.",
+      "conflicts": [],
       "group": "secondary"
     }
   ],
@@ -18505,7 +18349,7 @@
       "group": "megfigyeles",
       "label": "Magas rizikójú sérülési mechanizmus",
       "type": "checkbox",
-      "help": "Nagy energiájú trauma a km/h és esésmagasság küszöbök szerint (ld. baleseti mechanizmus tábla).",
+      "help": "A forrás magas rizikójú baleseti mechanizmus táblája (bármelyik elég): GÉPJÁRMŰ — járműből kiesés, a jármű átfordulása, 20 percnél hosszabb kimentési idő, a motor/műszerfal utastérbe nyomulása, halott az utastérben, ütközés >40 km/h (öv nélkül) vagy >60 km/h (bekötött övvel). MOTOROS — autóval ütközés >30 km/h, különösen ha a vezető leesett a motorról. GYALOGOS/KERÉKPÁROS — gázolás >10 km/h felett. ESÉS — a testhossz kétszeresét meghaladó magasságból (a tankönyv >3 m vagy 5 lépcsőfok alakban is közli). ÁTHATOLÓ (PENETRÁLÓ) SÉRÜLÉS — fej, nyak, törzs, vagy a végtagok könyöktől és térdtől proximálisan (pl. késszúrás a nyakon vagy a felkaron: ez akkor is magas rizikójú, ha a beteg jól néz ki, nincs fájdalma és a vitális paraméterei normálisak — esettanulmány: 24 éves férfi, lapocka melletti késszúrás, MSTR 2). Forrás: tankönyv 42./72. o., jegyzet 141-142./248. o.",
       "pediatricOnly": false
     },
     {
@@ -18606,10 +18450,7 @@
       "label": "Immunszupprimált beteg (láz mellett)",
       "type": "checkbox",
       "help": "pl. neutropenia, kemoterápia, szteroid, transzplantált, onkológiai beteg, sarlósejtes anémia, VP shunt. Immunszupprimált betegnél már enyhe láz is szepszis jele lehet → MSTR 2 (bármely korban).",
-      "pediatricOnly": false,
-      "csakPanaszok": [
-        "laz"
-      ]
+      "pediatricOnly": false
     },
     {
       "id": "stridor",
@@ -19259,8 +19100,8 @@
       ],
       "help": "Necrotizáló fasciitis (Fournier-kór) gyanúja; orvosi vizsgálat 15 percen belül.",
       "csakPanaszok": [
-        "herefajdalom-vagy-duzzanat",
-        "vegbel-vegbel-kornyeki-fajdalom"
+        "vegbel-vegbel-kornyeki-fajdalom",
+        "herefajdalom-vagy-duzzanat"
       ],
       "pediatricOnly": false
     },
