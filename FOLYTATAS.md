@@ -2423,3 +2423,30 @@ kódomat is. Négy valódi hibát találtak, kettő már kitelepítve volt.
    ez fölé-triázsol (az újszülött élettani szisztolés értéke 60-70 körül van); ez tudatosan
    vállalt, a forrás „bizonytalanság esetén triázsoljon felfelé" elve szerint, és a szabály
    jegyzetében is rögzítve van.
+
+
+#### 87. egység — a nyitott hibalista lezárása (a lektor 6-19. tételei)
+
+MÉG KÉT SAJÁT HIBA, amit a lektor fogott meg:
+- A bőrelfeketedés-duplikátum javításakor a mező-kihagyás CSENDBEN NEM ÉRVÉNYESÜLT (a
+  szövegcserém nem illeszkedett, és nem volt rá assert). A leváltott szabály mezője bent maradt
+  az űrlapon, tehát pont az a néma kérdés keletkezett, amit meg akartam szüntetni. Most tényleg
+  ki van hagyva (inputFields 80 → 79), és a HOLT mezők száma nulla.
+- A BEGÉPELT ÉRTÉKEK EGYÁLTALÁN NEM PERZISZTÁLÓDTAK, amíg a felhasználó tovább nem lépett: a
+  perzisztal() kizárólag a render() végén futott. Aki begépelte a vitálokat és a tablet elaludt
+  vagy a lap összeomlott a Tovább előtt, mindent elvesztett — pont az ellen, amiért a mentés
+  készült. Most az ápolónév, a lelet-szövegdoboz és minden numerikus vitálmező gépelés közben
+  ment. Böngészőben igazolva: a beírt név azonnal megjelenik a tárolóban.
+
+A LEKTOR KATEGORIZÁLÁSA a 14 tételről: 6 a vizsgálat ideje alatt megjavult, a 14. tétel
+7-ről 0-ra csökkent, a 12. eredeti formájában nem volt reprodukálható (106 MSTR-t ígérő
+opcióból 0 volt hibás). MÉG NYITOTT (nem betegbiztonsági, következő körre):
+- 9. Torlódási várólista: a szint nélküli beteg a lista LEGVÉGÉRE kerül (az MSTR 5 után is), és
+  nem kap re-triage időzítőt; a nézet kikapcsolása után a lista elérhetetlen.
+- 10. A torlódási nézet korlátlan ideig bekapcsolva marad, lejárat és emlékeztető nélkül.
+- 13. TETRA: hiányzik a „Honnan" mező és a premorbid állapot; a stroke két külön időpontja
+  egybe van olvasztva.
+- 17. Terminológiai keveredés (triázs/triage, mentőágy/mentőhordágy, SpO₂/SpO2, disztressz).
+- 18. A „Lépés N" számozás nem követi a kihagyásokat (5-ről 7-re ugrik), és néhány kártyacím
+  eltér a folyamatsáv lépésnevétől.
+- 19. Kereshetőség: néhány CEDIS-panasznévnél a forrás elütése megmaradt.

@@ -1046,7 +1046,7 @@
     var staff = el('input'); staff.type = 'text'; staff.id = 'staff-input'; staff.setAttribute('list', 'staff-lista');
     staff.style.cssText = 'flex:1;border:2px solid ' + (S.azon.staff ? 'var(--accent)' : 'var(--border)') + ';border-radius:9px;padding:11px 10px;font-size:15px';
     staff.value = S.azon.staff || ''; staff.placeholder = 'pl. Kovács Mária';
-    staff.oninput = function () { S.azon.staff = this.value; };
+    staff.oninput = function () { S.azon.staff = this.value; perzisztal(); };
     staffSor.appendChild(staff);
     if (S.azon.staff) {
       var stX = ikonBtnEl('btn btn-ghost', 'close'); stX.title = 'Ápoló törlése (aktív ápoló elfelejtése)';
@@ -1393,7 +1393,7 @@
     // lelet-beillesztés (bal)
     var ta = el('textarea', 'lelet'); ta.id = 'lelet-ta'; ta.placeholder = 'MedSol-lelet szövege ide illeszthető — a paramétereket átveszi. Kézi kitöltés is lehet.';
     if (S.leletRaw) ta.value = S.leletRaw;
-    ta.oninput = function () { S.leletRaw = this.value; };
+    ta.oninput = function () { S.leletRaw = this.value; perzisztal(); };
     ta.addEventListener('paste', function () { setTimeout(function () { S.leletRaw = ta.value; leletAtvesz(ta.value, document.getElementById('lelet-msg')); render(); }, 0); });
     colL.appendChild(ta);
     var msg = el('div', 'lelet-msg'); msg.id = 'lelet-msg';
@@ -1450,7 +1450,7 @@
         if (kulcs === 'eletkorEv' && S.beteg.eletkorHonap != null) { S.beteg.eletkorHonap = null; var mh = document.getElementById('p-eletkorHonap'); if (mh) mh.value = ''; }
         if (kulcs === 'eletkorHonap' && S.beteg.eletkorEv != null) { S.beteg.eletkorEv = null; var me = document.getElementById('p-eletkorEv'); if (me) me.value = ''; }
       }
-      ertekel(); fejlecFrissit(); kritikusBanner(); frissitNav();
+      ertekel(); fejlecFrissit(); kritikusBanner(); frissitNav(); perzisztal();
       if (kulcs === 'eletkorEv' || kulcs === 'eletkorHonap') korcsoportFrissit();
     };
     w.appendChild(inp);
@@ -1464,7 +1464,7 @@
     var inp = el('input'); inp.type = 'number'; inp.id = 'din-' + kulcs;
     if (min != null) inp.min = min; if (max != null) inp.max = max; if (step != null) inp.step = step;
     if (S.beteg[kulcs] != null) inp.value = S.beteg[kulcs];
-    inp.oninput = function () { S.beteg[kulcs] = this.value === '' ? null : parseFloat(this.value); S.keziMezo[kulcs] = true; ertekel(); fejlecFrissit(); kritikusBanner(); };
+    inp.oninput = function () { S.beteg[kulcs] = this.value === '' ? null : parseFloat(this.value); S.keziMezo[kulcs] = true; ertekel(); fejlecFrissit(); kritikusBanner(); perzisztal(); };
     w.appendChild(inp);
     if (help) w.appendChild(el('div', 'u', help));
     return w;

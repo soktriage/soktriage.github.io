@@ -25,7 +25,7 @@
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
-      "inputFields": 80,
+      "inputFields": 79,
       "cases": 75
     }
   },
@@ -19214,28 +19214,6 @@
       "csakPanaszok": [
         "mellkasi-fajdalom-nem-sziv-eredetu"
       ]
-    },
-    {
-      "id": "necrotizaloFasciitisBoreflektedes",
-      "group": "masodlagos",
-      "label": "Perineális panasz: látható bőrelfeketedés",
-      "type": "select",
-      "options": [
-        {
-          "value": "igen",
-          "label": "Igen, látható (min. MSTR 2)"
-        },
-        {
-          "value": "nem",
-          "label": "Nem látható"
-        }
-      ],
-      "help": "Necrotizáló fasciitis (Fournier-kór) gyanúja; orvosi vizsgálat 15 percen belül.",
-      "csakPanaszok": [
-        "vegbel-vegbel-kornyeki-fajdalom",
-        "herefajdalom-vagy-duzzanat"
-      ],
-      "pediatricOnly": false
     },
     {
       "id": "lelegeztetest_igenyel",
