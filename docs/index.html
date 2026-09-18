@@ -24817,11 +24817,22 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   // ---- PERZISZTÁLÁS + BETEG-PARKOLÁS (localStorage) ---------------------------
   // Adatvesztés-védelem (lapfrissítés/összeomlás) + párhuzamos függő betegek.
   var STORE_AKTIV = 'mstr_aktiv_v1', STORE_PARK = 'mstr_parkolt_v1';
+  // A beillesztett nyers MedSol-lelet a TAJ-számot, a nevet és a születési dátumot is
+  // tartalmazza. A feldolgozás után erre a nyers szövegre már nincs funkcionális szükség,
+  // ezért a TÁROLÁSBÓL kimetsszük az azonosító sorokat. A képernyőn (S.leletRaw) változatlan
+  // marad, amíg a felvétel tart — csak a lemezre írt másolat redaktált.
+  function leletRedakt(t) {
+    if (!t) return '';
+    return String(t).split('\n').map(function (sor) {
+      return /^\s*(TAJ|Beteg\s*neve|Sz[uü]let[eé]si|Anyja\s*neve|Lakc[ií]m)\b/i.test(sor)
+        ? sor.replace(/:.*$/, ': [tárolásból kihagyva]') : sor;
+    }).join('\n');
+  }
   function sMentheto() {
     // A tetra és a betegut is IDE tartozik: a TETRA-lapot élő rádiós riasztás közben töltik,
     // a betegút-checklistet pedig a triázs után — mindkettő elveszett lapfrissítéskor, és
     // beteg-parkoláskor sem ment a beteggel. (A history csak összefoglalót tárol, azt nem érinti.)
-    return { step: S.step, beteg: S.beteg, azon: S.azon, catKey: S.catKey, pathLog: S.pathLog, keziMezo: S.keziMezo, panaszKereso: S.panaszKereso, leletRaw: S.leletRaw, leletMsg: S.leletMsg, tetra: S.tetra, betegut: S.betegut };
+    return { step: S.step, beteg: S.beteg, azon: S.azon, catKey: S.catKey, pathLog: S.pathLog, keziMezo: S.keziMezo, panaszKereso: S.panaszKereso, leletRaw: leletRedakt(S.leletRaw), leletMsg: S.leletMsg, tetra: S.tetra, betegut: S.betegut };
   }
   function sVisszaallit(o) {
     S = { step: o.step || 'azonositas', history: [], beteg: o.beteg || {}, azon: o.azon || {}, catKey: o.catKey || null, pathLog: o.pathLog || [], utolso: null, autoMezo: {}, keziMezo: o.keziMezo || {}, panaszKereso: o.panaszKereso || '', leletRaw: o.leletRaw || '', leletMsg: o.leletMsg || '', tetra: o.tetra || {}, betegut: o.betegut || {} };
@@ -24877,6 +24888,13 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   // időn túli rekordok betöltéskor automatikusan törlődnek. A törlés SOSEM csendes:
   // az ápoló értesítést kap róla, és bármikor meg tudja nézni és törölni az egészet.
   var MEGORZES_ORA = 12;                       // egy műszak + átadás
+  // Néma visszatöltés csak eddig: ennél régebbi felvételnél a felület MEGKÉRDEZI, hogy
+  // folytatja-e. Ok: egy órákkal korábbi beteg neve és vitálértékei egyébként úgy
+  // jelennének meg, mintha épp most vették volna fel őket — ez rosszabb, mint az
+  // adatvesztés. A 2 óra ÜZEMELTETÉSI döntés (a forrás megőrzési időt nem ad meg);
+  // egyetlen klinikai horgonya, hogy a leghosszabb újraértékelési időköz a rendszerben
+  // 120 perc (MSTR 5, tankönyv 22. o.) — ennél régebbi felvétel már biztosan nem "élő".
+  var NEMA_VISSZATOLTES_ORA = 2;
   var MEGORZES_MS = MEGORZES_ORA * 60 * 60 * 1000;
   var STORE_TISZTITVA = 'mstr_utolso_tisztitas_v1';
   var lejartJelentes = null;                   // {kulcsok: [...], db: n} — egyszer megjelenítendő
@@ -24930,10 +24948,11 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
       if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('várólistás beteg'); localStorage.setItem(STORE_VARO, JSON.stringify(maradt)); }
     });
-    // 5) az aktív ápoló neve is műszakhoz kötött
+    // 5) az aktív ápoló neve is műszakhoz kötött — a SAJÁT időbélyege alapján
     biztos(function () {
-      var t = parseInt(localStorage.getItem(STORE_TISZTITVA) || '0', 10);
-      if (t && (most() - t) > MEGORZES_MS) localStorage.removeItem(STORE_STAFF_AKTIV);
+      var raw = localStorage.getItem(STORE_STAFF_AKTIV); if (!raw) return;
+      var ts = raw.charAt(0) === '{' ? (JSON.parse(raw) || {}).ts : null;
+      if (lejart(ts)) { localStorage.removeItem(STORE_STAFF_AKTIV); torolt.push('aktív ápoló neve'); db++; }
     });
     biztos(function () { localStorage.setItem(STORE_TISZTITVA, String(most())); });
     if (db > 0) lejartJelentes = { db: db, mik: torolt };
@@ -24948,7 +24967,12 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       { cimke: 'Parkolt (félbehagyott) betegek', db: n(STORE_PARK, '[]').length, szemelyes: true },
       { cimke: 'Lezárt betegek az Előzményekben', db: n(STORE_HISTORY, '[]').length, szemelyes: true },
       { cimke: 'Torlódási várólista', db: n(STORE_VARO, '[]').length, szemelyes: true },
-      { cimke: 'Korábbi ápolónevek (gyorsválasztó)', db: n(STORE_STAFF, '[]').length, szemelyes: false }
+      { cimke: 'Korábbi ápolónevek (gyorsválasztó)', db: n(STORE_STAFF, '[]').length, szemelyes: false },
+      // A torlódási állapot az ELRENDELŐ ORVOS nevét is tárolja — ez személyes adat,
+      // ezért a leltárban is látszik. Automatikus lejárata szándékosan NINCS: az
+      // eljárásrend a műszakvezető orvos döntéséig hatályban marad, és egy csendes
+      // lejárat azt a látszatot keltené, hogy visszaálltunk normál üzemre.
+      { cimke: 'Torlódási nézet (elrendelő orvos neve)', db: torlodasAktiv() ? 1 : 0, szemelyes: true }
     ];
   }
 
@@ -24956,6 +24980,9 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   // elfogadását és a torlódási nézet állapotát szándékosan MEGHAGYJA: ezek nem
   // személyes adatok, és a törlésük csak zavart okozna a műszak közepén.
   function osszesAdatTorles() {
+    // A torlódási nézet (STORE_TORL) SZÁNDÉKOSAN nem szerepel: az eljárásrend hatályát
+    // a műszakvezető orvos rendeli el és szünteti meg, nem egy adattörlő gomb. A benne
+    // tárolt orvosnév a leltárban látszik, és a torlódási nézet kikapcsolásával törlődik.
     [STORE_AKTIV, STORE_PARK, STORE_HISTORY, STORE_VARO, STORE_STAFF, STORE_STAFF_AKTIV].forEach(function (k) {
       try { localStorage.removeItem(k); } catch (e) {}
     });
@@ -24976,8 +25003,21 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   function staffMent(nev) { nev = (nev || '').trim(); if (!nev) return; var a = staffLista().filter(function (x) { return x !== nev; }); a.unshift(nev); try { localStorage.setItem(STORE_STAFF, JSON.stringify(a.slice(0, 8))); } catch (e) {} staffAktivMent(nev); }
   // Aktív (aktuális műszakos) ápoló: az új beteg felvételekor előre kitöltve, megerősíthető/módosítható/törölhető.
   var STORE_STAFF_AKTIV = 'mstr_staff_aktiv_v1';
-  function staffAktiv() { try { return localStorage.getItem(STORE_STAFF_AKTIV) || ''; } catch (e) { return ''; } }
-  function staffAktivMent(nev) { try { if (nev) localStorage.setItem(STORE_STAFF_AKTIV, nev); } catch (e) {} }
+  function staffAktiv() {
+    try {
+      var raw = localStorage.getItem(STORE_STAFF_AKTIV); if (!raw) return '';
+      if (raw.charAt(0) !== '{') return raw;                 // régi build: csak a név
+      var o = JSON.parse(raw);
+      if (lejart(o && o.ts)) { localStorage.removeItem(STORE_STAFF_AKTIV); return ''; }
+      return o.nev || '';
+    } catch (e) { return ''; }
+  }
+  // Az ápoló neve a SAJÁT rögzítési idejével együtt tárolódik, hogy a megőrzési idő
+  // valóban rá vonatkozzon (korábban a takarítás idejéhez volt kötve, ezért forgalmas
+  // tableten gyakorlatilag soha nem járt le, és új műszakban rossz nevet töltött elő).
+  function staffAktivMent(nev) {
+    try { if (nev) localStorage.setItem(STORE_STAFF_AKTIV, JSON.stringify({ nev: nev, ts: Date.now() })); } catch (e) {}
+  }
   function staffAktivTorol() { try { localStorage.removeItem(STORE_STAFF_AKTIV); } catch (e) {} }
 
   // ---- Pilot/teszt figyelmeztető kapu (első betöltéskor, amíg el nem fogadja) ------
@@ -25340,6 +25380,44 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     torlodasSavRajzol();
     parkoltSavRajzol();
     perzisztal();
+  }
+
+  // A megőrzési időn belüli, de már RÉGI félbehagyott felvétel: megkérdezzük, hogy
+  // folytatja-e, vagy új beteget kezd. Így egy órákkal korábbi beteg adatai nem
+  // jelenhetnek meg úgy, mintha épp most vették volna fel őket.
+  function regiFelvetelKerdes(o, korMs) {
+    var oraTxt = korMs < 3600000
+      ? Math.round(korMs / 60000) + ' perce'
+      : Math.floor(korMs / 3600000) + ' óra ' + Math.round((korMs % 3600000) / 60000) + ' perce';
+    overlayMutat('Félbehagyott felvétel található', function (panel, bezar) {
+      var cimke = (o.azon && (o.azon.nev || o.azon.id)) || '(azonosító nélkül)';
+      panel.appendChild(el('div', 'adat-magyarazat',
+        'Ezen a készüléken egy be nem fejezett triázs-felvétel maradt, amelyet ' + oraTxt +
+        ' mentett el a rendszer. Mivel régebbi, nem töltjük vissza automatikusan — így nem ' +
+        'fordulhat elő, hogy egy korábbi beteg adatai az éppen érkezett betegének látszanak.'));
+      var box = el('div', 'adat-doboz');
+      box.appendChild(el('div', 'adat-sor-cimke', 'Beteg: ' + cimke));
+      box.appendChild(el('div', 'adat-sor-cimke', 'Utoljára mentve: ' + oraTxt));
+      panel.appendChild(box);
+      var foly = elIko('button', 'btn btn-full', 'refresh', 'Folytatom ezt a felvételt');
+      foly.type = 'button';
+      foly.onclick = function () { bezar(); sVisszaallit(o); render(); };
+      panel.appendChild(foly);
+      var uj = elIko('button', 'btn btn-ghost btn-full', 'pause', 'Félreteszem és új beteget kezdek');
+      uj.type = 'button';
+      uj.style.marginTop = '8px';
+      uj.onclick = function () {
+        // NEM dobjuk el: átrakjuk a parkolt (félbehagyott) betegek közé, hogy meglegyen.
+        try {
+          var arr = parkoltak();
+          arr.push({ id: ujId(), mentveTs: rekordTs(o) || Date.now(), cimke: (o.azon && (o.azon.nev || o.azon.id)) || 'Félbehagyott felvétel',
+                     lepesCim: '', szint: null, S: o });
+          parkoltakMent(arr);
+        } catch (e) {}
+        aktivTorol(); bezar(); ujra();
+      };
+      panel.appendChild(uj);
+    });
   }
 
   // Lejárati értesítés — az automatikus adattörlés SOSEM történhet csendben.
@@ -27580,6 +27658,14 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
         // akkor is, ha triázs-adat még nincs mellette — ezért az is visszatöltendő.
         var vanTetra = o && o.tetra && Object.keys(o.tetra).length > 0;
         if (o && o.step && o.step !== 'eredmeny' && ((o.beteg && Object.keys(o.beteg).length) || (o.azon && o.azon.raw) || vanTetra)) {
+          var kor = rekordTs(o) == null ? null : (most() - rekordTs(o));
+          if (kor != null && kor > NEMA_VISSZATOLTES_ORA * 3600 * 1000) {
+            // RÉGI felvétel: nem töltjük vissza némán, mert az úgy látszana, mintha
+            // ez a beteg épp most érkezett volna. Megkérdezzük.
+            ertekel(); render();
+            regiFelvetelKerdes(o, kor);
+            return;
+          }
           sVisszaallit(o); render(); return;
         }
       }
