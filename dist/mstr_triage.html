@@ -25165,11 +25165,20 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
       if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('lezárt beteg az előzményekben'); localStorage.setItem(STORE_HISTORY, JSON.stringify(maradt)); }
     });
-    // 4) torlódási várólista
+    // 4) torlódási várólista — SZÁNDÉKOSAN NEM TÖRLÜNK.
+    //    A megőrzési idő a többi tárolóra adatvédelmi szabály, itt viszont épp azokat a
+    //    betegeket törölné, akiket 12 óránál régebben nem re-triázsoltak — tehát akiket a
+    //    legnagyobb eséllyel elfelejtettek, MSTR 2-est is. A várólista aktív munkalista:
+    //    innen a beteget az ápoló veszi le („Ágyra került”). A régi bejegyzést ezért
+    //    MEGJELÖLJÜK és feltűnően kiírjuk, nem tüntetjük el. (Adverzáriális lektor, 2026-09-18.)
     biztos(function () {
       var a = JSON.parse(localStorage.getItem(STORE_VARO) || '[]');
-      var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
-      if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('várólistás beteg'); localStorage.setItem(STORE_VARO, JSON.stringify(maradt)); }
+      var valt = false;
+      a.forEach(function (x) {
+        var elavult = lejart(rekordTs(x));
+        if (!!x.elavult !== elavult) { x.elavult = elavult; valt = true; }
+      });
+      if (valt) localStorage.setItem(STORE_VARO, JSON.stringify(a));
     });
     // 5) az aktív ápoló neve is műszakhoz kötött — a SAJÁT időbélyege alapján
     biztos(function () {
@@ -27292,6 +27301,10 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     naplo('Torlódás', 'várólistára helyezve (' + (ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') + ')');
   }
   function varolistaSzint(v) { return v.szint == null ? 9 : v.szint; }
+  // A csoportsorrend EGY helyen: a szint nélküli beteg (9) a kritikus (1-2) csoportok
+  // után, de a rutin (3-5) elé kerül. A képernyő ÉS a vágólapra másolt lista is ezt
+  // használja — korábban a javítás csak a képernyőre jutott el, és szétcsúsztak.
+  var VARO_CSOPORT_SORREND = [1, 2, 9, 3, 4, 5];
   function retriagePerc(szint) {
     var l = (KB.levels || []).filter(function (x) { return x.level === szint; })[0];
     return l ? l.reassessMin : null;   // orvosi időköz KIZÁRÓLAG a KB-ből
@@ -27328,7 +27341,13 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       // rutin (3-5) csoportok ELÉ kerül: az ismeretlen sürgősség nem azonos az alacsonnyal,
       // egy befejezetlen besorolású beteget nem szabad rutinként a lista aljára tenni.
       // (Korábban legutolsó volt, az MSTR 5 után is — lektori észrevétel.)
-      var szintek = [1, 2, 9, 3, 4, 5];
+      var szintek = VARO_CSOPORT_SORREND.slice();
+      // Biztonsági háló: ha bármely beteg szintje nem szerepel a listában, ne tűnjön el
+      // nyomtalanul a képernyőről (a gomb és a vágólap ugyanis továbbra is számolná).
+      lista.forEach(function (v) {
+        var sz = varolistaSzint(v);
+        if (szintek.indexOf(sz) < 0) szintek.push(sz);
+      });
       szintek.forEach(function (sz) {
         var cs = lista.filter(function (v) { return varolistaSzint(v) === sz; });
         if (!cs.length) return;
@@ -27350,6 +27369,13 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
             ' · ' + (v.ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') +
             (v.lanc && v.lanc.length > 1 ? ' · ' + (v.lanc.length - 1) + 'x re-triage' : '');
           bal.appendChild(meta);
+          if (v.elavult) {
+            var ev = el('div', 'varo-retri lejart');
+            ev.textContent = 'TÖBB MINT ' + MEGORZES_ORA + ' ÓRÁJA A LISTÁN, re-triage nélkül — ' +
+              'ellenőrizze, hogy a beteg még itt van-e, és zárja le a bejegyzést („Ágyra került”). ' +
+              'A rendszer szándékosan NEM törli automatikusan.';
+            bal.appendChild(ev);
+          }
           var ra = retriageAllapot(v);
           if (ra) {
             var r = el('div', 'varo-retri' + (ra.lejart ? ' lejart' : ''));
@@ -27435,18 +27461,27 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     return L.join('\n');
   }
 
+  // A KÉPERNYŐVEL AZONOS rendezés: a szint nélküli beteg a kritikus (1-2) csoportok után,
+  // de a rutin (3-5) elé kerül. Egy helyen definiálva, hogy a képernyő és a vágólapra
+  // másolt lista ne tudjon szétcsúszni (korábban a javítás csak a képernyőre jutott el).
+  function varoRendezoKulcs(v) {
+    var i = VARO_CSOPORT_SORREND.indexOf(varolistaSzint(v));
+    return i < 0 ? VARO_CSOPORT_SORREND.length : i;   // ismeretlen szint: a végére, de nem vész el
+  }
   function varolistaSzoveg() {
-    var L = ['MENTŐÁGYON VÁRÓ BETEGEK — re-triage lista (' + oraPerc(Date.now()) + ')'];
+    var L = ['RE-TRIAGE VÁRÓLISTA (' + oraPerc(Date.now()) + ')'];
     var t = torlodas();
     if (t) L.push('Torlódási nézet bekapcsolva: ' + oraPerc(t.ido) + (t.elrendelo ? ' · elrendelte: ' + t.elrendelo : ''));
     L.push('FIGYELEM: a sorrendet a beteg állapota és triázs-kategóriája dönti el, NEM az érkezési idő.');
-    varolista().slice().sort(function (a, b) { return varolistaSzint(a) - varolistaSzint(b) || a.erkezes - b.erkezes; })
+    varolista().slice().sort(function (a, b) { return varoRendezoKulcs(a) - varoRendezoKulcs(b) || a.erkezes - b.erkezes; })
       .forEach(function (v) {
         var ra = retriageAllapot(v);
-        L.push('- MSTR ' + (v.szint == null ? '?' : v.szint) + ' · ' + v.cimke + (v.panasz ? ' (' + v.panasz + ')' : '') +
+        L.push('- MSTR ' + (v.szint == null ? '? (NINCS TRIÁZS-SZINT — befejezetlen besorolás)' : v.szint) +
+          ' · ' + v.cimke + (v.panasz ? ' (' + v.panasz + ')' : '') +
           ' · érkezett ' + oraPerc(v.erkezes) +
           ' · ' + (v.ut === 'ulo' ? 'ülő hely kezelőszékben' : 'mentőhordágyon vár') +
-          (ra ? (ra.lejart ? ' · RE-TRIAGE ESEDÉKES' : ' · re-triage ' + ra.hatra + ' perc múlva') : ''));
+          (ra ? (ra.lejart ? ' · RE-TRIAGE ESEDÉKES' : ' · re-triage ' + ra.hatra + ' perc múlva')
+              : (v.szint == null ? ' · re-triage időköz csak szinttel számolható' : '')));
         (v.lanc || []).forEach(function (e) { L.push('    ' + oraPerc(e.ido) + ' ' + e.tipus + (e.szint != null ? ' — MSTR ' + e.szint : '')); });
       });
     return L.join('\n');
