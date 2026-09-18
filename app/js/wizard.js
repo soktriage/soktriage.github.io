@@ -371,6 +371,7 @@
     if (S.azon && (S.azon.nev || S.azon.id)) return S.azon.nev || S.azon.id;
     var p = (KB.complaints || []).filter(function (x) { return x.id === S.beteg.vezetoPanaszId; })[0];
     if (p) return p.name;
+    if (S.beteg.korKat) return S.beteg.korKat + ' beteg';   // pl. "Felnőtt beteg" — a 45 csak belső helyettesítő érték
     if (S.beteg.eletkorEv != null) return S.beteg.eletkorEv + ' éves beteg';
     return 'Névtelen beteg';
   }
@@ -979,6 +980,9 @@
     c.appendChild(el('div', 'card-eye', 'Felnőtt'));
     var felnottBtn = el('button', 'kor-chip kor-chip-full' + (S.beteg.korKat === 'Felnőtt' ? ' sel' : '')); felnottBtn.type = 'button';
     felnottBtn.innerHTML = '<span class="kor-chip-fo">Felnőtt</span><span class="kor-chip-al">18 év felett</span>';
+    // FIGYELEM: a 45 nem a beteg életkora, hanem belső helyettesítő érték, hogy a
+    // korfüggő FELNŐTT szabályok (pl. eletkorEv>=16) le tudjanak futni. A korKat='Felnőtt'
+    // jelzi, hogy konkrét életkor NINCS megadva — minden megjelenítés ezt használja.
     felnottBtn.onclick = function () { S.beteg.eletkorEv = 45; S.beteg.eletkorHonap = null; S.beteg.korKat = 'Felnőtt'; ertekel(); naplo('Életkor', 'Felnőtt (≥18 év)'); megy('panaszKat'); };
     c.appendChild(felnottBtn);
     var sp = el('div'); sp.style.height = '16px'; c.appendChild(sp);

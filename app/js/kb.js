@@ -4031,7 +4031,7 @@
           "page": 31
         }
       ],
-      "notes": "Nem fejezhető ki fix számmal a beteg egyéni alapértéke nélkül; kézi megítélés. | Kézi jelölés: a nővér állapítja meg a beteg saját alapértékéhez képesti ≥10% esést (COPD/krónikus hipoxiánál a saját alapérték a viszonyítás).",
+      "notes": "Nem fejezhető ki fix számmal a beteg egyéni alapértéke nélkül; kézi megítélés. | Kézi jelölés: a ápoló állapítja meg a beteg saját alapértékéhez képesti ≥10% esést (COPD/krónikus hipoxiánál a saját alapérték a viszonyítás).",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -12925,7 +12925,7 @@
       "id": "esc_laz_objektiv_sirs2_hr",
       "name": "Láz + tachycardia (2 objektív SIRS-kritérium) → MSTR 3, függetlenül a küllemtől",
       "applies_to": "mind",
-      "condition_text": "Láz (>38°C) + tachycardia (HR>90) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a nővér 'jó általános állapotúnak' ítéli a beteget.",
+      "condition_text": "Láz (>38°C) + tachycardia (HR>90) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a ápoló 'jó általános állapotúnak' ítéli a beteget.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -12951,7 +12951,7 @@
           "page": 36
         }
       ],
-      "notes": "Tankönyv o.35–36 négyfokú láz-létra: 1) immunszupprimált→2; 2) szeptikus küllem (3+ SIRS VAGY hemodinamikai instabilitás VAGY közepes nehézlégzés VAGY módosult tudat)→2; 3) súlyos beteg küllem, <3 SIRS→3; 4) JÓ ÁLTALÁNOS ÁLLAPOT: »láz az EGYETLEN pozitív SIRS kritérium«→4. A 4. tétel szó szerint megköveteli, hogy a lázon kívül NE legyen másik pozitív SIRS-kritérium — ha van (pl. tachycardia is), a 'jó általános állapot' → MSTR 4 szabály (elsodleges_felnott_18) többé nem alkalmazható, a beteg legalább MSTR 3. Enélkül a szabály nélkül a rendszer egy objektíven 2 SIRS-kritériumos (láz+tachycardia) beteget is MSTR 4-re sorolt volna, pusztán a szubjektív 'jól néz ki' küllem-választás alapján — ugyanaz a mintázat, mint az esc_laz_objektiv_sirs (3 kritérium → MSTR 2) esetében, eggyel lejjebb a létrán. Forrás-igazolás: a Triázs_gyakorlat_kártyák hivatalos gyakorlófeladat 1. esete (75 éves férfi, láz 38.5°C + HR 98 = 2 SIRS kritérium, 'jól néz ki') explicit CTAS 3-at ad indoklásul, NEM 4-et — ez a szabály biztosítja, hogy ez akkor is teljesüljön, ha a nővér nem választ külön enyhe nehézlégzést (ami ennél az esetnél véletlenül egy másik úton is 3-ra vitte volna az eredményt).",
+      "notes": "Tankönyv o.35–36 négyfokú láz-létra: 1) immunszupprimált→2; 2) szeptikus küllem (3+ SIRS VAGY hemodinamikai instabilitás VAGY közepes nehézlégzés VAGY módosult tudat)→2; 3) súlyos beteg küllem, <3 SIRS→3; 4) JÓ ÁLTALÁNOS ÁLLAPOT: »láz az EGYETLEN pozitív SIRS kritérium«→4. A 4. tétel szó szerint megköveteli, hogy a lázon kívül NE legyen másik pozitív SIRS-kritérium — ha van (pl. tachycardia is), a 'jó általános állapot' → MSTR 4 szabály (elsodleges_felnott_18) többé nem alkalmazható, a beteg legalább MSTR 3. Enélkül a szabály nélkül a rendszer egy objektíven 2 SIRS-kritériumos (láz+tachycardia) beteget is MSTR 4-re sorolt volna, pusztán a szubjektív 'jól néz ki' küllem-választás alapján — ugyanaz a mintázat, mint az esc_laz_objektiv_sirs (3 kritérium → MSTR 2) esetében, eggyel lejjebb a létrán. Forrás-igazolás: a Triázs_gyakorlat_kártyák hivatalos gyakorlófeladat 1. esete (75 éves férfi, láz 38.5°C + HR 98 = 2 SIRS kritérium, 'jól néz ki') explicit CTAS 3-at ad indoklásul, NEM 4-et — ez a szabály biztosítja, hogy ez akkor is teljesüljön, ha a ápoló nem választ külön enyhe nehézlégzést (ami ennél az esetnél véletlenül egy másik úton is 3-ra vitte volna az eredményt).",
       "conflicts": [],
       "group": "secondary"
     },
@@ -12959,7 +12959,7 @@
       "id": "esc_laz_objektiv_sirs2_rr",
       "name": "Láz + tachypnoe (2 objektív SIRS-kritérium) → MSTR 3, függetlenül a küllemtől",
       "applies_to": "mind",
-      "condition_text": "Láz (>38°C) + tachypnoe (RR>20) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a nővér 'jó általános állapotúnak' ítéli a beteget.",
+      "condition_text": "Láz (>38°C) + tachypnoe (RR>20) — 2 objektív SIRS-kritérium — legalább MSTR 3-at indokol, akkor is, ha a ápoló 'jó általános állapotúnak' ítéli a beteget.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -12993,7 +12993,7 @@
       "id": "esc_objektiv_vital_pontszam",
       "name": "Objektív vitál-riasztási pontszám ≥4 → legalább MSTR 2 (bármely panasznál, küllemtől és panasztól függetlenül)",
       "applies_to": "felnott",
-      "condition_text": "A légzésszám, pulzusszám és testhőmérséklet — a tankönyv 86. oldalán található MEWS-pontozótáblázat sávjai szerint összesített — objektív pontszáma önmagában eléri a forrás szerinti »azonnali riasztás« küszöböt (≥4 pont), FÜGGETLENÜL a vezető panasztól és a nővér szubjektív küllem-megítélésétől. Ekkor a beteg legalább MSTR 2 (kritikus) — a tankönyv saját minőségi elve szerint (o.48: »a kritikus állapotú beteg … MSTR 2. vagy magasabb kategóriát kap«).",
+      "condition_text": "A légzésszám, pulzusszám és testhőmérséklet — a tankönyv 86. oldalán található MEWS-pontozótáblázat sávjai szerint összesített — objektív pontszáma önmagában eléri a forrás szerinti »azonnali riasztás« küszöböt (≥4 pont), FÜGGETLENÜL a vezető panasztól és a ápoló szubjektív küllem-megítélésétől. Ekkor a beteg legalább MSTR 2 (kritikus) — a tankönyv saját minőségi elve szerint (o.48: »a kritikus állapotú beteg … MSTR 2. vagy magasabb kategóriát kap«).",
       "condition": [
         {
           "mezo": "objektivVitalPontszam",
@@ -13015,7 +13015,7 @@
           "page": 85
         }
       ],
-      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a nővér külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/szisztolés-vérnyomás(csak ALACSONY sávok)/hőmérséklet sávjaiból összegez — a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (nincs tiszta AVPU-mezőnk; ez a hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A MAGAS vérnyomás-sávokat (>200) szándékosan kihagytuk: build közben derült ki, hogy az eredeti (teljes SBP-tartományt tartalmazó) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_12-19/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna. Az ALACSONY vérnyomás-sávoknak (≤100 Hgmm, hipotenzió/sokk-gyanú) nincs ilyen ütköző szabályuk, ezért azok BENNE maradtak az összegben (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
+      "notes": "Ádám kérésére (2026-07-21, hasi fájdalom + RR27/HR140/T38 teszteset: MSTR 5-ön ragadt, mert felnőttnél a légzés/keringés MSTR-szintje forrás szerint klinikai ÍTÉLETRE épül, nem rögzített számra — ld. tankönyv o.33/32 »Keringés«/»Légzés« táblák — így önmagában a nyers szám, a ápoló külön szelekciója nélkül, nem eszkalált). Ádám döntése: legyen KEMÉNY automatikus padló, de a forrásban MEGLÉVŐ, számszerű MEWS-sávokat (tankönyv o.86, l. folyamat_39) használva referenciaként, transzparensen és forrással alátámasztva. A motor `objektivVitalPontszam` mezője (engine.js) a MEWS-táblázat RR/HR/szisztolés-vérnyomás(csak ALACSONY sávok)/hőmérséklet sávjaiból összegez — a TUDATI ÁLLAPOT (AVPU) komponens NINCS benne (nincs tiszta AVPU-mezőnk; ez a hiány kizárólag alulszámlálhat, sosem túlszámlálhat — biztonságosan konzervatív). A MAGAS vérnyomás-sávokat (>200) szándékosan kihagytuk: build közben derült ki, hogy az eredeti (teljes SBP-tartományt tartalmazó) verzió az eset_08 regressziós tesztet elrontotta — egy 222/130 Hgmm-es, TÜNETMENTES hipertóniás beteget (a hipertónia saját forrás-szabálya szerint: SBP>220/DBP>130 + NINCS tünet → MSTR 3, ld. masodlagos_12-19/hipertoniaTunet mező) tévesen MSTR 2-re emelte volna. Az ALACSONY vérnyomás-sávoknak (≤100 Hgmm, hipotenzió/sokk-gyanú) nincs ilyen ütköző szabályuk, ezért azok BENNE maradtak az összegben (ld. engine.js komment). A ≥4 pontos küszöb NEM saját találmány: ez pontosan a forrás (folyamat_35, tankönyv o.85-86) saját »4 vagy több MEWS pont … AZONNALI riasztás« küszöbe, amit a folyamat_33 minőségi elve (»kritikus beteg legalább MSTR 2«) MSTR-szintre fordít. FONTOS: ezt a MEWS-magát (mint önálló ágy melletti újraértékelési eszközt) egy KORÁBBI egység szándékosan kihagyta az űrlapból (`assemble_kb.py`: »a 'mews' folyamat-mezőt kihagyjuk az űrlapból, külön score, nem triázs-input«) — ez a szabály NEM azt a manuális `mews` mezőt élesíti, hanem egy ÚJ, kizárólag a nyers vitál-számokból (rr/hr/sys/temp) automatikusan számított, azonos forrású sáv-rendszert használ; a manuális `mews` mező továbbra sem jelenik meg az űrlapon. CSAK FELNŐTTRE (applies_to:felnott) — gyermeknél a fiziológiás normálértékek (nyugalmi pulzus/légzésszám) korosztályonként drasztikusan eltérnek, a felnőtt-kalibrált MEWS-sávok gyermeken hamis pozitív lenne; a gyermek saját, korosztály-specifikus vitalBands-rendszere külön, már meglévő logikával fedi ezt le. TRANSZPARENCIA: a szabály neve/indoklása és forrása a folyamatábrán/döntő-szabály kijelzőn a normál mechanizmuson keresztül jelenik meg (nincs külön UI szükséges) — a kattintható részletnél a `hasznaltAdatok` mutatja a ténylegesen kiszámított pontszámot.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -14823,7 +14823,7 @@
           "page": 31
         }
       ],
-      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a nővér nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
+      "notes": "Ugyanaz a forrás-tábla (Légzés A-B fokozatok, tankönyv o.31-32/jegyzet o.80/109), mint amit a gyermeknél a gyermek_05 szabály (tankönyv o.64/jegyzet o.217) már hard-küszöbként alkalmaz — a bandák (SpO2<90/90-92/92-94/>94) forrás szerint AZONOSAK felnőttre és gyermekre. Eddig felnőttnél az SpO2 csak SUGGEST-módú derivációval (spo2→legzesiJelek) hatott a nehézlégzés-fokozatra — ha a ápoló nem fogadta el a javaslatot, vagy nem érte el ezt a lépést, a nyers szám önmagában nem eszkalált. Ez a szabály — a gyermek_05-höz hasonlóan — kemény, panasztól független padlót ad. Ádám 2026-07-21-i kérése: 'a paraméterek alapján se alultriázsoljunk senkit... legyen biztonságos' — 'minden paraméter ami minimális triázs szintet determinál önmagában is a vitalis referencia forrasok alapján'. A padló CSAK akut szaturációesésnél érvényes: krónikus/COPD/ismeretlen alapértéknél a forrás szerint az abszolút szaturáció nem dönt, a besorolást a klinikai jelek, a PEFR és a saját alapértékhez mért relatív esés (elsodleges_felnott_06) adja — tankönyv 31. o.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -15091,7 +15091,7 @@
           "page": 33
         }
       ],
-      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a nővér explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya.",
+      "notes": "Ádám konkrét, kiváltó példája (2026-07-21): 'már egy vérnyomás is minimum determinisztikus legyen, ha az alacsony annyira, hogy kategóriát módosítson, ideértve a 0-tól kezdve' — motoron igazolva: hasi fájdalom + ÖNMAGÁBAN sys=60 vagy sys=80 (semmi más adat) a javítás ELŐTT MSTR5-ön maradt, mert az esc_objektiv_vital_pontszam (79. egység) csak ÖSSZEGZETT küszöb, egyetlen paraméter önmagában nem érte el a 4 pontot. Ez a szabály (és a kozepes testvére) EGYETLEN, önmagában is kóros SBP-értékre ad padlót. MEWS 3-pontos SBP-sáv (tankönyv o.86) + a »Keringés« referenciatábla (tankönyv o.33) »Sokk«/»Hemodinamikai instabilitás« kategóriái közötti minimum, konzervatív választás: MSTR2 (nem MSTR1 — az utóbbihoz a ápoló explicit »sokk« keringési-állapot választása vagy egyéb megerősítő jel — pl. tudatzavar, egyidejű súlyos tachycardia — szükséges, ld. elsodleges_felnott_07/keringesiAllapot=sokk). CSAK a magas SBP-sávok maradnak kizárva az összegzésből/önálló padlóból (ld. korábbi eset_08 ütközés-jegyzet) — az alacsony SBP-nek nincs ilyen ütköző, pontosabb saját szabálya.",
       "conflicts": [],
       "group": "secondary"
     },
@@ -16420,7 +16420,7 @@
     {
       "id": "folyamat_34",
       "name": "Teendő, ha a célidők nem teljesíthetők",
-      "condition_text": "Ha az orvosi ellátás nem tudja teljesíteni a célidőket, nővéri újraértékelés szükséges; ha a beteg állapota romlik, értesíteni kell az orvost.",
+      "condition_text": "Ha az orvosi ellátás nem tudja teljesíteni a célidőket, ápolói újraértékelés szükséges; ha a beteg állapota romlik, értesíteni kell az orvost.",
       "source": [
         {
           "doc": "jegyzet",
@@ -17488,8 +17488,8 @@
     {
       "topic": "szintek",
       "id": "szintek_06",
-      "name": "Célidő be nem tartása esetén nővéri újraértékelés",
-      "condition_text": "Ha az orvosi ellátás nem tudja teljesíteni a szinthez tartozó célidőket, nővéri újraértékelés szükséges; ha a beteg állapota romlik, az orvos értesítése szükséges.",
+      "name": "Célidő be nem tartása esetén ápolói újraértékelés",
+      "condition_text": "Ha az orvosi ellátás nem tudja teljesíteni a szinthez tartozó célidőket, ápolói újraértékelés szükséges; ha a beteg állapota romlik, az orvos értesítése szükséges.",
       "source": [
         {
           "doc": "jegyzet",

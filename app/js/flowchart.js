@@ -30,7 +30,9 @@
     return forras.map(function (f) {
       const nev = f.doc === 'tankonyv' ? 'Tankönyv' : f.doc === 'jegyzet' ? 'Oktatói jegyzet (2022)' : f.doc === 'ctas' ? 'CTAS COT-2008' : f.doc === 'mstr' ? 'MSOTKE-MSTR munkacsoport poszter' : f.doc === 'tek' ? 'SE Területi Ellátás Segédlet' : f.doc === 'utasitas' ? '4/2026. Igazgatói Utasítás — Torlódási eljárásrend' : f.doc;
       if (f.page == null) return nev;
-      return f.doc === 'ctas' ? (nev + ' DIA ' + f.page) : (nev + ' ' + f.page + '. o.');
+      // A CTAS-forrás diasorból származik, de a "DIA" rövidítés a felületen a diasztolés
+      // vérnyomást is jelenti — ezért kiírjuk egyértelműen.
+      return f.doc === 'ctas' ? (nev + ', ' + f.page + '. dia') : (nev + ' ' + f.page + '. o.');
     }).join('; ');
   }
 
