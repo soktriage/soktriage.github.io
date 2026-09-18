@@ -1745,7 +1745,7 @@
   }
 
   RENDER.gyermek = function (fo) {
-    var c = kartya('Gyermek', 'Gyermek-specifikus megfigyelések', '');
+    var c = kartya(lepesFelirat('gyermek'), 'Gyermek-specifikus megfigyelések', '');
     relevansMezok(gyermekMezok()).forEach(function (f) {
       c.appendChild(el('div', 'card-eye', f.label));
       c.appendChild(opcioKartyak(f, function () { render(); }));
