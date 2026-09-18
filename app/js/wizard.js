@@ -416,6 +416,21 @@
   var lejartJelentes = null;                   // {kulcsok: [...], db: n} — egyszer megjelenítendő
 
   function most() { return Date.now(); }
+  // Az ujId() a Date.now()-ot ágyazza be ("p" + 13 számjegy), ezért a korábbi buildben
+  // írt, mentveTs nélküli rekordok kora pontosan visszafejthető. Enélkül a frissítés
+  // utáni ELSŐ megnyitás minden régi rekordot lejártnak hinne és eldobna.
+  function tsAzonositobol(id) { var m = /^p(\d{13})/.exec(String(id || '')); return m ? +m[1] : null; }
+  // Egy rekord kora: a saját időbélyege, bármelyik néven szerepel is. A várólista
+  // 'erkezes' néven tárolja — ez a mező kimaradt, és emiatt a takarítás MINDEN
+  // várólistás beteget azonnal törölt, köztük esetleg MSTR 1-2 szintűeket is.
+  function rekordTs(x) {
+    if (!x) return null;
+    return x.mentveTs != null ? x.mentveTs
+         : x.erkezes != null ? x.erkezes
+         : x.felvettTs != null ? x.felvettTs
+         : x.ts != null ? x.ts
+         : tsAzonositobol(x.id);
+  }
   function idobelyeggel(o) { o = o || {}; o.mentveTs = most(); return o; }
   function lejart(ts) { return ts == null || (most() - ts) > MEGORZES_MS; }
 
@@ -429,24 +444,24 @@
     biztos(function () {
       var raw = localStorage.getItem(STORE_AKTIV); if (!raw) return;
       var o = JSON.parse(raw);
-      if (lejart(o && o.mentveTs)) { localStorage.removeItem(STORE_AKTIV); torolt.push('félbehagyott felvétel'); db++; }
+      if (lejart(rekordTs(o))) { localStorage.removeItem(STORE_AKTIV); torolt.push('félbehagyott felvétel'); db++; }
     });
     // 2) parkolt (félbehagyott) betegek
     biztos(function () {
       var a = JSON.parse(localStorage.getItem(STORE_PARK) || '[]');
-      var maradt = a.filter(function (x) { return !lejart(x && x.mentveTs); });
+      var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
       if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('parkolt beteg'); localStorage.setItem(STORE_PARK, JSON.stringify(maradt)); }
     });
     // 3) lezárt betegek előzménylistája
     biztos(function () {
       var a = JSON.parse(localStorage.getItem(STORE_HISTORY) || '[]');
-      var maradt = a.filter(function (x) { return !lejart(x && x.ts); });
+      var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
       if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('lezárt beteg az előzményekben'); localStorage.setItem(STORE_HISTORY, JSON.stringify(maradt)); }
     });
     // 4) torlódási várólista
     biztos(function () {
       var a = JSON.parse(localStorage.getItem(STORE_VARO) || '[]');
-      var maradt = a.filter(function (x) { return !lejart(x && (x.mentveTs || x.felvettTs)); });
+      var maradt = a.filter(function (x) { return !lejart(rekordTs(x)); });
       if (maradt.length !== a.length) { db += a.length - maradt.length; torolt.push('várólistás beteg'); localStorage.setItem(STORE_VARO, JSON.stringify(maradt)); }
     });
     // 5) az aktív ápoló neve is műszakhoz kötött

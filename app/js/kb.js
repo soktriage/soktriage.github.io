@@ -22082,11 +22082,19 @@
           "vanErtek": true
         }
       ],
-      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. TEENDŐ: a besorolást ne a mért értékre alapozza, hanem töltse ki a „Hemodinamikai státusz (C)” kérdést — az minden korban ad szintet (sokk → MSTR 1, instabilitás → MSTR 2). Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa, a mért vérnyomástól függetlenül. (Számszerű gyermek-vérnyomás padló azért nincs, mert a forrás ilyet nem ad meg: a függelékben csak gyermekkori HIPERTÓNIA-grafikon szerepel, hipotenziós küszöb nem.)",
+      "szoveg": "GYERMEK — a vérnyomás itt NEM megnyugtató adat. A forrás szerint a gyermek a normál vitális paramétereket és a normál vérnyomást egy hirtelen bekövetkező állapotromlásig megtartja, amely sokkban végződik. TEENDŐ: a besorolást ne a mért értékre alapozza, hanem töltse ki a „Hemodinamikai státusz (C)” kérdést — az minden korban ad szintet (sokk → MSTR 1, instabilitás → MSTR 2). Ha jelentős volumenvesztés, belső vérzés vagy szívbetegség gyanúja felmerül, a gyermeket NE várakoztassa, a mért vérnyomástól függetlenül. A forrás a hipotenziót a „Sokk → MSTR 1” jelei közt sorolja fel, és kimondja: a tachycardia a korai válasz, a bradycardia és a hipotenzió KÉSŐBB alakul ki, és már a fenyegető keringésmegállást jelzi (tankönyv 65-66. o.). Számszerű gyermek-vérnyomás küszöböt egyik forrásunk sem ad — a tankönyv 98. oldalán szereplő grafikon gyermekkori HIPERTÓNIA-görbe (90./95. percentilis, 80-145 Hgmm), alsó határt nem tartalmaz; a CTAS is csak felnőtt sávokat közöl.",
       "source": [
         {
           "doc": "tankonyv",
-          "page": 79
+          "page": 83
+        },
+        {
+          "doc": "tankonyv",
+          "page": 65
+        },
+        {
+          "doc": "tankonyv",
+          "page": 66
         },
         {
           "doc": "tankonyv",
