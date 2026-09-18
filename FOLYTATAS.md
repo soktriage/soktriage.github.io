@@ -2479,3 +2479,58 @@ amelyek használatának összhangban kell állnia a klinikai fogalmakkal.
 ELLENÉRV, amit vállalunk: a 191. oldal diája „a serdülőkor végéig" mondatot is tartalmazza. Ha a
 klinikai vezetés úgy dönt, hogy a sávtábla 18-ig mérvadó maradjon, a visszaállítás EGYETLEN
 adat átírása (kb_gyermek.json → vital_tables → mervadoMaxHonap), kód-módosítás nélkül.
+
+
+### 2026-09-18 (88. munkaegység): A NYITOTT HIBALISTA LEZÁRÁSA — build ?v=127
+
+Ádám: „folytasd". A 87. egység végén hat nyitott tétel maradt; mind lezárva.
+
+9. TORLÓDÁSI VÁRÓLISTA (mindhárom rész)
+   (a) A szint nélküli beteg a lista LEGVÉGÉRE került, az MSTR 5 után is. Az ismeretlen
+       sürgősség nem azonos az alacsonnyal: befejezetlen besorolású beteget nem szabad
+       rutinként a lista aljára tenni. Most a kritikus (1-2) csoportok UTÁN, a rutin (3-5)
+       csoportok ELÉ kerül, „befejezetlen besorolás" felirattal.
+   (b) Nem kapott SEMMILYEN jelzést, mert a retriageAllapot() null-t ad rá és az MSTR 1-re is,
+       de csak az MSTR 1-nek volt ága. Időközt szint nélkül nem tudunk számolni (az csak a
+       KB-ből jöhet) és nem is találunk ki — de most kiírjuk, hogy hiányzik, az eltelt idővel.
+   (c) A nézet kikapcsolása után a lista elérhetetlen lett, miközben a betegek bent maradtak.
+       Most borostyán sáv jelzi („N beteg maradt a re-triage listán"), ami megnyitja a listát;
+       színe szándékosan eltér az aktív torlódási sávtól. Üres listánál 0 pixel (mérve).
+       A kikapcsoló párbeszéd is megmondja, hány beteg marad.
+
+10. HOSSZAN BEKAPCSOLT TORLÓDÁSI NÉZET
+    Automatikus kikapcsolás HIBÁS lenne: az elrendelés ÉS a megszüntetés is a műszakvezető
+    orvos hatásköre (4/2026. Ig. Utasítás), az app nem állíthatja, hogy már nem hatályos.
+    Ezért csak KÉRDEZ: 12 óra után a sáv kiírja, mióta van bekapcsolva, és hogy a megszüntetést
+    ugyanúgy dokumentálni kell + az OMSZ mentésirányítását tájékoztatni.
+
+13. TETRA — a végleges nyomtatvánnyal összevetve
+    - Hiányzott a „Honnan" mező (a nyomtatvány fejlécsorának második mezője). Pótolva.
+    - A nyomtatványon KÉT KÜLÖN időpont van („Tünetkezdet vagy Last seen well" ÉS „feltalálás
+      ideje"); mi egy mezőbe olvasztottuk. Szétválasztva — a thrombolysis-ablak szempontjából
+      mindkettő számít.
+    - A premorbid állapot a nyomtatványon HÁROM opció (Önellátó / Fennjáró / Fekvő); nálunk
+      kettő volt. Pótolva.
+
+17. TERMINOLÓGIA — és egy LEKTORI TÉVEDÉS, amit nem követtem
+    - „distressz" → „disztressz" (10 hely): a MI átiratunk elgépelése volt; a forrás 31-szer
+      „disztressz"-t ír, „distressz"-t egyszer sem.
+    - „O2-szat" → „SpO₂" (12 hely): saját rövidítésünk, a felület mindenhol máshol SpO₂-t ír.
+    - Önálló „Triage" → „Triázs" a TETRA betegút-választóban.
+    - NEM KÖVETTEM a lektor „mentőágy/mentőhordágy egységesítés" javaslatát: a kettő a
+      forrásban NEM szinonima. „A triage ápoló a MENTŐÁGYON triázsol, majd a beteg a
+      MENTŐHORDÁGYON várakozik szabad ágyra." A hiba a képernyő CÍME volt („Mentőágyon vár"),
+      ami ellentmondott a saját soraiknak — a cím javítva „Mentőhordágyon vár"-ra.
+
+18. LÉPÉSSZÁMOZÁS
+    A „Lépés N" számok be voltak égetve, ezért kihagyott lépésnél átugrottak. Most a sorszám a
+    ténylegesen megjelenő lépéseket követi, a felirat pedig tartalmazza a folyamatsáv nevét is
+    („5. lépés · Vitálparaméterek"), így a kártya és a sáv összeköthető. Böngészőben mérve
+    felnőtt betegnél 1-2-3-4-5-6-7 hézagmentes.
+
+19. KERESHETŐSÉG
+    A magyaros fonetikus írásmóddal („hiperventilláció", „hipoglikémia", „hipotermia") NEM volt
+    találat, mert a nevek a forrás latin/angol írásmódját követik. A MEGJELENŐ nevek forráshűen
+    maradtak; 13 új keresőalias került be. Mind a hat próbakifejezés talál.
+
+VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden tétel böngészőben ellenőrizve.

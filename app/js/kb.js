@@ -1037,7 +1037,10 @@
         "lehűlt a teste",
         "átfázott súlyosan",
         "kihűlés",
-        "alacsony testhőmérséklet"
+        "alacsony testhőmérséklet",
+        "hipotermia",
+        "lehűlés",
+        "átfagyott"
       ],
       "source": [
         {
@@ -2561,7 +2564,9 @@
         "duzzadt térd",
         "bedagadt boka",
         "vizes térd",
-        "gyulladt ízület"
+        "gyulladt ízület",
+        "ízületi duzzanat",
+        "ízület duzzanat"
       ],
       "source": [
         {
@@ -2796,7 +2801,10 @@
         "kapkodva lélegzik",
         "hiperventilál",
         "túllélegzés",
-        "gyors felszínes légzés szorongás"
+        "gyors felszínes légzés szorongás",
+        "hiperventilláció",
+        "hiperventilació",
+        "hiperventilláció roham"
       ],
       "source": [
         {
@@ -3609,7 +3617,9 @@
         "elszállt a cukra",
         "magas vércukor",
         "cukorbeteg magas cukor",
-        "magas a vércukra"
+        "magas a vércukra",
+        "hiperglikémia",
+        "hiperglikemia"
       ],
       "source": [
         {
@@ -3630,7 +3640,10 @@
         "alacsony vércukor",
         "alacsony cukor",
         "cukra lement",
-        "elment a cukra"
+        "elment a cukra",
+        "hipoglikémia",
+        "hipoglikemia",
+        "hipoglükémia"
       ],
       "source": [
         {
@@ -3895,7 +3908,7 @@
           "page": 219
         }
       ],
-      "notes": "A szint klinikai megítélésen (légzési munka) + O2-szat <90% alapján. A spo2 numerikus küszöböket a légzés vitál-tábla tartalmazza. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
+      "notes": "A szint klinikai megítélésen (légzési munka) + SpO₂ <90% alapján. A spo2 numerikus küszöböket a légzés vitál-tábla tartalmazza. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -3937,7 +3950,7 @@
           "page": 219
         }
       ],
-      "notes": "O2-szat 90-92%, PEFR <40% a vitál-táblában. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
+      "notes": "SpO₂ 90-92%, PEFR <40% a vitál-táblában. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -3979,7 +3992,7 @@
           "page": 219
         }
       ],
-      "notes": "O2-szat 92-94%, PEFR 40-60% a vitál-táblában. A 92% határérték mindkét (közepes és enyhe) sávban szerepel a forrásban. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
+      "notes": "SpO₂ 92-94%, PEFR 40-60% a vitál-táblában. A 92% határérték mindkét (közepes és enyhe) sávban szerepel a forrásban. | Hatókör mind-re bővítve: a jegyzet gyermek-modulja ugyanezt a fok-alapú leképezést adja (nehézlégzés: 217-219. o.; hemodinamika: 226-228. o.).",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -11550,7 +11563,7 @@
           "page": 32
         }
       ],
-      "notes": "Explicit kapu a mért nehezlegzesFok-tól függetlenül; kiterjeszti a nehezlegzesFok='sulyos' (elsodleges_felnott_02, csak felnőtt) logikát gyermekre is (applies_to: mind). Az O2-szat/PEFR ilyenkor irreleváns.",
+      "notes": "Explicit kapu a mért nehezlegzesFok-tól függetlenül; kiterjeszti a nehezlegzesFok='sulyos' (elsodleges_felnott_02, csak felnőtt) logikát gyermekre is (applies_to: mind). Az SpO₂/PEFR ilyenkor irreleváns.",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -11779,7 +11792,7 @@
       "condition": [
         {
           "mezo": "kritikusMegjelenes",
-          "egyenlo": "vitalis_distressz"
+          "egyenlo": "vitalis_disztressz"
         }
       ],
       "level": 1,
@@ -11995,7 +12008,7 @@
       "id": "baseline_leguti_idegentest",
       "name": "Légúti idegentest → MSTR 4 alapszint",
       "applies_to": "mind",
-      "condition_text": "Légúti idegentest enyhe panasszal, distressz nélkül → MSTR 4 kiinduló szint. TELJES légúti elzáródás / súlyos légzési distressz esetén a globális súlyos-nehézlégzés szabály (nehezlegzesFok=sulyos) MSTR 1-re viszi — jelöld a súlyos légzési jeleket.",
+      "condition_text": "Légúti idegentest enyhe panasszal, disztressz nélkül → MSTR 4 kiinduló szint. TELJES légúti elzáródás / súlyos légzési disztressz esetén a globális súlyos-nehézlégzés szabály (nehezlegzesFok=sulyos) MSTR 1-re viszi — jelöld a súlyos légzési jeleket.",
       "condition": [],
       "level": 4,
       "source": [
@@ -12098,7 +12111,7 @@
       "id": "p1_padlo_cianozis",
       "name": "Cianózis → MSTR 3 padló",
       "applies_to": "mind",
-      "condition_text": "A cianózis a CTAS COT-2008 szerint kiindulásként MSTR 3, és soha nem esik ez alá; kóros vitálisok / légzési distressz / hipoxia esetén az elsődleges légzési-keringési módosítók MSTR 1-2-re vihetik (a minimum-elv miatt).",
+      "condition_text": "A cianózis a CTAS COT-2008 szerint kiindulásként MSTR 3, és soha nem esik ez alá; kóros vitálisok / légzési disztressz / hipoxia esetén az elsődleges légzési-keringési módosítók MSTR 1-2-re vihetik (a minimum-elv miatt).",
       "condition": [],
       "level": 3,
       "source": [
@@ -12111,7 +12124,7 @@
           "page": 89
         }
       ],
-      "notes": "CTAS COT-2008: »3 | Cyanosis«. A magyar tankönyv (o.89) csak felsorolja, szint nélkül → CTAS a döntőbíró. VS-eszkaláció (hipoxia/distressz) → 1-2 az elsődleges módosítókon keresztül.",
+      "notes": "CTAS COT-2008: »3 | Cyanosis«. A magyar tankönyv (o.89) csak felsorolja, szint nélkül → CTAS a döntőbíró. VS-eszkaláció (hipoxia/disztressz) → 1-2 az elsődleges módosítókon keresztül.",
       "conflicts": [],
       "csakPanaszok": [
         "cianozis"
@@ -15202,7 +15215,7 @@
           "page": 86
         }
       ],
-      "notes": "A forrás immunszuppresszív-listája szó szerint tartalmazza a „75 év feletti életkor” tételt a daganatos betegség, a szteroid/kemoterápia, a HIV és a súlyos alapbetegség mellett. A projekt korábbi munkanaplója tévesen azt rögzítette, hogy az „idős = immunszupprimált” megfeleltetés nincs a forrásban — a jegyzet 86. oldala cáfolja. E szabály nélkül a legsérülékenyebb csoport lázas betege a panasz alapszintjén maradt (pl. 80 éves, 38,5 °C, jó általános állapot → MSTR 4). ELLENŐRZÉS: a forrás VAGY-kapcsolatú felsorolásának többi tagja már lefedett — a közepes légzési distresszt a nehezlegzesFok számított mezőn át az elsodleges_felnott_03 (MSTR 2), a hemodinamikai instabilitást az elsodleges_felnott_08 (MSTR 2) adja. Ezért csak az eddig hiányzó életkori tag került be új szabályként, hogy a szabálykészlet ne duzzadjon redundáns tételekkel.",
+      "notes": "A forrás immunszuppresszív-listája szó szerint tartalmazza a „75 év feletti életkor” tételt a daganatos betegség, a szteroid/kemoterápia, a HIV és a súlyos alapbetegség mellett. A projekt korábbi munkanaplója tévesen azt rögzítette, hogy az „idős = immunszupprimált” megfeleltetés nincs a forrásban — a jegyzet 86. oldala cáfolja. E szabály nélkül a legsérülékenyebb csoport lázas betege a panasz alapszintjén maradt (pl. 80 éves, 38,5 °C, jó általános állapot → MSTR 4). ELLENŐRZÉS: a forrás VAGY-kapcsolatú felsorolásának többi tagja már lefedett — a közepes légzési disztresszt a nehezlegzesFok számított mezőn át az elsodleges_felnott_03 (MSTR 2), a hemodinamikai instabilitást az elsodleges_felnott_08 (MSTR 2) adja. Ezért csak az eddig hiányzó életkori tag került be új szabályként, hogy a szabálykészlet ne duzzadjon redundáns tételekkel.",
       "conflicts": [],
       "group": "secondary"
     }
@@ -16586,7 +16599,7 @@
       "id": "elsodleges_felnott_01",
       "name": "Elsődleges (vitális) meghatározók és elsődleges módosítók",
       "applies_to": "mind",
-      "condition_text": "Elsődleges vitális meghatározók: A-B légzési distressz, C hemodinamikai státusz, D eszméleti szint. Elsődleges módosítók: láz, fájdalom, vérzékenység, sérülési mechanizmus. A triázs csak a pillanatnyilag stabil betegen kezdhető/végezhető el a triázs területén; instabil beteget azonnal ellátóhelyre kell vinni.",
+      "condition_text": "Elsődleges vitális meghatározók: A-B légzési disztressz, C hemodinamikai státusz, D eszméleti szint. Elsődleges módosítók: láz, fájdalom, vérzékenység, sérülési mechanizmus. A triázs csak a pillanatnyilag stabil betegen kezdhető/végezhető el a triázs területén; instabil beteget azonnal ellátóhelyre kell vinni.",
       "condition": [],
       "level": null,
       "source": [
@@ -18310,7 +18323,7 @@
           "label": "Nincs — a beteg ránézésre nem kritikus"
         },
         {
-          "value": "vitalis_distressz",
+          "value": "vitalis_disztressz",
           "label": "Nyilvánvaló vitális disztressz / periarreszt (bármely kor)"
         },
         {
@@ -18341,7 +18354,7 @@
       "id": "legzesiJelek",
       "group": "megfigyeles",
       "type": "select",
-      "label": "Légzési distressz — klinikai jelek (a légzési munka alapján)",
+      "label": "Légzési disztressz — klinikai jelek (a légzési munka alapján)",
       "options": [
         {
           "value": "sulyos",
@@ -18357,7 +18370,7 @@
         },
         {
           "value": "nincs",
-          "label": "Nincs látható légzési distressz"
+          "label": "Nincs látható légzési disztressz"
         }
       ],
       "help": "A forrás szerint a nehézlégzés FOKOZATA elsősorban a klinikai jelekből; a SpO₂/PEFR ehhez társul (akut esésnél). A tool a klinikai jel és a numerikus sávok közül a legsúlyosabbat veszi.",
@@ -18371,19 +18384,19 @@
       "options": [
         {
           "value": "sulyos",
-          "label": "Súlyos (O2-szat <90%)"
+          "label": "Súlyos (SpO₂ <90%)"
         },
         {
           "value": "kozepes",
-          "label": "Közepes/mérsékelt (O2-szat 90-92%, PEFR <40%)"
+          "label": "Közepes/mérsékelt (SpO₂ 90-92%, PEFR <40%)"
         },
         {
           "value": "enyhe",
-          "label": "Enyhe (O2-szat 92-94%, PEFR 40-60%)"
+          "label": "Enyhe (SpO₂ 92-94%, PEFR 40-60%)"
         },
         {
           "value": "nincs",
-          "label": "Nincs nehézlégzés (O2-szat >94%, PEFR >60%)"
+          "label": "Nincs nehézlégzés (SpO₂ >94%, PEFR >60%)"
         }
       ],
       "help": "A légzési munka klinikai megítélése + O2-szaturáció; COPD-snél a beteg saját alapértéke a viszonyítás.",

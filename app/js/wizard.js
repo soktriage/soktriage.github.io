@@ -717,7 +717,7 @@
     }
     if (S.step === 'varolista') {
       $('lv-chip').hidden = true;
-      $('prog-step').textContent = 'Torlódás — mentőágyon várók';
+      $('prog-step').textContent = 'Torlódás — mentőhordágyon várók';
       $('prog-pct').textContent = '';
       $('prog-fill').style.width = '100%';
       $('crumbs').innerHTML = '';
@@ -776,6 +776,17 @@
   }
 
   // ---- kártya-építő segédek ---------------------------------------------------
+  // A lépés-felirat sorszáma a TÉNYLEGESEN megjelenő lépéseket követi (a kihagyottakat
+  // nem számolja), a neve pedig azonos a folyamatsáv nevével. Korábban mindkettő be volt
+  // égetve: a szám átugrott (5-ről 7-re), a kártyacím pedig eltért a sáv nevétől.
+  function lepesFelirat(id) {
+    var idx = lepesIndex(id), n = 0;
+    for (var i = 0; i <= idx; i++) {
+      if (LEPESEK[i].id === 'eredmeny') break;
+      if (i === idx || !kihagyando(LEPESEK[i].id)) n++;
+    }
+    return n + '. lépés · ' + (LEPESEK[idx] || {}).cim;
+  }
   function kartya(eye, title, sub) {
     var c = el('div', 'card');
     if (eye) c.appendChild(el('div', 'card-eye', eye));
@@ -1065,7 +1076,7 @@
   var RENDER = {};
 
   RENDER.azonositas = function (fo) {
-    var c = kartya('Lépés 1', 'Ápoló és beteg', 'Vonalkód-scanner vagy kézi bevitel. Kihagyható.');
+    var c = kartya(lepesFelirat('azonositas'), 'Ápoló és beteg', 'Vonalkód-scanner vagy kézi bevitel. Kihagyható.');
 
     var g1 = el('div', 'pfield'); g1.style.marginBottom = '12px';
     // Aktív ápoló előre kitöltése (egy műszakban ne kelljen újra beírni): undefined → aktív ápoló;
@@ -1236,7 +1247,7 @@
   }
 
   RENDER.kritikus = function (fo) {
-    var c = kartya('Lépés 2', 'Első megtekintés (look test)', 'Kritikus megjelenés → azonnali MSTR 1.');
+    var c = kartya(lepesFelirat('kritikus'), 'Első megtekintés (look test)', 'Kritikus megjelenés → azonnali MSTR 1.');
     var f = (KB.inputFields || []).filter(function (x) { return x.id === 'kritikusMegjelenes'; })[0];
     if (f) c.appendChild(opcioKartyak(f, function () {
       // CSAK MSTR 1-nél ugrunk azonnal az eredményhez (ennél súlyosabb nincs, a
@@ -1250,7 +1261,7 @@
   };
 
   RENDER.kor = function (fo) {
-    var c = kartya('Lépés 3', 'A beteg életkora', 'Felnőtt, vagy gyermeknél pontos kor.');
+    var c = kartya(lepesFelirat('kor'), 'A beteg életkora', 'Felnőtt, vagy gyermeknél pontos kor.');
     // A felnőtt életkornak a forrás szerint NINCS triázs-jelentősége (egyetlen szabály sem használ felnőtt
     // kor-küszöböt); csak a felnőtt/gyermek határ (18 év) számít. Ezért egyetlen „Felnőtt" gomb. (A ≥80 majd
     // a betegút/diszpozíció-modulban kap jelentőséget — ott vezetjük be.)
@@ -1353,7 +1364,7 @@
     return it;
   }
   RENDER.panaszKat = function (fo) {
-    var c = kartya('Lépés 4', 'Vezető panasz', 'Keresés (köznyelvi szó is jó) vagy böngészés szervrendszer szerint.');
+    var c = kartya(lepesFelirat('panaszKat'), 'Vezető panasz', 'Keresés (köznyelvi szó is jó) vagy böngészés szervrendszer szerint.');
     var kereso = el('input', 'search-box'); kereso.type = 'text';
     kereso.placeholder = 'Keresés az összes panasz közt… (pl. mellkas, láz, fejfájás)';
     kereso.value = S.panaszKereso || '';
@@ -1417,7 +1428,7 @@
   };
 
   RENDER.vital = function (fo) {
-    var c = kartya('Lépés 5', 'Vitálparaméterek', 'Opcionális.');
+    var c = kartya(lepesFelirat('vital'), 'Vitálparaméterek', 'Opcionális.');
     // Széles képernyőn két oszlop: bal = lelet-beillesztés, jobb = ABCDE-vitálok (nincs görgetés).
     var wrap = el('div', 'vital-cols');
     var colL = el('div'); var colR = el('div');
@@ -1560,7 +1571,7 @@
   var AB_SORREND = { o2Akut: 0, legzesiJelek: 1, relativO2Eses: 2, pefrSzazalek: 3, lelegeztetest_igenyel: 4, legutvedelem_keptelen: 5 };
 
   RENDER.megfigyeles = function (fo) {
-    var c = kartya('Lépés 6', 'Elsődleges meghatározók (A–B, C) és módosítók', 'ABCDE szerint.');
+    var c = kartya(lepesFelirat('megfigyeles'), 'Elsődleges meghatározók (A–B, C) és módosítók', 'ABCDE szerint.');
     var _kihagyoAlul = kihagyoGomb(c, 'Nincs eltérés az elsődleges meghatározókban', relevansMezok(mezokCsoportban('megfigyeles')), function () { megy(kovetkezo('megfigyeles', 1)); });
     var spo2Alacsony = S.beteg.spo2 != null && S.beteg.spo2 < 95;
     var lista = mezokCsoportban('megfigyeles').filter(function (f) {
@@ -1631,7 +1642,7 @@
   var PANASZ_CENTRALIS_ALAPERTELMEZETT = ['hasi-fajdalom', 'mellkasi-fajdalom-nem-sziv-eredetu'];
 
   RENDER.fajdalom = function (fo) {
-    var c = kartya('Lépés 7', 'Fájdalom', 'VAS 0–10; fájdalomnál lokalizáció + jelleg.');
+    var c = kartya(lepesFelirat('fajdalom'), 'Fájdalom', 'VAS 0–10; fájdalomnál lokalizáció + jelleg.');
     // VAS
     var zones = el('div', 'vas-zones');
     zones.appendChild(el('div', 'vas-zone vas-z0', 'Nincs / enyhe (0–3)'));
@@ -1676,7 +1687,7 @@
 
   RENDER.modosito = function (fo) {
     var p = (KB.complaints || []).filter(function (x) { return x.id === S.beteg.vezetoPanaszId; })[0];
-    var c = kartya('Lépés 8', 'Panasz-specifikus módosítók', 'A vezető panaszhoz tartozó kérdések.');
+    var c = kartya(lepesFelirat('modosito'), 'Panasz-specifikus módosítók', 'A vezető panaszhoz tartozó kérdések.');
     // Ha a panasznak NINCS alapszintje (pl. csecsemő-apnoe: a súlyosság 1/2/3 közt csak a
     // módosítóból derül ki), a módosító megadása KÖTELEZŐ — enélkül a rendszer "nincs
     // javaslat" zsákutcába futna. Ilyenkor a gyors-kihagyás gomb nem jelenik meg, a Tovább védett.
@@ -2619,7 +2630,7 @@
 
   RENDER.varolista = function (fo) {
     var T = KB.torlodas || {};
-    var c = kartya('Torlódás', 'Mentőágyon vár — re-triage', (T.sorrend || {}).kiemelt || '');
+    var c = kartya('Torlódás', 'Mentőhordágyon vár — re-triage', (T.sorrend || {}).kiemelt || '');
     var lista = varolista();
 
     var info = el('div', 'warn'); info.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
@@ -3037,6 +3048,7 @@
     colR.appendChild(fejlec('Bejelentkezés'));
     var g0 = el('div', 'param-grid');
     g0.appendChild(tInput('mentoegyseg', 'Bejelentkező mentőegység'));
+    g0.appendChild(tInput('honnan', 'Honnan'));      // a nyomtatvány fejlécsorának második mezője
     g0.appendChild(tInput('datum', 'Dátum', 'éééé.hh.nn.'));
     g0.appendChild(tInput('ido', 'Bejelentkezés időpontja', 'óó:pp'));
     colR.appendChild(g0);
@@ -3097,7 +3109,7 @@
     gr.appendChild(tInput('fogado', 'Az értesítést fogadó neve'));
     gr.appendChild(tInput('kijeloltEllato', 'Kijelölt ellátó'));
     colL.appendChild(gr);
-    colL.appendChild(tChoice('betegut', 'Betegút', ['Sokktalanító', 'Őrző', 'Triage']));
+    colL.appendChild(tChoice('betegut', 'Betegút', ['Sokktalanító', 'Őrző', 'Triázs']));
     colL.appendChild(elLabel('Értesítve'));
     colL.appendChild(tToggleSor([['nEllato', 'Ellátó'], ['nNeuro', 'Neurológus'], ['nRadiol', 'Radiológus'],
       ['nBetegszallito', 'Betegszállítók'], ['nShock', 'Sokktalanító team'], ['nCT', 'CT operátor']]));
@@ -3110,8 +3122,13 @@
     if (T.jStroke) {
       var sc = el('div', 'klin-blokk'); sc.style.marginTop = '10px';
       sc.appendChild(tArea('stTunetek', 'Tünetek'));
-      sc.appendChild(tInput('stTunetkezdet', 'Tünetkezdet (LSW vagy feltalálási idő)', 'óó:pp'));
-      sc.appendChild(tChoice('stPremorbid', 'Premorbid állapot', ['Önellátó', 'Fekvő, ápolt']));
+      // A nyomtatványon KÉT KÜLÖN időpont van — korábban egybeolvasztva szerepeltek.
+      var gIdo = el('div', 'param-grid');
+      gIdo.appendChild(tInput('stTunetkezdet', 'Tünetkezdet vagy „Last seen well”', 'óó:pp'));
+      gIdo.appendChild(tInput('stFeltalalasIdo', 'Feltalálás ideje', 'óó:pp'));
+      sc.appendChild(gIdo);
+      // A nyomtatvány HÁROM premorbid állapotot sorol fel: Önellátó / Fennjáró / Fekvő.
+      sc.appendChild(tChoice('stPremorbid', 'Premorbid állapot', ['Önellátó', 'Fennjáró', 'Fekvő']));
       var raceSp = el('div'); raceSp.style.height = '8px'; sc.appendChild(raceSp);
       sc.appendChild(raceReszletek(T, function () { render(); }));
       // A nyomtatvány saját döntési szabálya — a RACE-pontból automatikusan kiértékelve.
@@ -3155,7 +3172,8 @@
     function add(lbl, v) { if (v != null && v !== '' && v !== false) L.push(lbl + ': ' + (v === true ? 'IGEN' : v)); }
     function jelek(lista) { var o = []; lista.forEach(function (k) { if (T[k[0]]) o.push(k[1]); }); return o; }
     L.push('SE SÜRGŐSSÉGI ORVOSTANI KLINIKA — ADATFELVÉTELI LAP (TETRA / telefon riasztás)');
-    add('Bejelentkező mentőegység', T.mentoegyseg); add('Dátum', T.datum); add('Bejelentkezés időpontja', T.ido);
+    add('Bejelentkező mentőegység', T.mentoegyseg); add('Honnan', T.honnan);
+    add('Dátum', T.datum); add('Bejelentkezés időpontja', T.ido);
     L.push('— BETEGADATOK —');
     add('Neme', T.nem); add('Életkor', T.eletkor); add('TAJ-szám', T.taj); add('Beteg neve', T.nev);
     add('Feltalálási hely', T.feltalalasiHely); add('Állandó lakhely / tartózkodási hely', T.lakhely);
@@ -3168,7 +3186,8 @@
     if (T.jStroke) {
       L.push('— STROKE —');
       add('Tünetek', T.stTunetek);
-      add('Tünetkezdet (LSW / feltalálási idő)', T.stTunetkezdet);
+      add('Tünetkezdet / „Last seen well”', T.stTunetkezdet);
+      add('Feltalálás ideje', T.stFeltalalasIdo);
       add('Premorbid állapot', T.stPremorbid);
       var raceOssz = raceOsszeg(T);
       if (raceOssz != null) {
