@@ -557,7 +557,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 419,
+      "rules": 422,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -15678,6 +15678,104 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       ],
       "notes": "MEWS 2-pontos (legsúlyosabb elérhető) hőmérséklet-sáv — a hőmérsékletnél a MEWS-tábla sosem ad 3 pontot egyetlen sávnál sem, ezért itt a padló max. MSTR3, nem MSTR2 (a máshol dokumentált SIRS-kombó szabályok, esc_laz_objektiv_sirs*, tovább emelhetik, ha láz+tachycardia/tachypnoe is fennáll). HATÓKÖR-TISZTÁZÁS (2026-09-18, klinikai lektorálás): a magas láz önmagában NEM ad padlót — arra a tankönyv 35-36. o. láz-létrája az irányadó (ha a láz az egyetlen pozitív SIRS-kritérium és a küllem jó: MSTR 4), ezért az esc_temp_felnott_magas_onallo szabályt töröltük. A hipotermia-ág marad: erre nincs versengő, konkrétabb forrás-szabály, és a SIRS definíciója a <36 °C-ot önálló kritériumként sorolja fel. KORHATÁR-JAVÍTÁS (2026-09-18, klinikai lektorálás): a szabály korábban csak felnőttre vonatkozott (applies_to:felnott), így egy 8 vagy 17 éves betegnél a 28 °C-os maghőmérséklet SEMMILYEN padlót nem adott (a gyermek vitalBands csak légzés- és pulzusszámot fed). A hipotermia-küszöb nem korfüggő: a SIRS-definíció a <36 °C-ot életkortól függetlenül sorolja fel, és a gyermek_laz_02 (0-3 hó, <36 °C → MSTR 2) már ma is pediátriai precedens. Kiterjesztve minden korra; a 0-3 hónaposoknál a szigorúbb gyermek_laz_02 marad érvényben (min-logika).",
       "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_padlo_felnott",
+      "name": "Láz felnőttnél (>38 °C) → legalább MSTR 4, küllemtől függetlenül",
+      "applies_to": "mind",
+      "condition_text": "16 év felett, mért testhőmérséklet >38,0 °C — a láz-létra legenyhébb kimenete (jó általános állapot) MSTR 4.",
+      "condition": [
+        {
+          "mezo": "eletkorEv",
+          "min": 16
+        },
+        {
+          "mezo": "temp",
+          "nagyobb": 38
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "tankonyv",
+          "page": 35
+        },
+        {
+          "doc": "tankonyv",
+          "page": 36
+        },
+        {
+          "doc": "jegyzet",
+          "page": 85
+        }
+      ],
+      "notes": "KÜLLEM-FÜGGETLEN LÁZ-PADLÓ. A szint pontosan a láz-létra SAJÁT LEGENYHÉBB kimenete erre a korsávra, ezért a létrával nem ütközhet: ha az ápoló megítéli a küllemet, az csak SÚLYOSBÍTHAT (min-logika), enyhíteni nem tud. A padló azt a lyukat zárja be, hogy küllem-válasz nélkül a lázas beteg a panasz alapszintjén (akár MSTR 5-ön) maradt. Előzmény: a korábbi esc_temp_felnott_magas_onallo szabály MSTR 3-at adott ≥38,61 °C-ra, ami ELLENTMONDOTT a létra „jó általános állapot → MSTR 4\" sorának (klinikai lektor, 2026-09-18); a törlése viszont visszanyitotta az alultriázst (adversariális verifikátor ugyanaznap). A helyes megoldás a létra legenyhébb kimenete padlóként.",
+      "conflicts": [],
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_padlo_gyermek_3ho_3ev",
+      "name": "Láz 3 hó–3 év (>38,5 °C) → legalább MSTR 3, küllemtől függetlenül",
+      "applies_to": "gyermek",
+      "condition_text": "3 hónap–3 év, testhőmérséklet >38,5 °C — a gyermek láz-létra legenyhébb kimenete (nem tűnik betegnek) MSTR 3.",
+      "condition": [
+        {
+          "mezo": "eletkorHonap",
+          "min": 3,
+          "max": 36
+        },
+        {
+          "mezo": "temp",
+          "nagyobb": 38.5
+        }
+      ],
+      "level": 3,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 236
+        },
+        {
+          "doc": "tankonyv",
+          "page": 70
+        }
+      ],
+      "notes": "KÜLLEM-FÜGGETLEN LÁZ-PADLÓ. A szint pontosan a láz-létra SAJÁT LEGENYHÉBB kimenete erre a korsávra, ezért a létrával nem ütközhet: ha az ápoló megítéli a küllemet, az csak SÚLYOSBÍTHAT (min-logika), enyhíteni nem tud. A padló azt a lyukat zárja be, hogy küllem-válasz nélkül a lázas beteg a panasz alapszintjén (akár MSTR 5-ön) maradt. Előzmény: a korábbi esc_temp_felnott_magas_onallo szabály MSTR 3-at adott ≥38,61 °C-ra, ami ELLENTMONDOTT a létra „jó általános állapot → MSTR 4\" sorának (klinikai lektor, 2026-09-18); a törlése viszont visszanyitotta az alultriázst (adversariális verifikátor ugyanaznap). A helyes megoldás a létra legenyhébb kimenete padlóként.",
+      "conflicts": [],
+      "korMinHonap": 3,
+      "korMaxHonap": 36,
+      "group": "secondary"
+    },
+    {
+      "id": "esc_laz_padlo_gyermek_3ev_felett",
+      "name": "Láz 3 év felett (>38,5 °C) → legalább MSTR 4, küllemtől függetlenül",
+      "applies_to": "gyermek",
+      "condition_text": "3 év felett, testhőmérséklet >38,5 °C — a gyermek láz-létra legenyhébb kimenete (nem tűnik betegnek) MSTR 4.",
+      "condition": [
+        {
+          "mezo": "eletkorHonap",
+          "min": 36
+        },
+        {
+          "mezo": "temp",
+          "nagyobb": 38.5
+        }
+      ],
+      "level": 4,
+      "source": [
+        {
+          "doc": "jegyzet",
+          "page": 236
+        },
+        {
+          "doc": "tankonyv",
+          "page": 70
+        }
+      ],
+      "notes": "KÜLLEM-FÜGGETLEN LÁZ-PADLÓ. A szint pontosan a láz-létra SAJÁT LEGENYHÉBB kimenete erre a korsávra, ezért a létrával nem ütközhet: ha az ápoló megítéli a küllemet, az csak SÚLYOSBÍTHAT (min-logika), enyhíteni nem tud. A padló azt a lyukat zárja be, hogy küllem-válasz nélkül a lázas beteg a panasz alapszintjén (akár MSTR 5-ön) maradt. Előzmény: a korábbi esc_temp_felnott_magas_onallo szabály MSTR 3-at adott ≥38,61 °C-ra, ami ELLENTMONDOTT a létra „jó általános állapot → MSTR 4\" sorának (klinikai lektor, 2026-09-18); a törlése viszont visszanyitotta az alultriázst (adversariális verifikátor ugyanaznap). A helyes megoldás a létra legenyhébb kimenete padlóként.",
+      "conflicts": [],
+      "korMinHonap": 36,
       "group": "secondary"
     }
   ],
