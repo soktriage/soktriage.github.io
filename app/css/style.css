@@ -525,8 +525,10 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 .torlodas-sav.torl-maradek {
   background: #FEF9E7;
   color: var(--l3t);
-  border-bottom-color: var(--l3s);
+  border-color: var(--l3s);          /* a TELJES keret, nem csak az alsó */
 }
+.torlodas-sav.torl-maradek .torl-cimke,
+.torlodas-sav.torl-maradek .torl-info { color: var(--l3t); }
 .torlodas-sav.torl-maradek .torl-btn {
   border-color: var(--l3s);
   color: var(--l3t);
@@ -534,10 +536,13 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 
 /* „Régóta bekapcsolva" emlékeztető a torlódási sávban. Kérdés, nem állítás: az app
    nem kapcsolja ki magától az eljárásrendet, mert azt a műszakvezető orvos rendeli el. */
+/* A befogadó sáv VILÁGOS, ezért a chip is világos alapra készül — a korábbi fehér
+   áttetsző háttér és keret gyakorlatilag láthatatlan volt rajta. Szándékosan halkabb,
+   mint a lejárt re-triage jelzés: ez emlékeztető, nem riasztás. */
 .torl-emlekezteto {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.16);
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 6px; padding: 3px 8px; font-size: 12px; line-height: 1.35;
+  background: rgba(57, 73, 171, .06);
+  border: 1px solid #9FA8DA;
+  border-radius: 6px; padding: 4px 9px; font-size: 12px; line-height: 1.35;
 }
 .torl-emlekezteto .ico { width: 14px; height: 14px; flex: 0 0 auto; }

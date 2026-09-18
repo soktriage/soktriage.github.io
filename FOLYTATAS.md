@@ -2588,3 +2588,37 @@ konstanst kapott a megőrzési időtől.
   repón. Ez a konvenció, de egy lektor kockázatként jelezte. Magamtól nem változtattam meg.
 
 VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden javítás böngészőben ellenőrizve. Build ?v=130.
+
+
+#### 88. egység — a harmadik (felület / betegbiztonság) ellenőrző találatai, mind javítva
+
+1. A KIKAPCSOLT NÉZET SÁVJA ELHAGYTA A LEJÁRT RE-TRIAGE SZÁMÁT, amit a bekapcsolt sáv kiír —
+   a kikapcsolás így csendben elvette az egyetlen mindig látható klinikai jelzést. Most a
+   borostyán sáv is kiírja („3 beteg maradt … ebből 2-nél lejárt az újraértékelés"), és a
+   gomb is megkapja a lejárt-stílust.
+2. AZ „ÁGYRA KERÜLT" MEGERŐSÍTÉS NÉLKÜL, VISSZAVONHATATLANUL TÖRÖLT — közvetlenül a
+   „Re-triage kész" mellett, miközben a tömeges törlés megerősítést kér. Most egységes.
+3. A „kérjük fejezze be a besorolást" utasításnak NEM VOLT VÉGREHAJTHATÓ MŰVELETE ezen a
+   képernyőn (a várólista-tétel nem hivatkozik a felvételre). A szöveg most azt mondja, ami
+   ténylegesen megtehető: új felvétellel pótolható, addig kézzel kell szemmel tartani.
+4. A TETRA-nyomtatvány két mezője továbbra is hiányzott: „Diszpécser" és „Észlelő személy
+   elérhetősége". Pótolva, a vágólap-exportba is.
+5. A .torl-maradek sáv csak részben volt más színű: a felső/oldalsó keret és a címke az aktív
+   (indigó) sávé maradt. Most a teljes keret és a feliratok is borostyánok.
+6. A 12 órás emlékeztető „chip"-je sötét sávra készült (fehér áttetsző háttér és keret), a
+   világos sávon gyakorlatilag láthatatlan volt. Világos alapra szabva.
+7. AZ EMLÉKEZTETŐ A NÉZET SÁVJÁBAN AZ ELJÁRÁSREND ÉRVÉNYESSÉGÉT KÉRDEZTE — az app minden más
+   helyen gondosan szétválasztja a kettőt. A mondat most végig a nézetről szól.
+8. Nyelvhelyesség: „4 beteg maradt … nem tűntek el, őket" — számnév után magyarban egyes szám
+   áll, és a mondat önmagát cáfolta (közvetlenül mellette a „Lista megnyitása" gomb). Átírva.
+
+NEM JAVÍTOTTAM, TUDATOSAN: a Tudástárban megjelenő KB-idézetekben megmaradt az „triage"
+írásmód („A triage ápoló a mentőágyon triázsol…"). Ezek SZÓ SZERINTI forrásidézetek — a
+magyarosításuk szerkesztett idézetté tenné őket. A 17. tétel commit-üzenete ezt pontatlanul
+fogalmazta: a csere csak a SAJÁT (nem idézett) feliratokra vonatkozott.
+
+ÁDÁMNAK JELZENDŐ: a 4/2026. Igazgatói Utasítás szövege nincs a repóban, ezért a harmadik
+ellenőrző a mentőágy/mentőhordágy megkülönböztetést csak a KB-n keresztül tudta igazolni,
+elsődleges forráson nem.
+
+VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden tétel böngészőben ellenőrizve. Build ?v=131.

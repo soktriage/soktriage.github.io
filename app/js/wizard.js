@@ -1027,11 +1027,16 @@
       var mcim = el('span', 'torl-cimke');
       mcim.innerHTML = ikonSvg('warn') + '<span>A TORLÓDÁSI NÉZET KI VAN KAPCSOLVA</span>';
       sav.appendChild(mcim);
+      var mlejart = lista.filter(function (v) { var r = retriageAllapot(v); return r && r.lejart; }).length;
       var minfo = el('span', 'torl-info');
-      minfo.textContent = lista.length + ' beteg maradt a re-triage listán — nem tűntek el, de a nézet nem mutatja őket.';
+      minfo.textContent = lista.length + ' beteg maradt a re-triage listán' +
+        (mlejart ? ', ebből ' + mlejart + '-nél lejárt az újraértékelés' : '') + '.';
       sav.appendChild(minfo);
       var mbtn = el('button', 'torl-btn'); mbtn.type = 'button';
-      mbtn.textContent = 'Lista megnyitása →';
+      // A LEJÁRT-szám a kikapcsolt nézeten is látszik: a kikapcsolás nem veheti el
+      // csendben az egyetlen mindig látható klinikai jelzést.
+      if (mlejart) mbtn.classList.add('lejart');
+      mbtn.textContent = 'Lista megnyitása' + (mlejart ? ' · ' + mlejart + ' lejárt re-triage' : '') + ' →';
       mbtn.onclick = function () { if (S.step !== 'varolista') { S.varolistaElozoStep = S.step; S.step = 'varolista'; render(); } };
       sav.appendChild(mbtn);
       return;
@@ -1052,10 +1057,11 @@
     // adatmegőrzésnél is használunk — üzemeltetési érték, a forrás időközt nem ad meg.
     if (percTol(t.ido) >= TORLODAS_EMLEKEZTETO_ORA * 60) {
       var emlek = el('span', 'torl-emlekezteto');
+      // A mondat VÉGIG a nézetről szól: az eljárásrend hatályáról az app nem nyilatkozik.
       emlek.innerHTML = ikonSvg('warn') + '<span>Több mint ' + TORLODAS_EMLEKEZTETO_ORA +
-        ' órája bekapcsolva — még érvényben van? A forrás szerint az eljárásrend megszűnésekor ' +
-        'ugyanúgy kell eljárni, mint az elrendelésekor: a flow manager dokumentálja, és tájékoztatja ' +
-        'az OMSZ mentésirányítását.</span>';
+        ' órája van bekapcsolva ez a nézet. Még tart a torlódási eljárásrend? A megszüntetését a ' +
+        'műszakvezető orvos rendeli el; a forrás szerint ilyenkor ugyanúgy kell eljárni, mint az ' +
+        'elrendelésekor: a flow manager dokumentálja és tájékoztatja az OMSZ mentésirányítását.</span>';
       sav.appendChild(emlek);
     }
     var varoBtn = el('button', 'torl-btn'); varoBtn.type = 'button';
@@ -2722,7 +2728,8 @@
             // nem hallgatjuk el, és nem is találunk ki helyette időközt.
             var rn = el('div', 'varo-retri lejart');
             rn.textContent = 'NINCS TRIÁZS-SZINT — ' + idoSzoveg(percTol(v.erkezes)) + ' vár. ' +
-              'Re-triage időköz csak szinttel számolható: kérjük fejezze be a besorolást.';
+              'Re-triage időköz csak szinttel számolható, ezért ennél a betegnél a rendszer nem ' +
+              'tud emlékeztetni. Új felvétellel pótolja a besorolást, addig kézzel tartsa szemmel.';
             bal.appendChild(rn);
           }
           sor.appendChild(bal);
@@ -2739,7 +2746,12 @@
           };
           jobb.appendChild(rt);
           var le = el('button', 'btn btn-ghost', 'Ágyra került'); le.type = 'button';
-          le.onclick = function () { varolistaMent(varolista().filter(function (x) { return x.id !== v.id; })); render(); };
+          le.onclick = function () {
+            // Megerősítés: a gomb közvetlenül a „Re-triage kész" mellett áll, és a törlés
+            // visszavonhatatlan. A tömeges törlés is megerősítést kér — legyen egységes.
+            if (!confirm('Leveszi a listáról: ' + v.cimke + '?\n\nEz azt jelenti, hogy a beteg ágyra került, és a re-triage emlékeztető megszűnik. A művelet nem vonható vissza.')) return;
+            varolistaMent(varolista().filter(function (x) { return x.id !== v.id; })); render();
+          };
           jobb.appendChild(le);
           sor.appendChild(jobb);
           c.appendChild(sor);
@@ -3147,6 +3159,7 @@
       ['rNIV', 'NIV'], ['rIzolacio', 'Izoláció']]));
     var gr = el('div', 'param-grid');
     gr.appendChild(tInput('erkezes', 'Várható érkezés', 'óó:pp'));
+    gr.appendChild(tInput('diszpecser', 'Diszpécser'));   // a nyomtatványon a Várható érkezés mellett
     gr.appendChild(tInput('fogado', 'Az értesítést fogadó neve'));
     gr.appendChild(tInput('kijeloltEllato', 'Kijelölt ellátó'));
     colL.appendChild(gr);
@@ -3176,6 +3189,7 @@
       gIdo.appendChild(tInput('stLastSeenWell', '„Last seen well”', 'óó:pp'));
       gIdo.appendChild(tInput('stFeltalalasIdo', 'Feltalálás ideje', 'óó:pp'));
       sc.appendChild(gIdo);
+      sc.appendChild(tInput('stEszleloElerhetoseg', 'Észlelő személy elérhetősége'));
       // A nyomtatvány HÁROM premorbid állapotot sorol fel: Önellátó / Fennjáró / Fekvő.
       sc.appendChild(tChoice('stPremorbid', 'Premorbid állapot', ['Önellátó', 'Fennjáró', 'Fekvő']));
       var raceSp = el('div'); raceSp.style.height = '8px'; sc.appendChild(raceSp);
@@ -3238,6 +3252,7 @@
       add('Tünetkezdet', T.stTunetkezdet);
       add('„Last seen well”', T.stLastSeenWell);
       add('Feltalálás ideje', T.stFeltalalasIdo);
+      add('Észlelő személy elérhetősége', T.stEszleloElerhetoseg);
       add('Premorbid állapot', T.stPremorbid);
       var raceOssz = raceOsszeg(T);
       if (raceOssz != null) {
@@ -3262,7 +3277,7 @@
     L.push('— R: JAVASLAT, KÉRT ELŐKÉSZÍTÉS —');
     var rj = jelek([['rSokktalanito', 'sokktalanító'], ['rLegut', 'légútbiztosítási készenlét'], ['rNIV', 'NIV'], ['rIzolacio', 'izoláció']]);
     if (rj.length) L.push('Kért előkészítés: ' + rj.join(', '));
-    add('Várható érkezés', T.erkezes); add('Az értesítést fogadó neve', T.fogado);
+    add('Várható érkezés', T.erkezes); add('Diszpécser', T.diszpecser); add('Az értesítést fogadó neve', T.fogado);
     add('Kijelölt ellátó', T.kijeloltEllato); add('Betegút', T.betegut);
     var ert = jelek([['nEllato', 'ellátó'], ['nNeuro', 'neurológus'], ['nRadiol', 'radiológus'], ['nBetegszallito', 'betegszállítók'], ['nShock', 'sokktalanító team'], ['nCT', 'CT operátor']]);
     if (ert.length) L.push('Értesítve: ' + ert.join(', '));
