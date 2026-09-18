@@ -3874,7 +3874,7 @@
       "id": "elsodleges_felnott_02",
       "name": "Légzés (A-B) – súlyos nehézlégzés → MSTR 1",
       "applies_to": "mind",
-      "condition_text": "Súlyos nehézlégzés: fáradtság a fokozott légzési munka miatt, cyanosis, egyszavas beszéd/beszédképtelenség, felső légúti elzáródás, letargikus vagy zavart, lélegeztetést igényel. O2-szaturáció <90%; becsült kilégzési csúcsáramlás (PEFR): nem értékelhető.",
+      "condition_text": "Súlyos nehézlégzés: fáradtság a fokozott légzési munka miatt, cyanosis, egyszavas beszéd/beszédképtelenség, felső légúti elzáródás, letargikus vagy zavart, lélegeztetést igényel. oxigén-szaturáció (SpO₂) <90%; becsült kilégzési csúcsáramlás (PEFR): nem értékelhető.",
       "condition": [
         {
           "mezo": "nehezlegzesFok",
@@ -3916,7 +3916,7 @@
       "id": "elsodleges_felnott_03",
       "name": "Légzés (A-B) – közepes (mérsékelt) nehézlégzés → MSTR 2",
       "applies_to": "mind",
-      "condition_text": "Közepes fokú nehézlégzés: fokozott légzési munka, néhány szavas kifejezések/részmondatok, kifejezett vagy romló stridor védett légutak mellett. O2-szaturáció 90-92%; becsült PEFR <40%.",
+      "condition_text": "Közepes fokú nehézlégzés: fokozott légzési munka, néhány szavas kifejezések/részmondatok, kifejezett vagy romló stridor védett légutak mellett. oxigén-szaturáció (SpO₂) 90-92%; becsült PEFR <40%.",
       "condition": [
         {
           "mezo": "nehezlegzesFok",
@@ -3958,7 +3958,7 @@
       "id": "elsodleges_felnott_04",
       "name": "Légzés (A-B) – enyhe nehézlégzés → MSTR 3",
       "applies_to": "mind",
-      "condition_text": "Enyhe nehézlégzés: dyspnoe/tachypnoe/terhelési dyspnoe láthatóan fokozott légzési munka NÉLKÜL, mondatokat képes mondani, stridor/légúti szűkület tünetei nélkül. O2-szaturáció 92-94%; becsült PEFR 40-60%.",
+      "condition_text": "Enyhe nehézlégzés: dyspnoe/tachypnoe/terhelési dyspnoe láthatóan fokozott légzési munka NÉLKÜL, mondatokat képes mondani, stridor/légúti szűkület tünetei nélkül. oxigén-szaturáció (SpO₂) 92-94%; becsült PEFR 40-60%.",
       "condition": [
         {
           "mezo": "nehezlegzesFok",
@@ -4000,7 +4000,7 @@
       "id": "elsodleges_felnott_05",
       "name": "Légzés (A-B) – nincs nehézlégzés → MSTR 4 vagy 5",
       "applies_to": "felnott",
-      "condition_text": "Nincs nehézlégzés: O2-szaturáció >94%, becsült PEFR >60%. MSTR 4 vagy 5 a további módosítóktól függően.",
+      "condition_text": "Nincs nehézlégzés: oxigén-szaturáció (SpO₂) >94%, becsült PEFR >60%. MSTR 4 vagy 5 a további módosítóktól függően.",
       "condition": [
         {
           "mezo": "nehezlegzesFok",
@@ -4020,7 +4020,7 @@
     },
     {
       "id": "elsodleges_felnott_06",
-      "name": "Légzés (A-B) – relatív O2-szaturáció esés → MSTR 1",
+      "name": "Légzés (A-B) – relatív oxigén-szaturáció (SpO₂) esés → MSTR 1",
       "applies_to": "mind",
       "condition_text": "Ha a beteg saját megszokott (normál) szaturációjához képest a szaturáció 10%-ot csökken, MSTR 1 szintre kell triázsolni. COPD-s betegnél a megszokott saját érték a viszonyítási alap.",
       "condition": [
@@ -5073,7 +5073,7 @@
       "id": "gyermek_05",
       "name": "Súlyos légzési elégtelenség (gyermek) -> MSTR 1",
       "applies_to": "gyermek",
-      "condition_text": "Súlyos légzési elégtelenség: extrém megnövekedett légzési munka, cianózis, levertség/zavartság, egyszavas válaszok vagy beszédképtelenség, tahi- vagy bradipnoe/apnoe, behúzódások, orrszárnyi légzés, nyögés, csökkent/hiányzó légzési hang, felsőlégúti elzáródás, nem védett légutak. O2-szaturáció < 90%.",
+      "condition_text": "Súlyos légzési elégtelenség: extrém megnövekedett légzési munka, cianózis, levertség/zavartság, egyszavas válaszok vagy beszédképtelenség, tahi- vagy bradipnoe/apnoe, behúzódások, orrszárnyi légzés, nyögés, csökkent/hiányzó légzési hang, felsőlégúti elzáródás, nem védett légutak. oxigén-szaturáció (SpO₂) < 90%.",
       "condition": [
         {
           "mezo": "spo2",
@@ -5099,7 +5099,7 @@
       "id": "gyermek_06",
       "name": "Közepes légzési elégtelenség (gyermek) -> MSTR 2",
       "applies_to": "gyermek",
-      "condition_text": "Közepes légzési elégtelenség: megnövekedett légzési munka, nyugtalanság/agitáltság, tahipnoe, hiperpnoe, segédizom-használat, behúzódások, orrszárnyi légzés, rövid/tőmondatos beszéd, stridor védett légutak mellett. O2-szaturáció 90-92%, PEFR < 40% alapérték. Kiegészítő jel: elhúzódó kilégzési szakasz (asztma/bronchiolitis). [CTAS COT-2008 DIA 208]",
+      "condition_text": "Közepes légzési elégtelenség: megnövekedett légzési munka, nyugtalanság/agitáltság, tahipnoe, hiperpnoe, segédizom-használat, behúzódások, orrszárnyi légzés, rövid/tőmondatos beszéd, stridor védett légutak mellett. oxigén-szaturáció (SpO₂) 90-92%, PEFR < 40% alapérték. Kiegészítő jel: elhúzódó kilégzési szakasz (asztma/bronchiolitis). [CTAS COT-2008 DIA 208]",
       "condition": [
         {
           "mezo": "spo2",
@@ -5126,7 +5126,7 @@
       "id": "gyermek_07",
       "name": "Enyhe légzési elégtelenség (gyermek) -> MSTR 3",
       "applies_to": "gyermek",
-      "condition_text": "Enyhe légzési elégtelenség: nehézlégzés csak terhelésre, nincs nyilvánvalóan fokozott légzési munka, képes összefüggő mondatokban beszélni, nincs stridor/légúti elzáródás. O2-szaturáció 92-94%, PEFR 40-60% alapérték.",
+      "condition_text": "Enyhe légzési elégtelenség: nehézlégzés csak terhelésre, nincs nyilvánvalóan fokozott légzési munka, képes összefüggő mondatokban beszélni, nincs stridor/légúti elzáródás. oxigén-szaturáció (SpO₂) 92-94%, PEFR 40-60% alapérték.",
       "condition": [
         {
           "mezo": "spo2",
@@ -5153,7 +5153,7 @@
       "id": "gyermek_08",
       "name": "Nincs légzési elégtelenség (gyermek) -> egyéb tényezők döntenek",
       "applies_to": "gyermek",
-      "condition_text": "Normál légzésszám és O2-szaturáció > 94%, nincs fokozott légzési munka — ez önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más (panasz-specifikus vagy egyéb elsődleges) tényezők határozzák meg.",
+      "condition_text": "Normál légzésszám és oxigén-szaturáció (SpO₂) > 94%, nincs fokozott légzési munka — ez önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más (panasz-specifikus vagy egyéb elsődleges) tényezők határozzák meg.",
       "condition": [
         {
           "mezo": "spo2",
@@ -5171,7 +5171,7 @@
           "page": 217
         }
       ],
-      "notes": "JAVÍTVA (2026-07-21, Ádám univerzális vitál-padló kérésére végzett audit során talált hiba): a szabály korábban tévesen level:4-et adott — ez azt jelentette, hogy MINDEN normál O2-szaturációjú gyermek automatikusan MSTR4-re lett volna korlátozva, akkor is, ha a panasza egyébként MSTR5 (pl. kötéscsere, képalkotó-eredmény-hozatal) — ellentétben a máshol következetesen alkalmazott mintával (pl. elsodleges_felnott_05/10/13: a 'normál' tartomány level:null, csak referencia, nem korlátoz). Motoron igazolva: gyermek + kötéscsere + SpO2 98% a javítás ELŐTT tévesen MSTR4-et adott, MSTR5 helyett. A tényleges légzési-elégtelenség sávok (gyermek_05/06/07, SpO2<95%) változatlanul hard escalate-ként működnek — csak a 'normál' felső sáv vált referencia-only-vá.",
+      "notes": "JAVÍTVA (2026-07-21, Ádám univerzális vitál-padló kérésére végzett audit során talált hiba): a szabály korábban tévesen level:4-et adott — ez azt jelentette, hogy MINDEN normál oxigén-szaturáció (SpO₂)jú gyermek automatikusan MSTR4-re lett volna korlátozva, akkor is, ha a panasza egyébként MSTR5 (pl. kötéscsere, képalkotó-eredmény-hozatal) — ellentétben a máshol következetesen alkalmazott mintával (pl. elsodleges_felnott_05/10/13: a 'normál' tartomány level:null, csak referencia, nem korlátoz). Motoron igazolva: gyermek + kötéscsere + SpO2 98% a javítás ELŐTT tévesen MSTR4-et adott, MSTR5 helyett. A tényleges légzési-elégtelenség sávok (gyermek_05/06/07, SpO2<95%) változatlanul hard escalate-ként működnek — csak a 'normál' felső sáv vált referencia-only-vá.",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -6223,7 +6223,7 @@
           "page": 64
         }
       ],
-      "notes": "Csak >6 év. Az O2-szaturáció mérése a tengerszint feletti magasságtól függ.",
+      "notes": "Csak >6 év. Az oxigén-szaturáció (SpO₂) mérése a tengerszint feletti magasságtól függ.",
       "conflicts": [],
       "group": "respiratory"
     },
@@ -11792,7 +11792,7 @@
       "condition": [
         {
           "mezo": "kritikusMegjelenes",
-          "egyenlo": "vitalis_disztressz"
+          "egyenlo": "vitalis_distressz"
         }
       ],
       "level": 1,
@@ -14630,9 +14630,9 @@
     },
     {
       "id": "esc_spo2_felnott_sulyos",
-      "name": "Súlyos légzési elégtelenség (felnőtt, O2-szaturáció <90%) → MSTR 1",
+      "name": "Súlyos légzési elégtelenség (felnőtt, oxigén-szaturáció (SpO₂) <90%) → MSTR 1",
       "applies_to": "mind",
-      "condition_text": "O2-szaturáció < 90% önmagában súlyos légzési elégtelenséget jelez → MSTR 1, függetlenül a vezető panasztól.",
+      "condition_text": "oxigén-szaturáció (SpO₂) < 90% önmagában súlyos légzési elégtelenséget jelez → MSTR 1, függetlenül a vezető panasztól.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -14676,9 +14676,9 @@
     },
     {
       "id": "esc_spo2_felnott_kozepes",
-      "name": "Közepes légzési elégtelenség (felnőtt, O2-szaturáció 90-92%) → MSTR 2",
+      "name": "Közepes légzési elégtelenség (felnőtt, oxigén-szaturáció (SpO₂) 90-92%) → MSTR 2",
       "applies_to": "mind",
-      "condition_text": "O2-szaturáció 90-92% önmagában közepes légzési elégtelenséget jelez → MSTR 2, függetlenül a vezető panasztól.",
+      "condition_text": "oxigén-szaturáció (SpO₂) 90-92% önmagában közepes légzési elégtelenséget jelez → MSTR 2, függetlenül a vezető panasztól.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -14723,9 +14723,9 @@
     },
     {
       "id": "esc_spo2_felnott_enyhe",
-      "name": "Enyhe légzési elégtelenség (felnőtt, O2-szaturáció 93-94%) → MSTR 3",
+      "name": "Enyhe légzési elégtelenség (felnőtt, oxigén-szaturáció (SpO₂) 93-94%) → MSTR 3",
       "applies_to": "mind",
-      "condition_text": "O2-szaturáció 93-94% önmagában enyhe légzési elégtelenséget jelez → MSTR 3, függetlenül a vezető panasztól.",
+      "condition_text": "oxigén-szaturáció (SpO₂) 93-94% önmagában enyhe légzési elégtelenséget jelez → MSTR 3, függetlenül a vezető panasztól.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -14770,9 +14770,9 @@
     },
     {
       "id": "esc_spo2_felnott_normal",
-      "name": "Nincs légzési elégtelenség (felnőtt, O2-szaturáció >94%) → egyéb tényezők döntenek",
+      "name": "Nincs légzési elégtelenség (felnőtt, oxigén-szaturáció (SpO₂) >94%) → egyéb tényezők döntenek",
       "applies_to": "mind",
-      "condition_text": "O2-szaturáció > 94% önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más tényezők határozzák meg.",
+      "condition_text": "oxigén-szaturáció (SpO₂) > 94% önmagában NEM ad triázs-szintet, csak azt jelzi, hogy a légzés modifikátor nem emel; a végső szintet más tényezők határozzák meg.",
       "condition": [
         {
           "mezo": "eletkorEv",
@@ -18323,7 +18323,7 @@
           "label": "Nincs — a beteg ránézésre nem kritikus"
         },
         {
-          "value": "vitalis_disztressz",
+          "value": "vitalis_distressz",
           "label": "Nyilvánvaló vitális disztressz / periarreszt (bármely kor)"
         },
         {
@@ -18399,7 +18399,7 @@
           "label": "Nincs nehézlégzés (SpO₂ >94%, PEFR >60%)"
         }
       ],
-      "help": "A légzési munka klinikai megítélése + O2-szaturáció; COPD-snél a beteg saját alapértéke a viszonyítás.",
+      "help": "A légzési munka klinikai megítélése + oxigén-szaturáció (SpO₂); COPD-snél a beteg saját alapértéke a viszonyítás.",
       "computed": true,
       "pediatricOnly": false
     },
@@ -19234,7 +19234,7 @@
       "type": "checkbox",
       "group": "megfigyeles",
       "options": null,
-      "help": "Ilyenkor az O2-szaturáció és a PEFR a nehézlégzés-fok megítéléséhez irreleváns — a beteg definíció szerint MSTR 1.",
+      "help": "Ilyenkor az oxigén-szaturáció (SpO₂) és a PEFR a nehézlégzés-fok megítéléséhez irreleváns — a beteg definíció szerint MSTR 1.",
       "pediatricOnly": false
     },
     {

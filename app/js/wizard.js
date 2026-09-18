@@ -439,6 +439,11 @@
   // de az állítás, hogy ez a rendszer leghosszabb klinikai időköze, tényszerűen hamis:
   // él 12 órás és 2 órás klinikai időablak is a másodlagos módosítók között.)
   var NEMA_VISSZATOLTES_ORA = 2;
+  // A torlódási nézet „régóta bekapcsolva" emlékeztetőjének küszöbe. SZÁNDÉKOSAN külön
+  // konstans a megőrzési időtől, még ha most azonos is az értékük: két különböző dologról
+  // van szó, és nem szerencsés, hogy ugyanabban a percben kérdezzen rá az érvényességre,
+  // amikor a leghosszabban váró beteg lekerül a listáról.
+  var TORLODAS_EMLEKEZTETO_ORA = 12;
   var MEGORZES_MS = MEGORZES_ORA * 60 * 60 * 1000;
   var STORE_TISZTITVA = 'mstr_utolso_tisztitas_v1';
   var lejartJelentes = null;                   // {kulcsok: [...], db: n} — egyszer megjelenítendő
@@ -717,7 +722,7 @@
     }
     if (S.step === 'varolista') {
       $('lv-chip').hidden = true;
-      $('prog-step').textContent = 'Torlódás — mentőhordágyon várók';
+      $('prog-step').textContent = 'Torlódás — re-triage várólista';
       $('prog-pct').textContent = '';
       $('prog-fill').style.width = '100%';
       $('crumbs').innerHTML = '';
@@ -1036,11 +1041,12 @@
     // ezért az app nem kapcsolhatja ki magától, és nem is állíthatja, hogy már nem hatályos.
     // Csak megkérdezi. A küszöb ugyanaz a MEGORZES_ORA (egy műszak + átadás), amit az
     // adatmegőrzésnél is használunk — üzemeltetési érték, a forrás időközt nem ad meg.
-    if (percTol(t.ido) >= MEGORZES_ORA * 60) {
+    if (percTol(t.ido) >= TORLODAS_EMLEKEZTETO_ORA * 60) {
       var emlek = el('span', 'torl-emlekezteto');
-      emlek.innerHTML = ikonSvg('warn') + '<span>Több mint ' + MEGORZES_ORA +
-        ' órája bekapcsolva — még érvényben van? A megszüntetést a műszakvezető orvos rendeli el, ' +
-        'és ugyanúgy dokumentálni kell, valamint az OMSZ mentésirányítását tájékoztatni.</span>';
+      emlek.innerHTML = ikonSvg('warn') + '<span>Több mint ' + TORLODAS_EMLEKEZTETO_ORA +
+        ' órája bekapcsolva — még érvényben van? A forrás szerint az eljárásrend megszűnésekor ' +
+        'ugyanúgy kell eljárni, mint az elrendelésekor: a flow manager dokumentálja, és tájékoztatja ' +
+        'az OMSZ mentésirányítását.</span>';
       sav.appendChild(emlek);
     }
     var varoBtn = el('button', 'torl-btn'); varoBtn.type = 'button';
@@ -2630,7 +2636,7 @@
 
   RENDER.varolista = function (fo) {
     var T = KB.torlodas || {};
-    var c = kartya('Torlódás', 'Mentőhordágyon vár — re-triage', (T.sorrend || {}).kiemelt || '');
+    var c = kartya('Torlódás', 'Re-triage várólista', (T.sorrend || {}).kiemelt || '');
     var lista = varolista();
 
     var info = el('div', 'warn'); info.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
@@ -3109,6 +3115,11 @@
     gr.appendChild(tInput('fogado', 'Az értesítést fogadó neve'));
     gr.appendChild(tInput('kijeloltEllato', 'Kijelölt ellátó'));
     colL.appendChild(gr);
+    // A „Betegút" és a „Kijelölt ellátó" NEM szerepel a TETRA-nyomtatványon: ezek a
+    // 4/2026. Igazgatói Utasítás három betegútjából származó kiegészítések. Megjelöljük,
+    // hogy az ápoló tudja, mit fog viszontlátni a papíron és mit nem.
+    colL.appendChild(el('div', 'skip-hint',
+      'Az alábbi két mező a 4/2026. Igazgatói Utasításból származó kiegészítés — a TETRA-nyomtatványon nem szerepel.'));
     colL.appendChild(tChoice('betegut', 'Betegút', ['Sokktalanító', 'Őrző', 'Triázs']));
     colL.appendChild(elLabel('Értesítve'));
     colL.appendChild(tToggleSor([['nEllato', 'Ellátó'], ['nNeuro', 'Neurológus'], ['nRadiol', 'Radiológus'],
@@ -3123,8 +3134,11 @@
       var sc = el('div', 'klin-blokk'); sc.style.marginTop = '10px';
       sc.appendChild(tArea('stTunetek', 'Tünetek'));
       // A nyomtatványon KÉT KÜLÖN időpont van — korábban egybeolvasztva szerepeltek.
+      // A nyomtatványon HÁROM külön időrubrika van („Tünetkezdet" / „Last seen well" /
+      // „és feltalálás ideje"), nem kettő — a PDF szó-koordinátáiból igazolva.
       var gIdo = el('div', 'param-grid');
-      gIdo.appendChild(tInput('stTunetkezdet', 'Tünetkezdet vagy „Last seen well”', 'óó:pp'));
+      gIdo.appendChild(tInput('stTunetkezdet', 'Tünetkezdet', 'óó:pp'));
+      gIdo.appendChild(tInput('stLastSeenWell', '„Last seen well”', 'óó:pp'));
       gIdo.appendChild(tInput('stFeltalalasIdo', 'Feltalálás ideje', 'óó:pp'));
       sc.appendChild(gIdo);
       // A nyomtatvány HÁROM premorbid állapotot sorol fel: Önellátó / Fennjáró / Fekvő.
@@ -3186,7 +3200,8 @@
     if (T.jStroke) {
       L.push('— STROKE —');
       add('Tünetek', T.stTunetek);
-      add('Tünetkezdet / „Last seen well”', T.stTunetkezdet);
+      add('Tünetkezdet', T.stTunetkezdet);
+      add('„Last seen well”', T.stLastSeenWell);
       add('Feltalálás ideje', T.stFeltalalasIdo);
       add('Premorbid állapot', T.stPremorbid);
       var raceOssz = raceOsszeg(T);
