@@ -2537,3 +2537,54 @@ VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden tétel böngészőben ellenőriz
 
 MOBIL (375px) ellenőrizve: nincs vízszintes túlcsordulás, a maradék-sáv tördel, a várólistán a
 csoportsorrend MSTR 2 → „nincs szint" → rutin, mindkét re-triage jelzés a helyén.
+
+
+#### 88. egység — AMIT AZ ADVERZÁRIÁLIS ELLENŐRZÉS AZ ÉN MUNKÁMBAN TALÁLT (mind javítva)
+
+A 88. egység lezárása után három ellenőrző ügynök (regresszió / forráshűség / felület) átnézte
+a változtatásaimat. EGY BLOKKOLÓT és öt további hibát találtak — mind az enyémek.
+
+1. BLOKKOLÓ, ÉLESBEN VOLT: a globális „distressz"→„disztressz" helyesírás-javítás nemcsak
+   megjelenő SZÖVEGET írt át, hanem egy ENUM ADATÉRTÉKET is (kritikusMegjelenes:
+   'vitalis_distressz'), amit a localStorage-ban MENTVE tárolunk. A már felvett beteg emiatt
+   némán MSTR 1-ről MSTR 5-re esett. A gépi kulcs nem helyesírási kérdés: az ÉRTÉK visszaáll,
+   a CÍMKE marad helyes magyarsággal.
+   VÉDELEM: az assemble_kb.py mostantól pillanatképet készít minden gépi enum-értékről, és
+   hangosan jelzi, ha egy érték ELTŰNIK (munka/kb/_enum_ertekek.json). Próbával igazolva.
+
+2. A 12 ÓRÁS ADATTÖRLÉS ÉPP A LEGVESZÉLYEZTETETTEBB BETEGEKET TÖRÖLTE a várólistáról: azokat,
+   akiket 12 óránál régebben nem re-triázsoltak — MSTR 2-est is. A várólista aktív munkalista,
+   ezért KIVÉTEL a megőrzési szabály alól: nem törlünk, hanem feltűnően MEGJELÖLÜNK. A
+   láthatóság itt biztonságosabb, mint az eltüntetés.
+
+3. A VÁRÓLISTA-JAVÍTÁS CSAK A KÉPERNYŐRE JUTOTT EL. A vágólapra másolt szöveg — az egyetlen,
+   amit ténylegesen átadnak — még a régi sorrendet és a régi „MENTŐÁGYON VÁRÓ BETEGEK" fejlécet
+   használta. A csoportsorrend most EGY helyen van definiálva, amit mindkét felület használ.
+
+4. A TETRA-NYOMTATVÁNYON HÁROM STROKE-IDŐMEZŐ VAN, nem kettő (a lektor a PDF szó-koordinátáiból
+   igazolta): „Tünetkezdet" / „Last seen well" / „feltalálás ideje". Az előző javításom kettőre
+   bontotta; most mind a három külön mező.
+
+5. A 12 ÓRÁS EMLÉKEZTETŐ OLYAT ÁLLÍTOTT, AMIT A FORRÁS NEM MOND: a műszakvezető orvoshoz a
+   forrás csak az ÉLETBE LÉPÉST rendeli; a dokumentálás és az OMSZ-tájékoztatás a FLOW MANAGER
+   feladata. Átírva a forrás szó szerinti tartalmára.
+
+6. A „Mentőhordágyon vár" cím az EGÉSZ listára általánosított, pedig ülő (kezelőszékes) beteg
+   is van rajta. Semleges cím: „Re-triage várólista"; a pontos elhelyezés a soronkénti
+   szövegben marad, ahol igaz.
+
+Emellett: az „O2-szat"→„SpO₂" csere féloldalas volt (22 szabálymagyarázatban maradt a régi
+alak — egységesítve); a TETRA „Betegút"/„Kijelölt ellátó" mezője nincs a nyomtatványon (most
+ki van írva, hogy a 4/2026. utasításból származó kiegészítés); a torlódási emlékeztető külön
+konstanst kapott a megőrzési időtől.
+
+ÁDÁMNAK JELZENDŐ, DÖNTÉST IGÉNYEL:
+- A 4/2026. Igazgatói Utasításnak NINCS elsődleges forrásdokumentuma a projektben: az egész
+  torlódási modul (mentőágy/mentőhordágy megkülönböztetés, három betegút, re-triage előírás,
+  hatásköri mondatok) egyetlen kézzel írt KB-fájlban él, nyers kivonat nélkül. Érdemes lenne
+  az utasítás szövegét is betenni a munka/forras_kulso/ alá, hogy minden mondat visszakereshető
+  legyen.
+- A build-szkriptek és a szerkeszthető tudásbázis (munka/) szándékosan kívül maradnak a publikus
+  repón. Ez a konvenció, de egy lektor kockázatként jelezte. Magamtól nem változtattam meg.
+
+VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden javítás böngészőben ellenőrizve. Build ?v=130.
