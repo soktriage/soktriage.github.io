@@ -2534,3 +2534,6 @@ adat átírása (kb_gyermek.json → vital_tables → mervadoMaxHonap), kód-mó
     maradtak; 13 új keresőalias került be. Mind a hat próbakifejezés talál.
 
 VERIFIKÁCIÓ: jsc 74/75 (változatlan), minden tétel böngészőben ellenőrizve.
+
+MOBIL (375px) ellenőrizve: nincs vízszintes túlcsordulás, a maradék-sáv tördel, a várólistán a
+csoportsorrend MSTR 2 → „nincs szint" → rutin, mindkét re-triage jelzés a helyén.
