@@ -2665,3 +2665,39 @@ MEGERŐSÍTETT KORÁBBI DÖNTÉSEK (most már elsődleges forráson)
   határozza meg, nem az érkezési idő szerint" — pontosan ezt írja ki a képernyő.
 
 VERIFIKÁCIÓ: jsc 74/75 (változatlan), a Tudástár-keresés böngészőben ellenőrizve.
+
+
+### 2026-09-19 (90. munkaegység): CSISZOLÁS SZABAD KÉZZEL + ÚJ BEMUTATÓ ANYAGOK — build ?v=134
+
+Ádám: „nézd még át … minden mást javítsd még amit észreveszel, optimalizálj finomhangolj … esztétikai,
+szabály, írásmód, magyarság … szabad kezet kapsz" + „a prezit meg az anyagot ugyanígy, kérem a lehető
+legjobb verziót". (A belépő figyelmeztetés marad, Ádám kérésére.)
+
+FELÜLET
+- Megszólítás egységesítve: a felület túlnyomóan magázó volt, négy tegező mondat lógott ki (várólista
+  üres-szövege, tömeges törlés kérdése, Tudástár „nincs találat", TEK használati útmutató).
+- Három képernyőn a lépés-szemöldök szó szerint megismételte a kártya címét — a címek leíróvá váltak
+  („Mi a beteg fő panasza?", „Mért értékek", „Mennyire fáj?").
+- Az azonos tájékoztató/figyelmeztető dobozok 10 helyen inline stílusként voltak beégetve — most
+  szemantikus CSS-osztályok (.warn-info / -amber / -danger / -ok), egy helyen definiálva.
+- SpO₂ írásmód a két megmaradt felületi helyen.
+- KÉT VALÓDI HIBA a frissítés-utáni első betöltésnél: (1) az időbélyeg nélküli, folyamatban lévő
+  felvételt (régi build mentette) a takarítás lejártnak vette és eldobta — most megtartja; (2) a régi,
+  sima szövegként tárolt ápolónevet ugyanígy törölte, zavaró üzenettel — most átírja az új formátumra.
+  Mindkettő ugyanaz a hibaosztály: „nem tudjuk, mikor keletkezett" ≠ „lejárt".
+
+BEMUTATÓ ANYAGOK (2. generáció, Desktopon)
+- MSTR_triazs_bemutato.pptx — 24 dia, fehér alap, egyetlen vizuális motívum (lekerekített, árnyékolt
+  képernyőképek + számozott navy körök), NINCS fejléc-sáv és díszcsík. Új diák: „A rendszer számokban"
+  (stat-kártyák), „Biztonsági hálók, amelyek látszanak", „Hogyan ellenőriztük?". Minden tényadat a mai
+  állapot (415 szabály, 812 hivatkozás, 74/75, három lektorálási kör). Mind a 12 képernyőkép a MAI
+  buildből, headless Chrome-mal, előre beállított demó-állapotból (scratchpad/demo2/).
+- MSTR_triazs_leirat.docx — 10 fejezet + „Egy oldalban" összefoglaló elöl, MSTR-szint táblázat a KB-ből,
+  forrásjegyzék táblázat, lapszámozott lábléc. Új fejezetek: adatkezelés, biztonsági hálók, ellenőrzés módja.
+- QA: renderelő (LibreOffice/pdftoppm) nincs a gépen, a PowerPoint AppleScript-export időtúllépésre fut.
+  Ezért GEOMETRIAI önellenőrzés: minden szövegdoboz becsült magassága (Calibri-metrikával kalibrálva,
+  13% tartalékkal), átfedés-vizsgálat, kilógás-vizsgálat — 0 probléma. Szöveg-QA (dupla szóköz,
+  írásjel-hibák, egyenes idézőjel, római MSTR): 0 találat mindkét anyagban.
+- A generátorok: scratchpad/deck2.py és leirat2.py (a régi deck.py/leirat.py megmaradt).
+
+VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (képernyők, mobil 375px).

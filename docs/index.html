@@ -25168,7 +25168,12 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     biztos(function () {
       var raw = localStorage.getItem(STORE_AKTIV); if (!raw) return;
       var o = JSON.parse(raw);
-      if (lejart(rekordTs(o))) { localStorage.removeItem(STORE_AKTIV); torolt.push('félbehagyott felvétel'); db++; }
+      // Ha a rekordnak NINCS levezethető időbélyege (a frissítés ELŐTTI build mentette, és
+      // az aktív felvételnek azonosítója sincs, amiből a kor visszafejthető lenne), akkor
+      // MEGTARTJUK: egy folyamatban lévő felvételt nem szabad eldobni pusztán azért, mert
+      // nem tudjuk, mikor kezdték. A következő mentés már időbélyeget ad neki.
+      var oTs = rekordTs(o);
+      if (oTs != null && lejart(oTs)) { localStorage.removeItem(STORE_AKTIV); torolt.push('félbehagyott felvétel'); db++; }
     });
     // 2) parkolt (félbehagyott) betegek
     biztos(function () {
@@ -25200,8 +25205,14 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     // 5) az aktív ápoló neve is műszakhoz kötött — a SAJÁT időbélyege alapján
     biztos(function () {
       var raw = localStorage.getItem(STORE_STAFF_AKTIV); if (!raw) return;
-      var ts = raw.charAt(0) === '{' ? (JSON.parse(raw) || {}).ts : null;
-      if (lejart(ts)) { localStorage.removeItem(STORE_STAFF_AKTIV); torolt.push('aktív ápoló neve'); db++; }
+      if (raw.charAt(0) !== '{') {
+        // A frissítés ELŐTTI build csak a nevet tárolta, időbélyeg nélkül. Ezt nem
+        // töröljük (nem tudjuk, mikor rögzítették), hanem átírjuk az új formátumra
+        // mostani időbélyeggel — innentől a saját órája szerint jár le.
+        staffAktivMent(raw); return;
+      }
+      var ts = (JSON.parse(raw) || {}).ts;
+      if (ts != null && lejart(ts)) { localStorage.removeItem(STORE_STAFF_AKTIV); torolt.push('aktív ápoló neve'); db++; }
     });
     biztos(function () { localStorage.setItem(STORE_TISZTITVA, String(most())); });
     if (db > 0) lejartJelentes = { db: db, mik: torolt };
