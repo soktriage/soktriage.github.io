@@ -22010,7 +22010,7 @@
     }
   },
   "betegut": {
-    "megjegyzes": "Kizárólag MSTR III–V betegnél alkalmazható. Járóbeteg részlegre irányítható, ha MINDEN pont IGEN. A triázs megítélése/rizikóbecslése alapján a beteg bármikor a fekvőbeteg részlegre irányítható.",
+    "megjegyzes": "Kizárólag MSTR 3–5 betegnél alkalmazható. Járóbeteg részlegre irányítható, ha MINDEN pont IGEN. A triázs megítélése/rizikóbecslése alapján a beteg bármikor a fekvőbeteg részlegre irányítható.",
     "jaroFeltetelek": [
       {
         "id": "ulve",
@@ -23426,7 +23426,7 @@
     },
     "nincsTalalat": "Ehhez a kerülethez/településhez ez a segédlet nem sorol fel SE-kötelezettséget. Ez NEM jelenti, hogy a beteg elutasítható vagy elküldhető — a betegfelvételi alapelv 6. pontja szerint területi illetékességre hivatkozva más SBO-ra beteget továbbküldeni TILOS. A segédlet csak a 15 felsorolt budapesti kerületet és a Pest vármegyei / agglomerációs településeket tartalmazza.",
     "vedokorlat": "Ez a lista a DEFINITÍV ellátó szakma/klinika azonosítására szolgál — nem a felvétel eldöntésére. Területi illetékességre hivatkozva beteget más SBO-ra továbbküldeni TILOS. Instabil beteg mindig a legközelebbi SBO-ra kerül.",
-    "felulvizsgalat": "A beutalási rend évente változik — a hatályos forrást (XTEK / NNGYK) ellenőrizd. Adat: OMSZ 2025.12.03. + NNGYK ESZENY 2026.08.04."
+    "felulvizsgalat": "A beutalási rend évente változik — a hatályos forrást (XTEK / NNGYK) ellenőrizze. Adat: OMSZ 2025.12.03. + NNGYK ESZENY 2026.08.04."
   },
   "torlodas": {
     "cim": "Torlódási eljárásrend",
