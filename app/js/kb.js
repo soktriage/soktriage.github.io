@@ -22352,7 +22352,7 @@
     "cim": "SE területi ellátás (TEK)",
     "forras": "SE Területi Ellátás Segédlet — OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK-nyilvántartás (2026.08.04.)",
     "fejlec": "SEMMELWEIS EGYETEM SÜRGŐSSÉGI ORVOSTANI KLINIKA SE TERÜLETI ELLÁTÁS SEGÉDLET A 2026. évi OMSZ Sürgősségi és Akut Ügyeleti Beutalási Rend (2025.12.03.) és az NNGYK ESZENY TEK-nyilvántartás (2026.08.04.) alapján.",
-    "hasznalat": "Írd be a kerületet (pl. „IX”) vagy a település nevét (pl. „Dunaharaszti”) — ékezet nélkül is működik.",
+    "hasznalat": "Írja be a kerületet (pl. „IX”) vagy a település nevét (pl. „Dunaharaszti”) — ékezet nélkül is működik.",
     "korlat": "A tábla a beteg LAKCÍME szerinti területi ellátást mutatja. Trauma esetén a sérülés helyszíne, stroke-nál a feltalálási hely dönt. A találat tájékoztató: nem elküldési indok, és nem helyettesíti a műszakvezető orvos döntését.",
     "keruletek": [
       {

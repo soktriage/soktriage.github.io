@@ -152,6 +152,16 @@ textarea.lelet:focus{outline:none;border-color:var(--accent)}
 
 /* Figyelmeztetés */
 .warn{background:#FFF8E1;border:1px solid #F0D48A;border-radius:9px;padding:9px 12px;font-size:13px;margin-bottom:10px;color:#6D4C00}
+/* Szemantikus változatok — egy helyen, hogy a felület minden tájékoztató/figyelmeztető
+   doboza azonos legyen. (Korábban ugyanez a 3-4 színkombináció 10 helyen volt beégetve
+   inline stílusként a wizard.js-be.) */
+.warn.warn-info{background:#EBF5FB;border-color:var(--l5s);color:#1A5276}
+.warn.warn-amber{background:#FEF9E7;border-color:var(--l3s);color:var(--l3t)}
+.warn.warn-danger{background:#FDECEA;border-color:var(--l1s);color:var(--l1t);font-weight:700}
+.warn.warn-ok{background:var(--l4b);border-color:var(--l4s);color:var(--l4t)}
+.warn.warn-mt{margin-top:8px}
+/* Fejléc-gombok egységes mérete */
+.btn.btn-hdr{padding:10px 12px;font-size:13px}
 .crit-banner{color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:14px;font-weight:750;font-size:14.5px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .crit-banner .btn{background:rgba(255,255,255,.22);border:1.5px solid #fff}
 

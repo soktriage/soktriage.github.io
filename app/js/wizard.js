@@ -1385,7 +1385,7 @@
     return it;
   }
   RENDER.panaszKat = function (fo) {
-    var c = kartya(lepesFelirat('panaszKat'), 'Vezető panasz', 'Keresés (köznyelvi szó is jó) vagy böngészés szervrendszer szerint.');
+    var c = kartya(lepesFelirat('panaszKat'), 'Mi a beteg fő panasza?', 'Keresés (köznyelvi szó is jó) vagy böngészés szervrendszer szerint.');
     var kereso = el('input', 'search-box'); kereso.type = 'text';
     kereso.placeholder = 'Keresés az összes panasz közt… (pl. mellkas, láz, fejfájás)';
     kereso.value = S.panaszKereso || '';
@@ -1449,7 +1449,7 @@
   };
 
   RENDER.vital = function (fo) {
-    var c = kartya(lepesFelirat('vital'), 'Vitálparaméterek', 'Opcionális.');
+    var c = kartya(lepesFelirat('vital'), 'Mért értékek', 'Minden mező opcionális — ami megvan, az számít.');
     // Széles képernyőn két oszlop: bal = lelet-beillesztés, jobb = ABCDE-vitálok (nincs görgetés).
     var wrap = el('div', 'vital-cols');
     var colL = el('div'); var colR = el('div');
@@ -1663,7 +1663,7 @@
   var PANASZ_CENTRALIS_ALAPERTELMEZETT = ['hasi-fajdalom', 'mellkasi-fajdalom-nem-sziv-eredetu'];
 
   RENDER.fajdalom = function (fo) {
-    var c = kartya(lepesFelirat('fajdalom'), 'Fájdalom', 'VAS 0–10; fájdalomnál lokalizáció + jelleg.');
+    var c = kartya(lepesFelirat('fajdalom'), 'Mennyire fáj?', 'VAS 0–10; fájdalom esetén a helye és a jellege is.');
     // VAS
     var zones = el('div', 'vas-zones');
     zones.appendChild(el('div', 'vas-zone vas-z0', 'Nincs / enyhe (0–3)'));
@@ -1862,7 +1862,7 @@
     var vit = [];
     if (S.beteg.hr != null) vit.push('HR ' + S.beteg.hr + '/min');
     if (S.beteg.rr != null) vit.push('Légzés ' + S.beteg.rr + '/min');
-    if (S.beteg.spo2 != null) vit.push('SpO2 ' + S.beteg.spo2 + '%');
+    if (S.beteg.spo2 != null) vit.push('SpO₂ ' + S.beteg.spo2 + '%');
     if (S.beteg.sys != null || S.beteg.dia != null) {
       // Ha csak az egyik érték van meg, azt is ki kell írni — a triázs-döntést a
       // szisztolés érték hordozza, és eddig kimaradt az összegzésből, ha nem volt diasztolés.
@@ -2136,7 +2136,7 @@
     var TO = KB.torlodas || {}, torlAktiv = torlodasAktiv();
     if (szint == null) {
       var nincsSzint = el('div', 'warn');
-      nincsSzint.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+      nincsSzint.classList.add('warn-info');
       nincsSzint.innerHTML = ikonSvg('warn') + ' <b>Nincs automatikus triázs-szint</b> — a besorolás itt KÉZI. ' +
         'A járóbeteg-checklist csak MSTR III–V betegnél alkalmazható: ha a kézi besorolás MSTR I–II, a beteg a fekvőbeteg részlegre kerül.';
       colA.appendChild(nincsSzint);
@@ -2267,7 +2267,7 @@
           orz.textContent = TO.orzo.cim + ': ' + TO.orzo.szoveg;
           colA.appendChild(orz);
         }
-        var dok2 = el('div', 'warn'); dok2.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276;margin-top:8px';
+        var dok2 = el('div', 'warn warn-info warn-mt');
         dok2.innerHTML = ikonSvg('bulb') + ' <b>' + ((TO.dokumentacio || {}).cim || 'Kötelező dokumentáció') + ':</b> ' + ((TO.dokumentacio || {}).pontok || []).join(' ');
         colA.appendChild(dok2);
       }
@@ -2494,13 +2494,13 @@
           var videkiIrsz = /^[2-9]\d{3}$/.test(q.replace(/\s+/g, ''));
           var nincs = el('div', 'warn');
           if (videkiIrsz) {
-            nincs.style.cssText = 'background:#FEF9E7;border-color:var(--l3s);color:var(--l3t)';
+            nincs.classList.add('warn-amber');
             nincs.innerHTML = ikonSvg('warn') +
               ' <b>Ez nem budapesti irányítószám.</b> A kereső csak a budapesti irányítószámokat ismeri ' +
               '(1xxx). Ez NEM jelenti, hogy a település hiányzik a segédletből — kérjük, a település ' +
               'NEVÉT írja be (pl. „Dunaharaszti”).';
           } else {
-            nincs.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t)';
+            nincs.classList.add('warn-danger'); nincs.style.fontWeight = '500';
             nincs.innerHTML = ikonSvg('warn') + ' ' + (T.nincsTalalat || 'Nincs találat.');
           }
           lista.appendChild(nincs); return;
@@ -2586,7 +2586,7 @@
         nevInp = el('input', 'search-box'); nevInp.type = 'text'; nevInp.placeholder = 'pl. Dr. Kovács Péter';
         panel.appendChild(nevInp);
       }
-      var teendo = el('div', 'warn'); teendo.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+      var teendo = el('div', 'warn warn-info');
       teendo.innerHTML = ikonSvg('bulb') + ' <b>Emlékeztető:</b> ' + ((T.hatalybaLepes || {}).teendok || []).join(' ') +
         (be ? '' : ' ' + ((T.hatalybaLepes || {}).megszunes || ''));
       panel.appendChild(teendo);
@@ -2597,7 +2597,7 @@
         var maradok = varolista();
         if (maradok.length) {
           var m = el('div', 'warn');
-          m.style.cssText = 'background:#FEF9E7;border-color:var(--l3s);color:var(--l3t)';
+          m.classList.add('warn-amber');
           m.innerHTML = ikonSvg('warn') + ' <b>' + maradok.length + ' beteg van még a re-triage listán.</b> ' +
             'Ők a kikapcsolás után is megmaradnak, és a felület tetején továbbra is elérhetők lesznek — ' +
             'de a re-triage emlékeztetőt innentől nem a torlódási nézet tartja szem előtt.';
@@ -2658,17 +2658,17 @@
     var c = kartya('Torlódás', 'Re-triage várólista', (T.sorrend || {}).kiemelt || '');
     var lista = varolista();
 
-    var info = el('div', 'warn'); info.style.cssText = 'background:#EBF5FB;border-color:var(--l5s);color:#1A5276';
+    var info = el('div', 'warn warn-info');
     info.innerHTML = ikonSvg('bulb') + ' <b>Emlékeztető, nem riasztás</b> — az app nem figyeli a beteget, és nem ad hangjelzést. A lista <b>csak ezen a készüléken</b> él, a másik triázs-állomás nem látja.';
     c.appendChild(info);
 
     if (!lista.length) {
-      c.appendChild(el('div', 'result-none', 'A várólista üres. A betegút képernyőn, torlódás módban helyezhetsz ide beteget.'));
+      c.appendChild(el('div', 'result-none', 'A várólista üres. A Betegút képernyőn, torlódási nézetben lehet ide beteget felvenni.'));
     } else {
       var kritikus = lista.filter(function (v) { return v.szint === 1 || v.szint === 2; });
       if (kritikus.length) {
         var kr = el('div', 'warn');
-        kr.style.cssText = 'background:#FDECEA;border-color:var(--l1s);color:var(--l1t);font-weight:700';
+        kr.classList.add('warn-danger');
         kr.innerHTML = ikonSvg('warn') + ' <b>MSTR 1–2 nem várakozhat</b> — kapacitástól függetlenül azonnal az ellátótérbe, a tartalék ágyra. (' + kritikus.length + ' beteg a listán.)';
         c.appendChild(kr);
       }
@@ -2764,7 +2764,7 @@
       var ur = el('button', 'btn btn-ghost', 'Műszak zárása — lista ürítése'); ur.type = 'button';
       ur.onclick = function () {
         overlayMutat('Várólista ürítése', function (p2, bz) {
-          p2.appendChild(el('div', null, 'Biztosan törlöd mind a ' + varolista().length + ' tételt? Ez nem vonható vissza.'));
+          p2.appendChild(el('div', null, 'Biztosan törli mind a ' + varolista().length + ' tételt? Ez nem vonható vissza.'));
           var s2 = el('div', 'nav-row'); s2.style.marginTop = '12px';
           var m2 = el('button', 'btn btn-ghost', 'Mégse'); m2.type = 'button'; m2.onclick = bz; s2.appendChild(m2);
           s2.appendChild(el('span', 'spacer'));
@@ -3010,7 +3010,7 @@
         var fej = el('div', 'card-eye', tal.length + ' találat');
         tart.appendChild(fej);
         if (!tal.length) {
-          var n = el('div', 'skip-hint'); n.textContent = 'Nincs találat. Próbáld más szóval, vagy töröld a keresést a szekciókhoz.';
+          var n = el('div', 'skip-hint'); n.textContent = 'Nincs találat. Próbálja más szóval, vagy törölje a keresést a szekciók megjelenítéséhez.';
           tart.appendChild(n);
         }
         tal.slice(0, 40).forEach(function (x) { tart.appendChild(tudastarTetelDoboz(x)); });
@@ -3204,10 +3204,10 @@
       if (rp != null) {
         var lvo = el('div', 'warn');
         if (rp >= 5) {
-          lvo.style.cssText = 'background:var(--l1b);border-color:var(--l1s);color:var(--l1t);font-weight:700';
+          lvo.classList.add('warn-danger');
           lvo.innerHTML = ikonSvg('warn') + ' <b>RACE ' + rp + ' — nagyérelzáródás (LVO) gyanúja.</b> A nyomtatvány ennyit mond ki: „RACE score ≥ 5 pont; high LVO risk". A célintézmény kijelölése NEM ezen a lapon dől el — arról a műszakvezető orvos dönt.';
         } else {
-          lvo.style.cssText = 'background:var(--l4b);border-color:var(--l4s);color:var(--l4t)';
+          lvo.classList.add('warn-ok');
           lvo.innerHTML = ikonSvg('bulb') + ' RACE ' + rp + ' — a nyomtatvány LVO-küszöbe (5) alatt.';
         }
         sc.appendChild(lvo);
@@ -3273,7 +3273,7 @@
     L.push('— A: ÁLLAPOTÉRTÉKELÉS, VITÁLIS PARAMÉTEREK —');
     var vit = [];
     if (T.bp) vit.push('RR ' + T.bp + ' Hgmm'); if (T.p) vit.push('P ' + T.p + '/min');
-    if (T.spo2) vit.push('SpO2 ' + T.spo2 + '%'); if (T.lsz) vit.push('LSZ ' + T.lsz + '/min');
+    if (T.spo2) vit.push('SpO₂ ' + T.spo2 + '%'); if (T.lsz) vit.push('LSZ ' + T.lsz + '/min');
     if (T.temp) vit.push('T ' + T.temp + ' °C'); if (T.gcs) vit.push('GCS ' + T.gcs);
     if (T.vcukor) vit.push('vércukor ' + T.vcukor + ' mmol/l');
     if (vit.length) L.push(vit.join(' · '));
@@ -3296,21 +3296,21 @@
     if (!hdr || document.getElementById('uj-beteg-hdr')) return;
     var tetraBtn = elIko('button', 'btn btn-ghost', 'radio', 'TETRA'); tetraBtn.id = 'tetra-hdr'; tetraBtn.type = 'button';
     tetraBtn.title = 'TETRA / telefon riasztás adatfelvételi lap (a triázstól független)';
-    tetraBtn.style.cssText = 'padding:10px 12px;font-size:13px';
+    tetraBtn.classList.add('btn-hdr');
     tetraBtn.onclick = function () { if (S.step !== 'tetra') { S.tetraElozoStep = S.step; S.step = 'tetra'; render(); } };
     hdr.appendChild(tetraBtn);
     var tudBtn = elIko('button', 'btn btn-ghost', 'book', 'Tudástár'); tudBtn.id = 'tud-hdr'; tudBtn.type = 'button';
     tudBtn.title = 'Tudástár — MSTR-szintek, döntési táblák, területi ellátás (TEK), folyamat-szabályok, fogalmak. Bármikor elérhető.';
-    tudBtn.style.cssText = 'padding:10px 12px;font-size:13px';
+    tudBtn.classList.add('btn-hdr');
     tudBtn.onclick = function () { if (S.step !== 'tudastar') { S.tudastarElozoStep = S.step; S.step = 'tudastar'; render(); } };
     hdr.appendChild(tudBtn);
     var torlBtn = elIko('button', 'btn btn-ghost', 'bolt', 'Torlódás'); torlBtn.id = 'torl-hdr'; torlBtn.type = 'button';
     torlBtn.title = 'Torlódási eljárásrend (4/2026. Igazgatói Utasítás) — a nézet be-/kikapcsolása. Az elrendelés a műszakvezető orvos hatásköre.';
-    torlBtn.style.cssText = 'padding:10px 12px;font-size:13px';
+    torlBtn.classList.add('btn-hdr');
     torlBtn.onclick = torlodasKapcsolo;
     hdr.appendChild(torlBtn);
     var tort = elIko('button', 'btn btn-ghost', 'history', 'Előzmények'); tort.id = 'tort-hdr'; tort.type = 'button';
-    tort.style.cssText = 'padding:10px 12px;font-size:13px';
+    tort.classList.add('btn-hdr');
     tort.onclick = elozmenyekMutat;
     hdr.appendChild(tort);
     var b = elIko('button', 'btn btn-ghost', 'refresh', 'Új beteg'); b.id = 'uj-beteg-hdr'; b.type = 'button';
