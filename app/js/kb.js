@@ -22063,7 +22063,20 @@
         "8. Traumát is szenvedett, de SBO-kivizsgálást igénylő beteg elsődleges ellátása az SBO-n történik (kivétel: azonnali traumatológiai beavatkozási igény, pl. polytrauma, kompromittált végtag-keringés).",
         "9. Bármilyen vitás, nem egyértelmű vagy nem szabályozott helyzetben a beteg érdeke az elsődleges.",
         "10. Bármilyen anomáliát, téves betegutat tapasztalva a fenti elvek betartandók."
-      ]
+      ],
+      "cimek": [
+        "Kritikus beteg: azonnali ellátás, téves betegút ellenére is",
+        "Egykapus akut ellátás a SOK-on, diszpozíció a SOK döntése",
+        "Saját lábon érkezőt triage és ambuláns lap nélkül nem lehet elirányítani",
+        "Mentővel hozott beteg csak ambuláns lappal szállítható tovább",
+        "Fekvőbeteg-intézményből referált beteg a szakklinika ügyeletéhez",
+        "Területi illetékességre hivatkozva más SBO-ra küldeni TILOS",
+        "TETRA-referálás: stroke / PCI / speciális szakterület; egyébként OMSZ-betegút",
+        "Traumás beteg SBO-kivizsgálással: elsődleges ellátás az SBO-n",
+        "Vitás vagy nem szabályozott helyzetben a beteg érdeke az elsődleges",
+        "Anomália, téves betegút esetén is a fenti elvek érvényesek"
+      ],
+      "cimekMegjegyzes": "A rövid címek a projekt saját, tartalmat jelző összefoglalói; a forrás a pontokat csak sorszámozza. A teljes szöveg a forrásé."
     },
     "linkek": [
       {

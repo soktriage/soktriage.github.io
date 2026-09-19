@@ -2303,7 +2303,14 @@
       var det = el('details', 'detour-wrap');
       det.appendChild(el('summary', null, (fsz.cim || 'SE SOK felvételi szabályok')));
       var body = el('div', 'detour-body');
-      fsz.pontok.forEach(function (p) { var d = el('div'); d.style.cssText = 'font-size:12.5px;line-height:1.5;margin-bottom:6px;color:var(--text)'; d.textContent = p; body.appendChild(d); });
+      fsz.pontok.forEach(function (p, i) {
+        // sorszám + rövid, tartalmat jelző cím félkövéren, alatta a forrás teljes szövege
+        var d = el('div'); d.style.cssText = 'font-size:12.5px;line-height:1.5;margin-bottom:8px;color:var(--text)';
+        var rc = (fsz.cimek || [])[i];
+        if (rc) { var b = el('b'); b.textContent = (i + 1) + '. ' + rc; d.appendChild(b); d.appendChild(el('br')); }
+        d.appendChild(document.createTextNode(rc ? p.replace(/^\s*\d+\.\s*/, '') : p));
+        body.appendChild(d);
+      });
       if (fsz.forras) { var fr2 = el('div', 'reszlet-forras'); fr2.innerHTML = ikonSvg('book') + '<span>' + fsz.forras + '</span>'; body.appendChild(fr2); }
       det.appendChild(body); colB.appendChild(det);
     }
@@ -2903,7 +2910,10 @@
     });
     var fsz = (K.betegut || {}).felvetelSzabalyok;
     if (fsz) (fsz.pontok || []).forEach(function (p, i) {
-      t.push({ szekcio: 'felvetel', cim: 'Felvételi alapelv ' + (i + 1) + '.', szoveg: p, forrasSzoveg: fsz.forras });
+      // A cím elárulja a tartalmat — a puszta sorszám („Felvételi alapelv 3.") miatt minden pontot le
+      // kellett nyitni, hogy kiderüljön, miről szól. A rövid címek a KB-ből jönnek (fsz.cimek).
+      var rc = (fsz.cimek || [])[i];
+      t.push({ szekcio: 'felvetel', cim: (i + 1) + '. ' + (rc || 'Felvételi alapelv'), szoveg: p.replace(/^\s*\d+\.\s*/, ''), forrasSzoveg: fsz.forras });
     });
     var TO = K.torlodas || {};
     if (TO.utak) {
