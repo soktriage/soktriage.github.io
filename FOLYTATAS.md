@@ -2701,3 +2701,64 @@ BEMUTATÓ ANYAGOK (2. generáció, Desktopon)
 - A generátorok: scratchpad/deck2.py és leirat2.py (a régi deck.py/leirat.py megmaradt).
 
 VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (képernyők, mobil 375px).
+
+
+### 2026-09-19 (91. munkaegység): „ELÁRULJA-E A CÍM A TARTALMAT?" — két független lektor, build ?v=137
+
+Ádám konkrét észrevétele: a Tudástárban a felvételi alapelvek csak „Felvételi alapelv 1., 2., …"
+címmel szerepeltek, ezért mindet le kellett nyitni. Kérése: „ilyen szemmel is nézzed át az egészet,
+független szemekkel is."
+
+KÉT LEKTOR, ELTÉRŐ SZEMPONTBÓL
+(1) információ-architektúra: elárulja-e a felirat a tartalmat kattintás nélkül; fel van-e oldva
+    minden rövidítés; következetes-e ugyanaz a fogalom minden képernyőn.
+(2) „első napos triázs ápoló", sietve, tablettel: egy pillantásból értem-e, mit látok és mit tegyek.
+Együtt ~60 megállapítás, mind reprodukálva; a már megoldottakat kiszűrtem.
+
+AZ ÉRDEMI TALÁLATOK (mind javítva)
+- A Tudástár 12 DÖNTÉSI TÁBLÁJÁNAK OSZLOPCÍMEI NYERS PROGRAMOZÓI KULCSOK voltak:
+  „o2_szaturacio", „sulyos_8_10", „becsult_pefr", „also_gorbe", „leiras". Most olvasható címek,
+  és ismeretlen kulcsra is automatikus, olvasható alak (új tábla sem tud nyers kulcsot mutatni).
+- EGY KÉRDÉSRE NEM LEHETETT „NEM"-ET MONDANI: a padló-szűrés egyes esetekben egyetlen opciót
+  hagyott (nem szív eredetű mellkasi fájdalomnál a „tépő-szaggató"), és csak a kihagyó gombbal
+  lehetett továbbmenni — ami az ápoló fejében nem ugyanaz. A LEGENYHÉBB opció mostantól mindig
+  látszik, az elrejtetteket pedig megnevezzük („Nem jelenik meg: Enyhe, Közepes — az eddigi
+  MSTR 2-t nem változtatná"), különben a lista lyukasnak látszott.
+- AZ EREDMÉNYKÉPERNYŐN NEM LÁTSZOTT A DÖNTÉS ALAPJA: a mért értékek csak a lenyitható részletes
+  útban voltak. Most a Kitöltési napló tetején: „pulzus 118/perc · légzésszám 24/perc · testhő 38,6 °C".
+- ≤700 px-en a fejléc öt gombja CSAK IKON volt (villám, környíl…) — tableten, hover nélkül
+  megfejthetetlen, köztük az „Új beteg". A felirat marad, kisebb betűvel, két sorban.
+- Torlódás módban a VÁRÓLISTÁRA TEVŐ GOMBOK összecsukott lenyitók mögött voltak, és a cím nem
+  árulta el, hogy ott cselekvés van. A cím most jelzi: „→ itt: várólistára tétel".
+- A félbehagyott felvétel × gombja egy koppintással, megerősítés nélkül törölt.
+- „az MSTR 2 padlót nem befolyásolják" — a „padló" belső fejlesztői fogalom volt (és a
+  számegyeztetés is hibás). Most: „a már elért MSTR 2-nél csak enyhébb szintet adhatnának".
+
+FELIRATOK, RÖVIDÍTÉSEK, KÖVETKEZETESSÉG
+- Feloldva az első előfordulásnál: KBA, SOK, SBO, PPE, LSW („utoljára tünetmentesen látták"),
+  INK, SBAR. „RESP" → Légzésszám; „SYS/DIA" → szisztolés (felső) / diasztolés (alsó);
+  „frailty" → „törékeny (frail)"; GCS „Sz-V-M" → „E–V–M"; „+1" → „+1 további forrás".
+- „checklist" → „ellenőrzőlista"; római MSTR-számok → arab (a badge-ekkel egyezően);
+  „(előtöltve)" → „(a triázs-adatokból előre kitöltve — ellenőrizze)".
+- Egységesítve: Betegút · a megfigyelés-lépés neve · „Előzmények — korábbi betegek" ·
+  „Félbehagyott felvételek" · fejléc alcím „Döntéstámogató · tudásbázis v1.0" ·
+  „Torlódás" → „Torlódási nézet" · „Kikapcsolás" → „Nézet kikapcsolása" (40 px érintőfelület) ·
+  „0 vár →" → „Várólista: 0 beteg →" · „Aktuális: 2" → „Eddigi MSTR: 2".
+- Az újraértékelés egységesen magyarul és egyértelműen: „ÚJRAÉRTÉKELÉS ESEDÉKES — 28 perc telt el
+  az utolsó óta (előírás: 15 percenként)" a kétértelmű „28 perce" helyett.
+- A CEDIS latinos kategórianevei magyar alcímet kaptak (Gastrointestinalis → emésztőrendszeri),
+  a forráshű név megtartásával.
+- Az infekciókontroll-chipek fölé kérdés került („Jelölje, ami a betegre igaz").
+- Maradék tegezés magázóra (Betegút, Tudástár, TEK-felülvizsgálat, KB-szövegek).
+
+FELVÉTELI ALAPELVEK (az eredeti kérés)
+Mind a 10 pont rövid, tartalmat jelző címet kapott a tudásbázisban (kb_betegut.json →
+felvetelSzabalyok.cimek), pl. „6. Területi illetékességre hivatkozva más SBO-ra küldeni TILOS".
+A KB rögzíti, hogy ezek a projekt saját szerkesztői összefoglalói — a forrás csak sorszámoz,
+a teljes szöveg változatlanul a forrásé. A Betegút képernyő lenyitója is ezt kapta.
+
+BEMUTATÓ ANYAGOK ÚJRAGENERÁLVA a v137 buildből (a feliratok megváltoztak): 12 friss képernyőkép,
+deck 24 dia / leírat 10 fejezet, geometriai önellenőrzés 0 probléma, szöveg-QA 0 találat, mind a
+24 dia vizuálisan átnézve (qlmanage-render).
+
+VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali + 375 px), konzolhiba nincs.
