@@ -351,7 +351,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 @media (min-width:1000px){.mezo-koz{height:7px}}
 
 /* Életkor gyors-kategória */
-.kor-chip{border:2px solid var(--border);background:#fff;border-radius:12px;padding:13px 10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:2px;align-items:flex-start;transition:all .13s}
+.kor-chip{border:2px solid var(--border);background:#fff;border-radius:12px;padding:13px 10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;transition:all .13s}
 .kor-chip:hover{border-color:var(--accent);background:var(--hover-bg);transform:translateY(-1px)}
 .kor-chip.sel{border-color:var(--accent);background:var(--accent-bg)}
 .kor-chip-fo{font-size:15px;font-weight:700;color:var(--text)}

@@ -367,7 +367,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 @media (min-width:1000px){.mezo-koz{height:7px}}
 
 /* Életkor gyors-kategória */
-.kor-chip{border:2px solid var(--border);background:#fff;border-radius:12px;padding:13px 10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:2px;align-items:flex-start;transition:all .13s}
+.kor-chip{border:2px solid var(--border);background:#fff;border-radius:12px;padding:13px 10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;transition:all .13s}
 .kor-chip:hover{border-color:var(--accent);background:var(--hover-bg);transform:translateY(-1px)}
 .kor-chip.sel{border-color:var(--accent);background:var(--accent-bg)}
 .kor-chip-fo{font-size:15px;font-weight:700;color:var(--text)}
@@ -25124,11 +25124,19 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   function parkoltak() { try { return JSON.parse(localStorage.getItem(STORE_PARK) || '[]'); } catch (e) { return []; } }
   function parkoltakMent(arr) { try { localStorage.setItem(STORE_PARK, JSON.stringify(arr)); } catch (e) {} }
   function ujId() { return 'p' + Date.now() + Math.floor(Math.random() * 1000); }
+  // Gyors (pontos kor nélküli) felnőtt kor-kategóriák. Az 'ev' belső helyettesítő érték, SOHA nem jelenik meg.
+  // 76 > 75, így a 75 év feletti lázas beteg MSTR 2 szabálya (esc_idos_lazas_immunszupprimalt) tüzel;
+  // 45 minden felnőtt küszöb (≥16, <18, >75) szempontjából a 18–75 éves sávba esik.
+  var KOR_KATOK = {
+    'Felnőtt': { ev: 45, gomb: '18–75 év', al: 'pontos kor nélkül', felirat: 'Felnőtt (18–75 év)' },
+    'Idős75': { ev: 76, gomb: '75 év felett', al: 'pontos kor nélkül', felirat: '75 év feletti' }
+  };
+  function korKatFelirat(k) { return KOR_KATOK[k] ? KOR_KATOK[k].felirat : k; }
   function betegCimke() {
     if (S.azon && (S.azon.nev || S.azon.id)) return S.azon.nev || S.azon.id;
     var p = (KB.complaints || []).filter(function (x) { return x.id === S.beteg.vezetoPanaszId; })[0];
     if (p) return p.name;
-    if (S.beteg.korKat) return S.beteg.korKat + ' beteg';   // pl. "Felnőtt beteg" — a 45 csak belső helyettesítő érték
+    if (S.beteg.korKat) return korKatFelirat(S.beteg.korKat) + ' beteg';   // pl. "75 év feletti beteg" — a szám csak belső helyettesítő érték
     if (S.beteg.eletkorEv != null) return S.beteg.eletkorEv + ' éves beteg';
     return 'Névtelen beteg';
   }
@@ -25500,7 +25508,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     var cr = $('crumbs'); cr.innerHTML = '';
     if (S.azon && (S.azon.id || S.azon.nev)) cr.appendChild(crumbIko('idcard', (S.azon.nev || S.azon.id)));
     if (S.beteg.korKat || S.beteg.eletkorEv != null || S.beteg.eletkorHonap != null) {
-      var korTxt = S.beteg.korKat ? S.beteg.korKat : (S.beteg.eletkorEv != null ? (S.beteg.eletkorEv + ' év') : (S.beteg.eletkorHonap + ' hó'));
+      var korTxt = S.beteg.korKat ? korKatFelirat(S.beteg.korKat) : (S.beteg.eletkorEv != null ? (S.beteg.eletkorEv + ' év') : (S.beteg.eletkorHonap + ' hó'));
       cr.appendChild(crumbIko('person', korTxt + (!S.beteg.korKat && er && er.szarmaztatott.gyermek ? ' · gyermek' : '')));
     }
     if (S.beteg.vezetoPanaszId) {
@@ -26061,18 +26069,25 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
   };
 
   RENDER.kor = function (fo) {
-    var c = kartya(lepesFelirat('kor'), 'A beteg életkora', 'Felnőtt, vagy gyermeknél pontos kor.');
-    // A felnőtt életkornak a forrás szerint NINCS triázs-jelentősége (egyetlen szabály sem használ felnőtt
-    // kor-küszöböt); csak a felnőtt/gyermek határ (18 év) számít. Ezért egyetlen „Felnőtt" gomb. (A ≥80 majd
-    // a betegút/diszpozíció-modulban kap jelentőséget — ott vezetjük be.)
+    var c = kartya(lepesFelirat('kor'), 'A beteg életkora', 'Felnőttnél elég a korcsoport (75 év alatt vagy felett), gyermeknél pontos kor kell.');
+    // A felnőtt életkornak EGY triázs-küszöbe van: a forrás (jegyzet 86. o.) az immunszuppresszív
+    // állapotok között nevesíti a 75 év feletti életkort (szabály: esc_idos_lazas_immunszupprimalt,
+    // eletkorEv > 75 + láz → MSTR 2). Ezért a gyors választás KÉT gomb: 18–75 év és 75 év felett.
+    // A többi felnőtt kor-feltétel (eletkorEv ≥ 16, < 18; eletkorHonap ≥ 36) mindkét gombra
+    // azonosan dől el. HA ÚJ felnőtt kor-küszöb kerül a KB-ba, ezt a felosztást bővíteni kell!
     c.appendChild(el('div', 'card-eye', 'Felnőtt'));
-    var felnottBtn = el('button', 'kor-chip kor-chip-full' + (S.beteg.korKat === 'Felnőtt' ? ' sel' : '')); felnottBtn.type = 'button';
-    felnottBtn.innerHTML = '<span class="kor-chip-fo">Felnőtt</span><span class="kor-chip-al">18 év felett</span>';
-    // FIGYELEM: a 45 nem a beteg életkora, hanem belső helyettesítő érték, hogy a
-    // korfüggő FELNŐTT szabályok (pl. eletkorEv>=16) le tudjanak futni. A korKat='Felnőtt'
-    // jelzi, hogy konkrét életkor NINCS megadva — minden megjelenítés ezt használja.
-    felnottBtn.onclick = function () { S.beteg.eletkorEv = 45; S.beteg.eletkorHonap = null; S.beteg.korKat = 'Felnőtt'; ertekel(); naplo('Életkor', 'Felnőtt (≥18 év)'); megy('panaszKat'); };
-    c.appendChild(felnottBtn);
+    var kgrid = el('div', 'param-grid');
+    Object.keys(KOR_KATOK).forEach(function (kulcs) {
+      var kk = KOR_KATOK[kulcs];
+      var b = el('button', 'kor-chip kor-chip-full' + (S.beteg.korKat === kulcs ? ' sel' : '')); b.type = 'button';
+      b.innerHTML = '<span class="kor-chip-fo">' + kk.gomb + '</span><span class="kor-chip-al">' + kk.al + '</span>';
+      // FIGYELEM: az eletkorEv itt NEM a beteg életkora, hanem belső helyettesítő érték (45 ill. 76),
+      // hogy a korfüggő felnőtt szabályok le tudjanak futni. A korKat jelzi, hogy pontos életkor
+      // NINCS megadva — minden megjelenítés a korKatFelirat()-ot használja, a számot soha.
+      b.onclick = function () { S.beteg.eletkorEv = kk.ev; S.beteg.eletkorHonap = null; S.beteg.korKat = kulcs; ertekel(); naplo('Életkor', kk.felirat); megy('panaszKat'); };
+      kgrid.appendChild(b);
+    });
+    c.appendChild(kgrid);
     var sp = el('div'); sp.style.height = '16px'; c.appendChild(sp);
     c.appendChild(el('div', 'card-eye', 'Vagy pontos életkor'));
     var grid = el('div', 'param-grid');
@@ -26282,7 +26297,8 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     var lab = el('label', null, cimke); lab.htmlFor = 'p-' + kulcs; w.appendChild(lab);
     var inp = el('input'); inp.type = 'number'; inp.id = 'p-' + kulcs; inp.min = min; inp.max = max; inp.step = step;
     inp.setAttribute('inputmode', 'decimal');   // mobil/tablet: numerikus billentyűzet
-    if (S.beteg[kulcs] != null) inp.value = S.beteg[kulcs];
+    // gyors kor-kategóriánál az eletkorEv csak helyettesítő érték — nem írjuk be pontos korként
+    if (S.beteg[kulcs] != null && !((kulcs === 'eletkorEv' || kulcs === 'eletkorHonap') && S.beteg.korKat)) inp.value = S.beteg[kulcs];
     function plauzibilisJelzes() {
       var v = inp.value, ki = v !== '' && ((min != null && +v < min) || (max != null && +v > max));
       inp.style.borderColor = ki ? 'var(--l1)' : ''; inp.style.background = ki ? 'var(--l1b)' : '';
@@ -26653,7 +26669,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     var azon = [];
     if (S.azon.nev) azon.push(S.azon.nev);
     if (S.azon.id) azon.push('azonosító: ' + S.azon.id);
-    if (S.beteg.korKat) azon.push(S.beteg.korKat);
+    if (S.beteg.korKat) azon.push(korKatFelirat(S.beteg.korKat));
     else if (S.beteg.eletkorEv != null) azon.push(S.beteg.eletkorEv + ' év');
     else if (S.beteg.eletkorHonap != null) azon.push(S.beteg.eletkorHonap + ' hónapos');
     if (azon.length) so.push('Beteg: ' + azon.join(' · '));
@@ -26884,8 +26900,9 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     var e = LeletParser.leletFeldolgoz(szoveg);
     var nev = { hr: 'Pulzus', rr: 'Légzésszám', map: 'MAP', spo2: 'SpO₂', sys: 'Vérnyomás (szisztolés)', dia: 'Vérnyomás (diasztolés)', temp: 'Testhő', gcsE: 'GCS-szem', gcsV: 'GCS-verb.', gcsM: 'GCS-mot.' };
     Object.keys(e.parameterek).forEach(function (k) { if (k !== 'map') S.beteg[k] = e.parameterek[k]; });
-    if (e.azonositok.eletkorEv != null) S.beteg.eletkorEv = e.azonositok.eletkorEv;
-    if (e.azonositok.eletkorHonap != null) S.beteg.eletkorHonap = e.azonositok.eletkorHonap;
+    // a leletben talált pontos kor felülírja a gyors kor-kategóriát (és annak helyettesítő értékét)
+    if (e.azonositok.eletkorEv != null) { S.beteg.eletkorEv = e.azonositok.eletkorEv; S.beteg.eletkorHonap = null; S.beteg.korKat = null; }
+    if (e.azonositok.eletkorHonap != null) { S.beteg.eletkorHonap = e.azonositok.eletkorHonap; S.beteg.eletkorEv = null; S.beteg.korKat = null; }
     ertekel();
     var html = '<span class="ok">Átvéve: ' + e.talalatok.filter(function (k) { return k !== 'map'; }).map(function (k) { return nev[k] || k; }).join(', ') + '.</span>';
     if (e.azonositok.nev) html += ' Beteg: <b>' + htmlBiztos(e.azonositok.nev) + '</b>';
@@ -26919,7 +26936,9 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
       kulcsok.forEach(function (k) {
         var tr = el('tr'); tr.appendChild(el('td', null, k));
         var td = el('td'); var v = t.hasznaltAdatok[k];
-        if (v == null) td.innerHTML = '<span class="hianyzo-ertek">nincs megadva</span>'; else td.textContent = String(v);
+        if (v == null) td.innerHTML = '<span class="hianyzo-ertek">nincs megadva</span>';
+        else if ((k === 'eletkorEv' || k === 'eletkorHonap') && S.beteg.korKat) td.textContent = korKatFelirat(S.beteg.korKat) + ' (pontos kor nincs megadva)';
+        else td.textContent = String(v);
         tr.appendChild(td); tabla.appendChild(tr);
       });
       blokk('Felhasznált adatok', tabla);
