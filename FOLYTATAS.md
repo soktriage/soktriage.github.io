@@ -2762,3 +2762,34 @@ deck 24 dia / leírat 10 fejezet, geometriai önellenőrzés 0 probléma, szöve
 24 dia vizuálisan átnézve (qlmanage-render).
 
 VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali + 375 px), konzolhiba nincs.
+
+### 2026-09-25: bemutató és leírat csiszolása
+- Deck: „Aktuális” jelző helyett „Eddigi MSTR” (8. dia), három helyett négy lektorálási kör, „padló” zsargon kivéve,
+  pontosvessző és „, és” eltávolítva, mind a 24 diához előadói jegyzet. Quick Look-render 24/24 átnézve.
+- Leírat: újraírva fekete-fehér házi stílusban (Calibri 11, sorkizárt, Címsor 1-3, 0,5 pt fekete táblák, csak oldalszám,
+  intézményi blokk, aláírás). Szöveg-QA 0 találat. A Word AppleScript-exportja időtúllépéssel leáll, csak az 1. oldal renderelve.
+
+### 2026-09-25: krónikus/COPD szaturáció-válasz elérhető MSTR 1-nél is (b567713, v138)
+- HIBA: felnőtt, SpO₂ 88, kitöltetlen „akut vagy krónikus?” → MSTR 1 a szaturációs padlóból (biztonságos alapeset,
+  marad). De MSTR 1-nél a megfigyelés-lépést a kihagyó logika átugrotta, és a sáv „További kitöltés nem szükséges”-t
+  írt — így a forrás szerinti krónikus/COPD-enyhítés (tankönyv 31. o.) a normál menetben elérhetetlen volt.
+- JAVÍTÁS: a motor megnevezi, mely padlók függnek az akut/krónikus választól (`o2AlapertekFuggo`); amíg van ilyen,
+  az `o2Akut` és a `relativO2Eses` kérdés releváns, a lépés nem marad ki. Ha az MSTR 1 CSAK ebből a padlóból jön,
+  a piros sáv ezt kimondja, és „Akut vagy krónikus? →” gombot ad. Gyermeknél nincs változás.
+- Regresszió: `jsc app/tests/o2_alapertek_jsc.js` (8/8). Fő tesztkészlet 74/75 (eset_47 szándékos). Böngészőben:
+  60 év, légszomj, SpO₂ 88 → a kérdés megjelenik; „Krónikus” → MSTR 4; konzolhiba nincs.
+- Párhuzamosan egy másik munkamenet a felnőtt korkategórián (75 év felett, v139) dolgozott ugyanazokban a fájlokban;
+  ezért csak a saját változásaim kerültek a commitba (tiszta HEAD-ből épített dist/docs).
+
+### 2026-09-25: alultriázs-javítás — a „Felnőtt" gomb elnyelte a 75 év feletti lázas beteget (v139)
+- HIBA: a gyors „Felnőtt" gomb belső helyettesítő életkora 45 volt, így az esc_idos_lazas_immunszupprimalt
+  (eletkorEv > 75 + láz → MSTR 2, jegyzet 86. o.) sosem tüzelt. Láz 38,6 °C, ép vitálok: pontos 80 év → MSTR 2,
+  gombbal → MSTR 4.
+- JAVÍTÁS (wizard.js, KOR_KATOK): két gomb — „18–75 év" (helyettesítő 45) és „75 év felett" (helyettesítő 76).
+  A KB összes felnőtt kor-feltétele átnézve: eletkorEv ≥16, <18 (serdülő-figyelmeztetés), >75; eletkorHonap ≥36 —
+  a 45 és 76 mindenhol ugyanúgy dől el, kivéve a >75-öt. Új felnőtt kor-küszöbnél a felosztást bővíteni kell (kódkomment).
+- A helyettesítő szám sehol nem látszik: fejléc-morzsa, betegcímke, SBAR/összesítő, a szabály-részletpanel
+  „Felhasznált adatok" sora (eddig „eletkorEv 45"-öt mutatott!) és a pontos-kor mező (visszalépéskor 45-tel töltődött ki)
+  a korKatFelirat()-ot használja / üres marad. A leletből átvett pontos kor most törli a gyors kategóriát.
+- KB nem változott. jsc 74/75 (csak eset_47), o2_alapertek 8/8; böngészőben: „75 év felett" → MSTR 2,
+  „18–75 év" → MSTR 4, konzolhiba nincs, 375 px rendben.
