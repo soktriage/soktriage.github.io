@@ -2793,3 +2793,14 @@ VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali 
   a korKatFelirat()-ot használja / üres marad. A leletből átvett pontos kor most törli a gyors kategóriát.
 - KB nem változott. jsc 74/75 (csak eset_47), o2_alapertek 8/8; böngészőben: „75 év felett" → MSTR 2,
   „18–75 év" → MSTR 4, konzolhiba nincs, 375 px rendben.
+
+### 2026-09-25: olvasnivaló (handout) a triázs tanfolyamra jelentkező hallgatónak
+- munka/handout/handout.py (+ stilus.py) → Desktop/MSTR_triazs_olvasnivalo.docx. Három rész: MSTR alapok, a felület, technikai háttér
+  (motor, háromértékű logika, minimum-szabály, dinamikus kérdezés, tárolás, KB-készítés és az MI szerepe). Két független kör: tartalmi/didaktikai,
+  technikai (kód vs. állítás), nyelvi, majd adverzáriális újraellenőrzés. Minden szám a kb.js-ből / motorfuttatásból.
+- A lektorálás két APP-hibát talált, mindkettő azóta JAVÍTVA külön munkamenetben (b567713 v138, a612920 v139, lásd fent):
+  1. „Felnőtt” gomb eletkorEv=45 helyettesítő → az esc_idos_lazas_immunszupprimalt (>75 év + láz → MSTR 2) sosem tüzel (alultriázs).
+  2. SpO₂-padló MSTR 1-nél a megfigyelés lépés kimarad → az o2Akut „krónikus” válasz előre haladva nem érhető el (túltriázs).
+- Tartalmi pontosítások a deckben/leíratban: az első megtekintés 6 kritikus jel (1 közülük MSTR 2), nem „7 a jegyzet 204. oldaláról”;
+  a MEWS ≥4 → MSTR 2 és az egyparaméteres vitálpadlók a PROGRAM saját biztonsági szabályai (tk 86-on a 4 pont riasztási küszöb);
+  szédülés és csecsemő-apnoe alapszintje a panasz saját kérdésétől függ (nem „mindig születik javaslat”).
