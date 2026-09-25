@@ -260,11 +260,25 @@
     if (S.keziMezo[fieldId]) return true;                                     // amit a nővér már megadott, MINDIG átállítható (reverzibilis)
     if (S.autoMezo[fieldId] && !S.keziMezo[fieldId]) return true;
     if ((S.javaslat || {})[fieldId] && S.beteg[fieldId] == null) return true; // van rá numerikus alapú javaslat → mutassuk
+    // Az akut/krónikus szaturáció-kérdés ENYHÍTHET is (krónikus/COPD alapértéknél a szaturációs
+    // padló nem érvényes, tankönyv 31. o.) — ezért amíg valamely szaturációs padló ettől függ,
+    // a kérdés (és a saját alapértékhez mért esés) releváns, a lépés nem maradhat ki.
+    if ((fieldId === 'o2Akut' || fieldId === 'relativO2Eses') && o2AlapertekDonthet()) return true;
     var padlo = S.utolso ? S.utolso.szint : null;
     if (padlo == null) return true;                 // nincs még szint → mindent kérdezünk
     var best = mezoLegjobbSzint(fieldId);
     if (best == null) return false;                 // nem tud szintet adni → nem befolyásol
     return best < padlo;                            // csak ha súlyosbíthat (kisebb szám)
+  }
+  function o2AlapertekDonthet() {
+    return !!(S.utolso && S.utolso.o2AlapertekFuggo && S.utolso.o2AlapertekFuggo.length);
+  }
+  // Igaz, ha a mostani MSTR 1-et KIZÁRÓLAG olyan szaturációs padló adja, amelyet egy
+  // „krónikus / COPD” válasz feloldana, és a kérdés még nincs megválaszolva.
+  function mstr1CsakSzaturaciobol() {
+    var er = S.utolso;
+    if (!er || er.szint !== 1 || S.beteg.o2Akut || !o2AlapertekDonthet()) return false;
+    return (er.dontoSzabalyok || []).every(function (d) { return er.o2AlapertekFuggo.indexOf(d.szabalyId) !== -1; });
   }
   function mezoRelevans(f) { return mezoRelevansId(f.id); }
   function relevansMezok(lista) { return lista.filter(mezoRelevans); }
@@ -792,7 +806,15 @@
     if (er && er.szint === 1 && S.step !== 'eredmeny') {
       var ban = el('div', 'crit-banner');
       ban.style.background = szinSzint(er.szint);
-      var bsp = el('span'); bsp.innerHTML = ikonSvg('warn') + '<span>MSTR 1 — ' + nevSzint(1) + ': azonnali életmentő ellátás! További kitöltés nem szükséges.</span>'; ban.appendChild(bsp);
+      var csakSzat = mstr1CsakSzaturaciobol();
+      var bsp = el('span'); bsp.innerHTML = ikonSvg('warn') + '<span>MSTR 1 — ' + nevSzint(1) + ': azonnali életmentő ellátás! ' +
+        (csakSzat ? 'Az MSTR 1 csak az alacsony szaturációból adódik: ha a betegnél krónikus / COPD alapérték ismert, azt a „Légzés” lépésben még rögzítheti.'
+                  : 'További kitöltés nem szükséges.') + '</span>'; ban.appendChild(bsp);
+      if (csakSzat && S.step !== 'megfigyeles') {
+        var g2 = el('button', 'btn', 'Akut vagy krónikus? →'); g2.type = 'button';
+        g2.onclick = function () { megy('megfigyeles'); };
+        ban.appendChild(g2);
+      }
       var g = el('button', 'btn', 'Ugrás az eredményhez →'); g.type = 'button';
       g.onclick = function () { megy('eredmeny'); };
       ban.appendChild(g);

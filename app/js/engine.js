@@ -269,9 +269,24 @@
       }
     });
 
+    // Mely szaturációs padlók függnek az akut/krónikus választól? Azok a szabályok, amelyek
+    // „o2Kronikus = hamis” feltétellel élnek, és e betegnél AKUT (kitöltetlen) alapesetben
+    // tüzelnének. Ha van ilyen, az „akut vagy krónikus?” kérdés a besorolást még ENYHÍTHETI
+    // (tankönyv 31. o.) — a felület ezért nem hagyhatja ki, MSTR 1-nél sem. A lista az
+    // akut alapesettel számol, így a már megadott „krónikus” válasz is visszaállítható marad.
+    var szAkut = {};
+    for (var kx in szarmaztatott) szAkut[kx] = szarmaztatott[kx];
+    szAkut.o2Kronikus = false;
+    var o2AlapertekFuggo = (kb.rules || []).filter(function (r) {
+      if (r.level == null) return false;
+      var fugg = (r.condition || []).some(function (c) { return c.mezo === 'o2Kronikus' && c.egyenlo === false; });
+      return fugg && feltetelKiertekel(r.condition, beteg, szAkut).ok === true;
+    }).map(function (r) { return r.id; });
+
     return {
       szint: szint, dontoSzabalyok: dontoSzabalyok, jeloltek: jeloltek,
       trace: trace, figyelmeztetesek: figyelmeztetesek, szarmaztatott: szarmaztatott,
+      o2AlapertekFuggo: o2AlapertekFuggo,
     };
   }
 
