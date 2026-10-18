@@ -25763,6 +25763,26 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
 
   // szintszínes választókártyák egy select-mezőhöz; opcionális szintbecslés.
   // Ha a mező DERIVÁLT (numerikus paraméterből előre kitöltött), azt jelezzük.
+  // A szint, ami az adott mező kitöltése NÉLKÜL adódna (a többi adat változatlan). Az állapotot
+  // ideiglenesen lecseréli, újraértékel, majd mindent visszaállít — mellékhatás nélkül.
+  function padloMezoNelkul(fieldId) {
+    var mentett = { beteg: S.beteg, autoMezo: S.autoMezo, keziMezo: S.keziMezo, javaslat: S.javaslat, szamitott: S.szamitott, utolso: S.utolso };
+    var szint = null;
+    try {
+      S.beteg = JSON.parse(JSON.stringify(S.beteg)); delete S.beteg[fieldId];
+      S.autoMezo = JSON.parse(JSON.stringify(S.autoMezo || {})); delete S.autoMezo[fieldId];
+      S.keziMezo = JSON.parse(JSON.stringify(S.keziMezo || {})); delete S.keziMezo[fieldId];
+      var cel = computedCel(fieldId);           // számított mező bemenete: a célmezőt is újraszámoljuk
+      if (cel && cel !== fieldId) delete S.beteg[cel];
+      szint = ertekel().szint;
+    } catch (e) {
+      szint = mentett.utolso ? mentett.utolso.szint : null;
+    } finally {
+      S.beteg = mentett.beteg; S.autoMezo = mentett.autoMezo; S.keziMezo = mentett.keziMezo;
+      S.javaslat = mentett.javaslat; S.szamitott = mentett.szamitott; S.utolso = mentett.utolso;
+    }
+    return szint;
+  }
   function opcioKartyak(field, utanCb) {
     // szám / jelölőnégyzet típusú mező: megfelelő beviteli elem (nem opciókártya)
     if (field.type === 'number') {
@@ -25772,7 +25792,10 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     }
     // Padló, ami alatt egy opció már nem súlyosbíthatna — csak ISMERT (nem null) súlyú
     // opciót rejtünk el vele; bizonytalan (null súlyú) vagy épp kiválasztott opció mindig látszik.
-    var padloOpcioSzures = S.utolso ? S.utolso.szint : null;
+    // Ha a kérdésre már van válasz, a padlót a SAJÁT válasza NÉLKÜL számoljuk: ha éppen ez a válasz
+    // adja a szintet (pl. stroke „4,5-9 óra" → MSTR 1), a többi lehetőség különben „nem változtatná"
+    // címkével eltűnne, és egy elkattintott választ nem lehetne közvetlenül javítani.
+    var padloOpcioSzures = (S.beteg[field.id] != null) ? padloMezoNelkul(field.id) : (S.utolso ? S.utolso.szint : null);
     function opcioMegjelenik(lv, kivalasztott, javasolt) {
       if (kivalasztott || javasolt) return true;
       if (padloOpcioSzures == null || lv == null) return true;
@@ -25875,7 +25898,7 @@ details.detour-wrap[open]>summary::before{content:'▾ '}
     if (rejtettek.length) {
       var rj = el('div', 'skip-hint'); rj.style.marginTop = '4px';
       rj.textContent = 'Nem jelenik meg: ' + rejtettek.map(function (op) { return (op.label || '').split(/[—(:]/)[0].trim(); }).join(', ') +
-        ' — az eddigi MSTR ' + padloOpcioSzures + '-t nem változtatná.';
+        ' — a többi adatból adódó MSTR ' + padloOpcioSzures + '-t nem változtatná.';
       box.appendChild(rj);
     }
     return box;

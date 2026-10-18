@@ -2823,3 +2823,13 @@ VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali 
   a program saját padlója). Felnőtt forrás-küszöb nincs (tk 32 táblája nem tartalmaz légzésszámot); gyermeknél bradypnoe = MSTR 1 (tk 64).
 - MELLÉKLELET: opciószűrés-hiba — a kiválasztott válasz által adott padlóhoz méri a saját alternatíváit, így pl. 4,5-9 óra után a
   9-24 óra nem választható közvetlenül (külön feladatként jelezve).
+
+### 2026-10-18: opciószűrés — a kiválasztott válasz alternatívái nem tűnnek el (v141)
+- HIBA: az opciókártyák szűrése (opcioKartyak) a jelenlegi padlóhoz mérte a lehetőségeket, ebbe a mező SAJÁT kiválasztott válasza
+  is beleszámított. Pl. stroke „4,5-9 óra” (MSTR 1) után a „9-24 óra”, a „TIA” és a „4,5 órán belül” eltűnt („nem változtatná”),
+  így egy elkattintást nem lehetett közvetlenül javítani. Minden select/checkbox mezőt érintett, amelynek válasza maga adja a szintet.
+- JAVÍTÁS (wizard.js): padloMezoNelkul(fieldId) — ha a mezőnek van válasza, a szűrés a mező NÉLKÜL számolt szintet használja
+  (az állapot ideiglenes másolatán ertekel(), majd teljes visszaállítás; számított mező célja is törlődik). A rejtett opciók
+  felirata: „a többi adatból adódó MSTR N-t nem változtatná”. Megválaszolatlan mezőnél a viselkedés változatlan.
+- TESZT: fő készlet 73/75 (eset_16, eset_47 szándékos), o2 8/8, stroke 6/6. Böngészőben: stroke 4,5-9 óra → MSTR 1, mind az 5
+  opció látható; átváltás 24 órán túlra → MSTR 3, majd 9-24 órára → MSTR 2; konzolhiba nincs.
