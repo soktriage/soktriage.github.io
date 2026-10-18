@@ -2804,3 +2804,22 @@ VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali 
 - Tartalmi pontosítások a deckben/leíratban: az első megtekintés 6 kritikus jel (1 közülük MSTR 2), nem „7 a jegyzet 204. oldaláról”;
   a MEWS ≥4 → MSTR 2 és az egyparaméteres vitálpadlók a PROGRAM saját biztonsági szabályai (tk 86-on a 4 pont riasztási küszöb);
   szédülés és csecsemő-apnoe alapszintje a panasz saját kérdésétől függ (nem „mindig születik javaslat”).
+
+### 2026-10-18: stroke-időablak — SE SOK házszabály (v140)
+- KÉRÉS: Ádám, a „Triage app validálás” levélszál alapján (Farkas Krisztián, Vincze Viktória, 2026-10-16/17): a belső protokoll
+  szerint a stroke-gyanú MSTR 1, 9 órás kiterjesztett időablakkal; Ádám: „24 órán belüli strokeot kicsit felül triageolni”.
+- FORRÁSALAP: jegyzet 154. o. (ugyanazon a dián): „A trombektómia lehetősége miatt viszont MSTR 2 24 órán belül!”; jegyzet 103/156:
+  „a helyi standardnak megfelelő időintervallumot” kell használni; SE SOK „TRIAGE Járó szempontrendszer”: 24 órán belüli neuro
+  tünet (TIA/stroke) egyértelmű MSTR I-II; TETRA-lap: 24 h stroke-ablak.
+- ÚJ VÁLASZOK (strokeTunetKezdet): 4,5 órán belül · 4,5-9 óra · 9-24 óra · 24 órán belül megszűnt (TIA) · 24 órán túl / régebben
+  megszűnt (a régi „tul_negy_es_fel_oran_vagy_megszunt” érték megmaradt, jelentése most „24 órán túl”, szintje változatlan 3).
+- SZABÁLYOK: ≤9 óra → MSTR 1 (hazszabaly_stroke_9ora_*, doc 'hazszabaly'); 4,5-24 óra → MSTR 2 (stroke_24ora_trombektomia_*, jegyzet 154);
+  TIA 24 órán belül → MSTR 2 (hazszabaly_tia_24ora); a forrás szerinti MSTR 2/3 szabály a döntési útban látszik. Felület: forrásnév
+  „SE SOK házszabály (eltér a tankönyvtől)”, lábjegyzet kiegészítve.
+- TESZT: app/tests/stroke_hazszabaly_jsc.js 6/6; o2 8/8; fő készlet 73/75 — ÚJ szándékos eltérés: eset_16 (76 é, 5 órás stroke,
+  jegyzet szerint MSTR 3 → házszabály szerint MSTR 1). Az eset bemenete a pontos „4,5-9 óra” válaszra állítva (a régi érték
+  jelentésváltozása miatt különben félrevezetően zöld maradt volna). VALIDÁLÁSNÁL JELEZNI: a házszabály a forrástól eltér.
+- NYITOTT (Ádám döntése): Krisztián 8. pontja — felnőtt RR 5, nincs riasztó első megtekintés → MSTR 3 (esc_rr_felnott_bradypnoe,
+  a program saját padlója). Felnőtt forrás-küszöb nincs (tk 32 táblája nem tartalmaz légzésszámot); gyermeknél bradypnoe = MSTR 1 (tk 64).
+- MELLÉKLELET: opciószűrés-hiba — a kiválasztott válasz által adott padlóhoz méri a saját alternatíváit, így pl. 4,5-9 óra után a
+  9-24 óra nem választható közvetlenül (külön feladatként jelezve).

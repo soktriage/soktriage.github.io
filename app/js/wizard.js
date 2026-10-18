@@ -2135,7 +2135,7 @@
     row.appendChild(uj);
     c.appendChild(row);
 
-    c.appendChild(el('div', 'footnote', 'Döntéstámogató eszköz — a triázs-besorolás szakmai felelőssége a triázs ápolóé. Minden szabály forrása a Triázs tankönyv 2.0 (2016) és az MSTR oktatói jegyzet (2022), oldalszám szerint.'));
+    c.appendChild(el('div', 'footnote', 'Döntéstámogató eszköz — a triázs-besorolás szakmai felelőssége a triázs ápolóé. Minden szabály forrása a Triázs tankönyv 2.0 (2016) és az MSTR oktatói jegyzet (2022), oldalszám szerint. A helyi házszabályokat a felület „SE SOK házszabály” jelöléssel külön mutatja.'));
     fo.appendChild(c);
   };
 
