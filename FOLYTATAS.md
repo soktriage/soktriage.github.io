@@ -2833,3 +2833,10 @@ VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali 
   felirata: „a többi adatból adódó MSTR N-t nem változtatná”. Megválaszolatlan mezőnél a viselkedés változatlan.
 - TESZT: fő készlet 73/75 (eset_16, eset_47 szándékos), o2 8/8, stroke 6/6. Böngészőben: stroke 4,5-9 óra → MSTR 1, mind az 5
   opció látható; átváltás 24 órán túlra → MSTR 3, majd 9-24 órára → MSTR 2; konzolhiba nincs.
+
+### 2026-10-19: felnőtt alacsony légzésszám — LEZÁRVA, változtatás nélkül
+- Ádám döntése: csak akkor írjuk át, ha forrás máshová sorolja. Átnézve: tankönyv, jegyzet, CTAS COT-2008, PBL-anyagok.
+  Felnőttre egyik sem rendel MSTR-szintet az alacsony légzésszámhoz: a felnőtt nehézlégzés-tábla (tk 32) klinikai jelekkel
+  dolgozik, légzésszám nélkül. A MEWS (tk 86) csak pontot ad, a 4 pont kórházi riasztási küszöb. Bradypnoe csak a GYERMEK
+  súlyos kategóriájában szerepel (tk 64, CTAS Paeds) → MSTR 1. Ezért az esc_rr_felnott_bradypnoe (program saját padlója,
+  RR<9 → legalább MSTR 3) marad. Klinikailag ilyen betegnél az első megtekintés / súlyos nehézlégzés kérdés adja az MSTR 1-et.
