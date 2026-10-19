@@ -390,7 +390,19 @@
     // beteg-parkoláskor sem ment a beteggel. (A history csak összefoglalót tárol, azt nem érinti.)
     return { step: S.step, beteg: S.beteg, azon: S.azon, catKey: S.catKey, pathLog: S.pathLog, keziMezo: S.keziMezo, panaszKereso: S.panaszKereso, leletRaw: leletRedakt(S.leletRaw), leletMsg: S.leletMsg, tetra: S.tetra, betegut: S.betegut };
   }
+  // Megszűnt válaszértékek átírása tárolt felvétel visszatöltésekor. 2026-10-18 és 19 között élt a stroke-időablak
+  // SE SOK házszabály három finomabb válasza; visszavonásuk után mindhárom a forrás szerinti „több mint 4,5 óra,
+  // vagy a tünetek megszűntek” válasznak felel meg (jegyzet 154. o.).
+  var ENUM_ATIRAS = { strokeTunetKezdet: { negy_es_fel_kilenc_ora: 'tul_negy_es_fel_oran_vagy_megszunt',
+    kilenc_huszonnegy_ora: 'tul_negy_es_fel_oran_vagy_megszunt', tia_24_oran_belul: 'tul_negy_es_fel_oran_vagy_megszunt' } };
+  function enumAtir(beteg) {
+    Object.keys(ENUM_ATIRAS).forEach(function (m) {
+      if (beteg && ENUM_ATIRAS[m][beteg[m]]) beteg[m] = ENUM_ATIRAS[m][beteg[m]];
+    });
+    return beteg;
+  }
   function sVisszaallit(o) {
+    enumAtir(o.beteg);
     S = { step: o.step || 'azonositas', history: [], beteg: o.beteg || {}, azon: o.azon || {}, catKey: o.catKey || null, pathLog: o.pathLog || [], utolso: null, autoMezo: {}, keziMezo: o.keziMezo || {}, panaszKereso: o.panaszKereso || '', leletRaw: o.leletRaw || '', leletMsg: o.leletMsg || '', tetra: o.tetra || {}, betegut: o.betegut || {} };
     ertekel();
   }
@@ -2158,7 +2170,7 @@
     row.appendChild(uj);
     c.appendChild(row);
 
-    c.appendChild(el('div', 'footnote', 'Döntéstámogató eszköz — a triázs-besorolás szakmai felelőssége a triázs ápolóé. Minden szabály forrása a Triázs tankönyv 2.0 (2016) és az MSTR oktatói jegyzet (2022), oldalszám szerint. A helyi házszabályokat a felület „SE SOK házszabály” jelöléssel külön mutatja.'));
+    c.appendChild(el('div', 'footnote', 'Döntéstámogató eszköz — a triázs-besorolás szakmai felelőssége a triázs ápolóé. Minden szabály forrása a Triázs tankönyv 2.0 (2016) és az MSTR oktatói jegyzet (2022), oldalszám szerint.'));
     fo.appendChild(c);
   };
 

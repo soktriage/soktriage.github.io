@@ -16,13 +16,12 @@
       "ctas": "CTAS COT-2008 (kanonikus, döntőbíró)",
       "mstr": "MSOTKE-MSTR munkacsoport — Elsődleges és másodlagos módosító és meghatározó tényezők (hivatalos poszter)",
       "tek": "SE Területi Ellátás Segédlet — OMSZ Beutalási Rend (2025.12.03.) + NNGYK ESZENY TEK (2026.08.04.)",
-      "utasitas": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend (SE SOK, 2026.09.15.)",
-      "hazszabaly": "SE SOK házszabály (belső protokoll, a tankönyvtől felfelé eltérő helyi szabály)"
+      "utasitas": "4/2026. számú Igazgatói Utasítás — Torlódási eljárásrend (SE SOK, 2026.09.15.)"
     },
     "counts": {
       "levels": 5,
       "complaints": 163,
-      "rules": 420,
+      "rules": 415,
       "vitalBands": 2,
       "processRules": 39,
       "reference": 45,
@@ -13018,9 +13017,9 @@
     },
     {
       "id": "panasz_kardio_neuro_05",
-      "name": "Végtaggyengeség / CVA (stroke): tünetkezdet 24 órán túl, vagy régebben megszűnt tünetek, stabil → MSTR 3",
+      "name": "Végtaggyengeség / CVA (stroke): tünetkezdet > 4,5 óra vagy megszűnt tünetek, stabil → MSTR 3",
       "applies_to": "mind",
-      "condition_text": "Ha a tünetek több mint 4,5 órája kezdődtek, vagy a tünetek megszűntek, és a vitális paraméterek stabilak, a beteg MSTR 3. szintű (másodlagos módosító). A jegyzet ugyanezen diája szerint a trombektómia lehetősége miatt 24 órán belül MSTR 2, ezért ez a szabály a 24 órán túli esetre vonatkozik.",
+      "condition_text": "Ha a tünetek több mint 4,5 órája kezdődtek, vagy a tünetek megszűntek, és a vitális paraméterek stabilak, a beteg MSTR 3. szintű (másodlagos módosító).",
       "condition": [
         {
           "mezo": "strokeTunetKezdet",
@@ -13046,160 +13045,8 @@
           "page": 255
         }
       ],
-      "notes": "2026-10-18: a válaszlehetőségek finomodtak (4,5-9 óra, 9-24 óra, 24 órán belül megszűnt tünetek). A régi „több mint 4,5 óra vagy megszűnt” érték mostantól a 24 órán túli esetet jelenti; szintje változatlanul MSTR 3. A 24 órán belüli esetet a jegyzet 154. oldali trombektómia-megjegyzése (stroke_24ora_trombektomia) és a házszabályok kezelik.",
+      "notes": "A jegyzet 156. oldalán oktatói megjegyzés: 'A trombektómia lehetősége miatt viszont MSTR 2 24 órán belül!' – ez ellentmond a 154. oldali kidolgozott esetnek (5 órás tünetkezdet → MSTR 3). A táblázatos szabályt kódoltuk; a 24 órás trombektómia-megjegyzés helyi protokoll szerinti fel-triázsolási lehetőségként kezelendő (lásd open_questions). 2026-10-19: a 2026-10-18-i SE SOK házszabály (9 h → MSTR 1, 24 h → MSTR 2) Ádám döntésére visszavonva, a validálás a forrás szerinti szabállyal fut.",
       "conflicts": [],
-      "csakPanaszok": [
-        "vegtaggyengeseg-cva-tunetek"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "stroke_24ora_trombektomia_negy_es_fel_kilenc_ora",
-      "name": "Végtaggyengeség / CVA (stroke): tünetkezdet 4,5-24 órán belül (trombektómia-időablak) → MSTR 2",
-      "applies_to": "mind",
-      "condition_text": "„A trombektómia lehetősége miatt viszont MSTR 2 24 órán belül!” (jegyzet 154. o., ugyanazon a dián, mint a 4,5 órás thrombolízis-szabály).",
-      "condition": [
-        {
-          "mezo": "strokeTunetKezdet",
-          "egyenlo": "negy_es_fel_kilenc_ora"
-        }
-      ],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 154
-        },
-        {
-          "doc": "jegyzet",
-          "page": 156
-        }
-      ],
-      "notes": "2026-10-18: korábban csak megjegyzésként szerepelt (ellentmondott a 154. oldali kidolgozott esetnek). A klinika 24 órás stroke-ablakkal dolgozik (TETRA-lap, SE SOK Járó szempontrendszer), ezért beépítve.",
-      "conflicts": [],
-      "csakPanaszok": [
-        "vegtaggyengeseg-cva-tunetek"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "stroke_24ora_trombektomia_kilenc_huszonnegy_ora",
-      "name": "Végtaggyengeség / CVA (stroke): tünetkezdet 4,5-24 órán belül (trombektómia-időablak) → MSTR 2",
-      "applies_to": "mind",
-      "condition_text": "„A trombektómia lehetősége miatt viszont MSTR 2 24 órán belül!” (jegyzet 154. o., ugyanazon a dián, mint a 4,5 órás thrombolízis-szabály).",
-      "condition": [
-        {
-          "mezo": "strokeTunetKezdet",
-          "egyenlo": "kilenc_huszonnegy_ora"
-        }
-      ],
-      "level": 2,
-      "source": [
-        {
-          "doc": "jegyzet",
-          "page": 154
-        },
-        {
-          "doc": "jegyzet",
-          "page": 156
-        }
-      ],
-      "notes": "2026-10-18: korábban csak megjegyzésként szerepelt (ellentmondott a 154. oldali kidolgozott esetnek). A klinika 24 órás stroke-ablakkal dolgozik (TETRA-lap, SE SOK Járó szempontrendszer), ezért beépítve.",
-      "conflicts": [],
-      "csakPanaszok": [
-        "vegtaggyengeseg-cva-tunetek"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "hazszabaly_stroke_9ora_negy_es_fel_oran_belul",
-      "name": "Stroke-gyanú, tünetkezdet 9 órán belül → MSTR 1 (SE SOK házszabály)",
-      "applies_to": "mind",
-      "condition_text": "SE SOK belső protokoll: a 9 órán belüli (kiterjesztett thrombolízis-időablak) stroke-gyanús beteg MSTR 1. A tankönyv és a jegyzet szerint ez MSTR 2 lenne. A jegyzet maga írja elő, hogy az időablakra „a helyi standardnak megfelelő időintervallumot” kell használni.",
-      "condition": [
-        {
-          "mezo": "strokeTunetKezdet",
-          "egyenlo": "negy_es_fel_oran_belul"
-        }
-      ],
-      "level": 1,
-      "source": [
-        {
-          "doc": "hazszabaly"
-        },
-        {
-          "doc": "jegyzet",
-          "page": 103
-        },
-        {
-          "doc": "jegyzet",
-          "page": 156
-        }
-      ],
-      "notes": "HÁZSZABÁLY, a forrástól szándékosan eltér (felfelé). Alap: Farkas Krisztián és Vincze Viktória levele (2026-10-16, „belsős protokoll alapján 1-es kategória, 9 óra a kiterjesztett időablak”), Ádám Kornél jóváhagyásával (2026-10-16/18). A tankönyv/jegyzet szerinti MSTR 2-es szabály (panasz_kardio_neuro_04) a döntési útban továbbra is látszik.",
-      "conflicts": [
-        "panasz_kardio_neuro_04: forrás szerint MSTR 2"
-      ],
-      "csakPanaszok": [
-        "vegtaggyengeseg-cva-tunetek"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "hazszabaly_stroke_9ora_negy_es_fel_kilenc_ora",
-      "name": "Stroke-gyanú, tünetkezdet 9 órán belül → MSTR 1 (SE SOK házszabály)",
-      "applies_to": "mind",
-      "condition_text": "SE SOK belső protokoll: a 9 órán belüli (kiterjesztett thrombolízis-időablak) stroke-gyanús beteg MSTR 1. A tankönyv és a jegyzet szerint ez MSTR 2 lenne. A jegyzet maga írja elő, hogy az időablakra „a helyi standardnak megfelelő időintervallumot” kell használni.",
-      "condition": [
-        {
-          "mezo": "strokeTunetKezdet",
-          "egyenlo": "negy_es_fel_kilenc_ora"
-        }
-      ],
-      "level": 1,
-      "source": [
-        {
-          "doc": "hazszabaly"
-        },
-        {
-          "doc": "jegyzet",
-          "page": 103
-        },
-        {
-          "doc": "jegyzet",
-          "page": 156
-        }
-      ],
-      "notes": "HÁZSZABÁLY, a forrástól szándékosan eltér (felfelé). Alap: Farkas Krisztián és Vincze Viktória levele (2026-10-16, „belsős protokoll alapján 1-es kategória, 9 óra a kiterjesztett időablak”), Ádám Kornél jóváhagyásával (2026-10-16/18). A tankönyv/jegyzet szerinti MSTR 2-es szabály (panasz_kardio_neuro_04) a döntési útban továbbra is látszik.",
-      "conflicts": [
-        "panasz_kardio_neuro_04: forrás szerint MSTR 2"
-      ],
-      "csakPanaszok": [
-        "vegtaggyengeseg-cva-tunetek"
-      ],
-      "group": "secondary"
-    },
-    {
-      "id": "hazszabaly_tia_24ora",
-      "name": "Stroke-gyanú, a tünetek 24 órán belül megszűntek (TIA) → MSTR 2 (SE SOK házszabály)",
-      "applies_to": "mind",
-      "condition_text": "SE SOK Triage járó szempontrendszer, MSTR I-II segédlet: „24 órán belüli neuro tünet (TIA/stroke-gyanú, fokális deficit)” egyértelmű MSTR I-II kategória. A jegyzet a megszűnt tünetet MSTR 3-nak veszi.",
-      "condition": [
-        {
-          "mezo": "strokeTunetKezdet",
-          "egyenlo": "tia_24_oran_belul"
-        }
-      ],
-      "level": 2,
-      "source": [
-        {
-          "doc": "hazszabaly"
-        }
-      ],
-      "notes": "HÁZSZABÁLY, a forrástól felfelé tér el. Forrás: SE SOK „TRIAGE Járó szempontrendszer” (MSTR I-II segédlet, Neurológia sor).",
-      "conflicts": [
-        "panasz_kardio_neuro_05: forrás szerint megszűnt tünetek → MSTR 3"
-      ],
       "csakPanaszok": [
         "vegtaggyengeseg-cva-tunetek"
       ],
@@ -19793,26 +19640,13 @@
       "options": [
         {
           "value": "negy_es_fel_oran_belul",
-          "label": "4,5 órán belül (thrombolízis-időablak)"
-        },
-        {
-          "value": "negy_es_fel_kilenc_ora",
-          "label": "4,5-9 óra (kiterjesztett thrombolízis-időablak)"
-        },
-        {
-          "value": "kilenc_huszonnegy_ora",
-          "label": "9-24 óra (trombektómia-időablak)"
-        },
-        {
-          "value": "tia_24_oran_belul",
-          "label": "A tünetek 24 órán belül megszűntek (TIA)"
+          "label": "4,5 órán belül (trombolízis-időablak)"
         },
         {
           "value": "tul_negy_es_fel_oran_vagy_megszunt",
-          "label": "24 órán túl, vagy régebben megszűnt tünetek"
+          "label": "Több mint 4,5 óra, vagy a tünetek megszűntek"
         }
       ],
-      "help": "A tünetkezdet (vagy az utolsó tünetmentes időpont) óta eltelt idő. 9 órán belül MSTR 1, 24 órán belül MSTR 2 (SE SOK házszabály és jegyzet 154. o.).",
       "pediatricOnly": false,
       "csakPanaszok": [
         "vegtaggyengeseg-cva-tunetek"
@@ -20795,7 +20629,7 @@
         "spo2": 94,
         "gcs": 15,
         "vezetoPanaszId": "vegtaggyengeseg-cva-tunetek",
-        "strokeTunetKezdet": "negy_es_fel_kilenc_ora"
+        "strokeTunetKezdet": "tul_negy_es_fel_oran_vagy_megszunt"
       },
       "expected_level": 3,
       "rationale": "Stroke gyanú, tünetkezdet >4,5 óra, vitálisok stabilak → MSTR 3. Ha <4,5 órán belül jelentkezne (thrombolízis időablak) MSTR 2; a trombektómia lehetősége miatt 24 órán belül szintén MSTR 2.",

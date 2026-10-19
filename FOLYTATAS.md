@@ -2840,3 +2840,15 @@ VERIFIKÁCIÓ: jsc 74/75, enum-őr tiszta, böngészőben ellenőrizve (asztali 
   dolgozik, légzésszám nélkül. A MEWS (tk 86) csak pontot ad, a 4 pont kórházi riasztási küszöb. Bradypnoe csak a GYERMEK
   súlyos kategóriájában szerepel (tk 64, CTAS Paeds) → MSTR 1. Ezért az esc_rr_felnott_bradypnoe (program saját padlója,
   RR<9 → legalább MSTR 3) marad. Klinikailag ilyen betegnél az első megtekintés / súlyos nehézlégzés kérdés adja az MSTR 1-et.
+
+### 2026-10-19: stroke-házszabály VISSZAVONVA — a forrás szerinti szabály él (v142)
+- Ádám döntése: „ne validáljunk olyat, ami csak itt jó” → a validálás a tankönyv/jegyzet szerinti szabállyal fut.
+- Visszaállítva: strokeTunetKezdet két válasza (4,5 órán belül → MSTR 2; több mint 4,5 óra vagy megszűnt → MSTR 3, jegyzet 154.);
+  törölve a hazszabaly_* és stroke_24ora_trombektomia_* szabályok, a 'hazszabaly' forráskulcs és a felületi jelölés;
+  eset_16 bemenete visszaállítva → fő készlet ismét 74/75 (csak eset_47).
+- Migráció: a 10-18 és 19 között tárolható három megszűnt érték (4,5-9 óra, 9-24 óra, TIA 24 órán belül) visszatöltéskor
+  (sVisszaallit → enumAtir) a „több mint 4,5 óra, vagy a tünetek megszűntek” értékre íródik. Böngészőben igazolva.
+- Teszt: app/tests/stroke_idoablak_jsc.js (átnevezve, a forrás szerinti viselkedést őrzi, és azt, hogy házszabály nem maradt) 4/4.
+- MEGMARADT a 10-18-i általános opciószűrés-javítás (a640333), az a házszabálytól független.
+- NYITOTT TÉMA Ádámnak: a MEWS ≥4 → legalább MSTR 2 és az egyparaméteres vitálpadlók (esc_rr_*, esc_hr_* stb.) szintén a
+  program SAJÁT szabályai, nem az MSTR-é. A „csak forrás szerint validálunk” elv ezeket is érinti.
